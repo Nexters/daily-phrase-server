@@ -16,4 +16,10 @@ public class PhraseImage extends BaseDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String fileName;
+
+    private String uuid;
+
+    private String url;
 }
