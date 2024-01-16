@@ -15,9 +15,6 @@ public class Phrase extends BaseDateTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private PhraseImage phraseImage;
-
     private String title;
 
     private String content;

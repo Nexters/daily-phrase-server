@@ -1,10 +1,8 @@
 package com.nexters.dailyphrase.phraseimage.domain;
 
 import com.nexters.dailyphrase.common.domain.BaseDateTimeEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.nexters.dailyphrase.phrase.domain.Phrase;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -16,6 +14,10 @@ public class PhraseImage extends BaseDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @JoinColumn(nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    private Phrase phrase;
 
     private String fileName;
 
