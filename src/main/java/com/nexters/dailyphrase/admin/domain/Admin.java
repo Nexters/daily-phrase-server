@@ -1,10 +1,8 @@
 package com.nexters.dailyphrase.admin.domain;
 
 import com.nexters.dailyphrase.common.domain.BaseDateTimeEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.nexters.dailyphrase.common.enums.MemberRole;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -16,4 +14,13 @@ public class Admin extends BaseDateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String name;
+
+    private String userId;
+
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private MemberRole role;
 }
