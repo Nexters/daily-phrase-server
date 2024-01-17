@@ -1,13 +1,15 @@
 package com.nexters.dailyphrase.phrase.presentation;
 
-import com.nexters.dailyphrase.common.presentation.CommonResponse;
-import com.nexters.dailyphrase.phrase.business.PhraseFacade;
-import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.nexters.dailyphrase.common.presentation.CommonResponse;
+import com.nexters.dailyphrase.phrase.business.PhraseFacade;
+import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +23,8 @@ public class PhraseApi {
     }
 
     @GetMapping("/{id}")
-    public CommonResponse<PhraseResponseDTO.PhraseDetail> getPhraseDetail(@PathVariable final Long id) {
+    public CommonResponse<PhraseResponseDTO.PhraseDetail> getPhraseDetail(
+            @PathVariable final Long id) {
         return null;
     }
 }

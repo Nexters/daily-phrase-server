@@ -1,8 +1,10 @@
 package com.nexters.dailyphrase.admin.implement;
 
-import com.nexters.dailyphrase.admin.domain.repository.AdminRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import com.nexters.dailyphrase.admin.domain.repository.AdminRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

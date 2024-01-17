@@ -1,9 +1,11 @@
 package com.nexters.dailyphrase.favorite.domain;
 
+import jakarta.persistence.*;
+
 import com.nexters.dailyphrase.common.domain.BaseDateTimeEntity;
 import com.nexters.dailyphrase.member.domain.Member;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
-import jakarta.persistence.*;
+
 import lombok.*;
 
 @Entity

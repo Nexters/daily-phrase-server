@@ -1,4 +1,3 @@
 package com.nexters.dailyphrase.favorite.presentation.dto;
 
-public class FavoriteResponseDTO {
-}
+public class FavoriteResponseDTO {}

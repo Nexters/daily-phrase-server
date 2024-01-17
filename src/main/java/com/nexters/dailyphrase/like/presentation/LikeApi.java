@@ -1,9 +1,9 @@
 package com.nexters.dailyphrase.like.presentation;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class LikeApi {
-}
+public class LikeApi {}
