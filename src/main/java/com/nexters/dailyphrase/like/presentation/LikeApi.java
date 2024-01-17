@@ -1,9 +1,29 @@
 package com.nexters.dailyphrase.like.presentation;
 
+import org.springframework.web.bind.annotation.*;
+
+import com.nexters.dailyphrase.common.presentation.CommonResponse;
+import com.nexters.dailyphrase.like.business.LikeFacade;
+import com.nexters.dailyphrase.like.presentation.dto.LikeRequestDTO;
+import com.nexters.dailyphrase.like.presentation.dto.LikeResponseDTO;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/likes")
 public class LikeApi {
+    private final LikeFacade likeFacade;
+
+    @PostMapping
+    public CommonResponse<LikeResponseDTO.AddLike> addLike(
+            @RequestBody final LikeRequestDTO.AddLike request) {
+        return null;
+    }
+
+    @DeleteMapping("/members/{memberId}/phrases/{phraseId}")
+    public CommonResponse<LikeResponseDTO.RemoveLike> removeLike(
+            @PathVariable final Long memberId, @PathVariable final Long phraseId) {
+        return null;
+    }
 }

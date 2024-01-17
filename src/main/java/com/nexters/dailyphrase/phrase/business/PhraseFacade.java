@@ -1,9 +1,11 @@
 package com.nexters.dailyphrase.phrase.business;
 
+import org.springframework.stereotype.Component;
+
 import com.nexters.dailyphrase.phrase.implement.PhraseCommandService;
 import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

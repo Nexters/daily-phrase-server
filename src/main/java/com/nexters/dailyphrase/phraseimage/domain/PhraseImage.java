@@ -1,8 +1,10 @@
 package com.nexters.dailyphrase.phraseimage.domain;
 
+import jakarta.persistence.*;
+
 import com.nexters.dailyphrase.common.domain.BaseDateTimeEntity;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
-import jakarta.persistence.*;
+
 import lombok.*;
 
 @Entity
