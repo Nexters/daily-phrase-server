@@ -1,3 +1,14 @@
 package com.nexters.dailyphrase.like.presentation.dto;
 
-public class LikeRequestDTO {}
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class LikeRequestDTO {
+
+    @Getter
+    public static class AddLike {
+        private String field;
+    }
+}
