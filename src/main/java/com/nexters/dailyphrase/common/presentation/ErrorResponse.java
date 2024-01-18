@@ -14,7 +14,6 @@ public class ErrorResponse {
     private final String code;
     private final String message;
     private final LocalDateTime timeStamp;
-
     private final String path;
 
     public ErrorResponse(ErrorReason errorReason, String path) {
