@@ -26,7 +26,7 @@ public class CommonResponse<T> {
     private T result;
 
     public static <T> CommonResponse<T> onSuccess(T data) {
-        return new CommonResponse<>(true, "요청에 성공하였습니다.", "1000", data);
+        return new CommonResponse<>(true, "1000", "요청에 성공하였습니다.", data);
     }
 
     public static <T> CommonResponse<T> onFailure(String code, String message, T data) {
