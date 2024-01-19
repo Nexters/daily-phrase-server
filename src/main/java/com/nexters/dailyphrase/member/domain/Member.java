@@ -20,11 +20,17 @@ public class Member extends BaseDateTimeEntity {
 
     private String name;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private MemberRole role;
+    private MemberRole role = MemberRole.ROLE_USER;
 
     private String socialId;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private SocialType socialType;
+    private SocialType socialType = SocialType.KAKAO;
+
+    private String profileImgUrl;
+
+    private String email;
 }

@@ -26,4 +26,16 @@ public class PhraseImage extends BaseDateTimeEntity {
     private String uuid;
 
     private String url;
+
+    public void setPhrase(Phrase phrase) {
+        if (this.phrase != null) {
+            this.phrase.setPhraseImage(null);
+        }
+
+        this.phrase = phrase;
+
+        if (phrase != null) {
+            phrase.setPhraseImage(this);
+        }
+    }
 }
