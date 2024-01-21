@@ -1,9 +1,9 @@
 package com.nexters.dailyphrase.phrase.domain;
 
-import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
 import jakarta.persistence.*;
 
 import com.nexters.dailyphrase.common.domain.BaseDateTimeEntity;
+import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
 
 import lombok.*;
 
@@ -21,8 +21,7 @@ public class Phrase extends BaseDateTimeEntity {
 
     private String content;
 
-    @Builder.Default
-    private int viewCount = 0;
+    @Builder.Default private int viewCount = 0;
 
     @OneToOne(mappedBy = "phrase", cascade = CascadeType.REMOVE)
     private PhraseImage phraseImage;

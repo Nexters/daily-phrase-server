@@ -1,11 +1,12 @@
 package com.nexters.dailyphrase.phrase.exception;
 
+import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.NOT_FOUND;
+
 import com.nexters.dailyphrase.common.exception.BaseErrorCode;
 import com.nexters.dailyphrase.common.exception.ErrorReason;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.NOT_FOUND;
 
 @Getter
 @AllArgsConstructor

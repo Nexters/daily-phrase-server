@@ -25,6 +25,7 @@ public class PhraseImage extends BaseDateTimeEntity {
 
     private String uuid;
 
+    @Column(length = 1000)
     private String url;
 
     public void setPhrase(Phrase phrase) {

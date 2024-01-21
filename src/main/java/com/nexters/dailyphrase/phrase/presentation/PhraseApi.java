@@ -25,6 +25,6 @@ public class PhraseApi {
     @GetMapping("/{id}")
     public CommonResponse<PhraseResponseDTO.PhraseDetail> getPhraseDetail(
             @PathVariable final Long id) {
-        return null;
+        return CommonResponse.onSuccess(phraseFacade.getPhraseDetail(id));
     }
 }
