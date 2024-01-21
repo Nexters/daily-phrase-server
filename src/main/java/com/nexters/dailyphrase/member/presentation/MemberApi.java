@@ -20,7 +20,7 @@ public class MemberApi {
     public CommonResponse<MemberResponseDTO.LoginMember> login(
             @PathVariable final SocialType socialType,
             @RequestBody final MemberRequestDTO.LoginMember request) {
-        return null;
+        return CommonResponse.onSuccess(memberFacade.login(socialType, request));
     }
 
     @DeleteMapping("/{id}")

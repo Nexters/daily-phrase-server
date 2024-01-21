@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class PhraseQueryService {
     private final PhraseRepository phraseRepository;
 
-    public Phrase findById(Long id) {
+    public Phrase findById(final Long id) {
         return phraseRepository.findById(id).orElseThrow(() -> PhraseNotFoundException.EXCEPTION);
     }
 }

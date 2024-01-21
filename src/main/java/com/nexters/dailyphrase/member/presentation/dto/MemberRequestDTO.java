@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 public class MemberRequestDTO {
     @Getter
     public static class LoginMember {
-        private String field;
+        private String identityToken;
     }
 }

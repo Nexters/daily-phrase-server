@@ -10,7 +10,9 @@ public class MemberResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class LoginMember {
-        private String field;
+        private Long memberId;
+        private String accessToken;
+        private String refreshToken;
     }
 
     @Builder
