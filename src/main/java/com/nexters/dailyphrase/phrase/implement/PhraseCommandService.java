@@ -10,4 +10,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PhraseCommandService {
     private final PhraseRepository phraseRepository;
+
+    public void increaseViewCountById(Long phraseId) {
+        phraseRepository.updateViewCountById(phraseId);
+    }
 }

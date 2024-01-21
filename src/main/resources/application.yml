@@ -25,3 +25,23 @@ spring:
           auto: update
         default_batch_fetch_size: 1000
 ---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        ddl-hbm2ddl:
+          auto: create
+#        show_sql: true
+#        format_sql: true
+#        use_sql_comments: true
+        default_batch_fetch_size: 1000
+

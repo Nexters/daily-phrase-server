@@ -10,7 +10,10 @@ public class PhraseResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class PhraseDetail {
-        private String field;
+        private String title;
+        private String imageUrl;
+        private String content;
+        private int viewCount;
     }
 
     @Builder
