@@ -2,6 +2,8 @@ package com.nexters.dailyphrase.like.presentation.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LikeResponseDTO {
 
@@ -10,7 +12,11 @@ public class LikeResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class AddLike {
-        private String field;
+        private Long memberId;
+        private Long phraseId;
+        @Builder.Default
+        private boolean isLike = true;
+        private LocalDateTime likedAt;
     }
 
     @Builder

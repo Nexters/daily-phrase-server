@@ -18,7 +18,7 @@ public class LikeApi {
     @PostMapping
     public CommonResponse<LikeResponseDTO.AddLike> addLike(
             @RequestBody final LikeRequestDTO.AddLike request) {
-        return null;
+        return CommonResponse.onSuccess(likeFacade.addLike(request));
     }
 
     @DeleteMapping("/members/{memberId}/phrases/{phraseId}")

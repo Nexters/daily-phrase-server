@@ -9,6 +9,7 @@ public class LikeRequestDTO {
 
     @Getter
     public static class AddLike {
-        private String field;
+        private Long memberId;
+        private Long phraseId;
     }
 }
