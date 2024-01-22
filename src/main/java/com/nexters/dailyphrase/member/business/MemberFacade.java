@@ -13,6 +13,7 @@ import com.nexters.dailyphrase.member.presentation.dto.MemberRequestDTO;
 import com.nexters.dailyphrase.member.presentation.dto.MemberResponseDTO;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class MemberFacade {
     private final JwtTokenService jwtTokenService;
     private final MemberMapper memberMapper;
 
+    @Transactional
     public MemberResponseDTO.LoginMember login(
             final SocialType socialType, final MemberRequestDTO.LoginMember request) {
         SocialLoginService socialLoginService =

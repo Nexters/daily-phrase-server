@@ -1,21 +1,35 @@
 package com.nexters.dailyphrase.like.business;
 
+import com.nexters.dailyphrase.like.domain.Like;
 import com.nexters.dailyphrase.like.presentation.dto.LikeRequestDTO;
 import com.nexters.dailyphrase.like.presentation.dto.LikeResponseDTO;
+import com.nexters.dailyphrase.member.domain.Member;
+import com.nexters.dailyphrase.member.implement.MemberQueryService;
+import com.nexters.dailyphrase.phrase.domain.Phrase;
+import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
 import org.springframework.stereotype.Component;
 
 import com.nexters.dailyphrase.like.implement.LikeCommandService;
 import com.nexters.dailyphrase.like.implement.LikeQueryService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
 public class LikeFacade {
     private final LikeQueryService likeQueryService;
     private final LikeCommandService likeCommandService;
+    private final PhraseQueryService phraseQueryService;
+    private final MemberQueryService memberQueryService;
+    private final LikeMapper likeMapper;
 
+    @Transactional
     public LikeResponseDTO.AddLike addLike(LikeRequestDTO.AddLike request) {
-        return null;
+        Phrase phrase = phraseQueryService.findById(request.getPhraseId());
+        Member member = memberQueryService.findById(request.getMemberId());
+        Like like = likeMapper.toLike(phrase, member);
+        Like savedLike = likeCommandService.add(like);
+        return likeMapper.toAddLike(savedLike);
     }
 }
