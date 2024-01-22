@@ -1,5 +1,7 @@
 package com.nexters.dailyphrase.admin.presentation;
 
+import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import com.nexters.dailyphrase.admin.business.AdminFacade;
@@ -15,11 +17,34 @@ import lombok.RequiredArgsConstructor;
 public class AdminApi {
     private final AdminFacade adminFacade;
 
-    @PostMapping("/phrases")
-    public CommonResponse<AdminResponseDTO.AddPhrase> addPhrase(
-            @RequestBody final AdminRequestDTO.AddPhrase request) {
+
+    @PostMapping("/login")
+    public CommonResponse<AdminResponseDTO.LoginAdmin> loginAdmin() {
         return null;
     }
+
+    @PostMapping("/logout")
+    public CommonResponse<AdminResponseDTO.LogoutAdmin> logoutAdmin() {
+        return null;
+    }
+
+    @GetMapping("/phrases")
+    public CommonResponse<PhraseResponseDTO.PhraseList> getAdminPhraseList() {
+        return null;
+    }
+
+    @GetMapping("/phrases/{id}")
+    public CommonResponse<PhraseResponseDTO.PhraseDetail> getAdminPhraseDetail(
+            @PathVariable final Long id) {
+        return null;
+    }
+
+    @PostMapping("/phrases")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addPhrase(@RequestBody final AdminRequestDTO.AddPhrase request) {
+            adminFacade.addPhrase(request);
+    }
+
 
     @PatchMapping("/phrases/{id}")
     public CommonResponse<AdminResponseDTO.ModifyPhrase> modifyPhrase(
@@ -28,7 +53,11 @@ public class AdminApi {
     }
 
     @DeleteMapping("/phrases/{id}")
-    public CommonResponse<AdminResponseDTO.RemovePhrase> removePhrase(@PathVariable Long id) {
+    public CommonResponse<AdminResponseDTO.DeletePhrase> deletePhrase(@PathVariable Long id) {
         return null;
     }
 }
+
+
+
+

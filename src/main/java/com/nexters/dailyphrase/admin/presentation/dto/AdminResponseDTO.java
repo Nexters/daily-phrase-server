@@ -9,7 +9,14 @@ public class AdminResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class AddPhrase {
+    public static class LogoutAdmin{
+        private String field;
+    }
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LoginAdmin{
         private String field;
     }
 
@@ -25,7 +32,7 @@ public class AdminResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class RemovePhrase {
+    public static class DeletePhrase {
         private String field;
     }
 }
