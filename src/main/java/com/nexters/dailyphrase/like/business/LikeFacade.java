@@ -35,6 +35,8 @@ public class LikeFacade {
 
     @Transactional
     public LikeResponseDTO.RemoveLike removeLike(Long memberId, Long phraseId) {
-        return null;
+        Like like = likeQueryService.findByMemberIdAndPhraseId(memberId, phraseId);
+        likeCommandService.remove(like);
+        return likeMapper.toRemoveLike(memberId, phraseId);
     }
 }

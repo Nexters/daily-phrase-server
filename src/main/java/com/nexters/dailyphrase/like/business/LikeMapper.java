@@ -7,6 +7,8 @@ import com.nexters.dailyphrase.like.presentation.dto.LikeResponseDTO;
 import com.nexters.dailyphrase.member.domain.Member;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 
+import java.time.LocalDateTime;
+
 @Component
 public class LikeMapper {
 
@@ -19,6 +21,14 @@ public class LikeMapper {
                 .memberId(savedLike.getMember().getId())
                 .phraseId(savedLike.getPhrase().getId())
                 .likedAt(savedLike.getCreatedAt())
+                .build();
+    }
+
+    public LikeResponseDTO.RemoveLike toRemoveLike(Long memberId, Long phraseId) {
+        return LikeResponseDTO.RemoveLike.builder()
+                .memberId(memberId)
+                .phraseId(phraseId)
+                .canceledAt(LocalDateTime.now())
                 .build();
     }
 }

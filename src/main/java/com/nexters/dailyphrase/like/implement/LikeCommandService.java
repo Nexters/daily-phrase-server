@@ -21,4 +21,8 @@ public class LikeCommandService {
             throw DuplicateLikeException.EXCEPTION;
         }
     }
+
+    public void remove(Like like) {
+        likeRepository.delete(like);
+    }
 }
