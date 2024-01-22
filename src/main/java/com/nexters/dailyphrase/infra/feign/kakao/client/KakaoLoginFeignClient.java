@@ -9,12 +9,11 @@ import com.nexters.dailyphrase.infra.feign.kakao.config.KakaoLoginConfig;
 import com.nexters.dailyphrase.infra.feign.kakao.dto.KakaoLoginUserDTO;
 
 @FeignClient(
-        name = "KakaoInfoClient",
+        name = "KakaoLoginFeignClient",
         url = "https://kapi.kakao.com",
         configuration = KakaoLoginConfig.class)
 @Component
-// Token을 가지고 회원정보를 요청하는 Feign이다.
 public interface KakaoLoginFeignClient {
     @GetMapping("/v2/user/me")
-    KakaoLoginUserDTO getInfo(@RequestHeader(name = "Authorization") String Authorization);
+    KakaoLoginUserDTO getInfo(@RequestHeader(name = "Authorization") String identityToken);
 }

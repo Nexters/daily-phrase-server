@@ -2,6 +2,9 @@ package com.nexters.dailyphrase.infra.feign.kakao.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.nexters.dailyphrase.common.enums.MemberRole;
+import com.nexters.dailyphrase.common.enums.SocialType;
+import com.nexters.dailyphrase.member.domain.Member;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +18,17 @@ public class KakaoLoginUserDTO {
     private String id;
 
     private KakaoAccount kakaoAccount;
+
+    public Member toMember() {
+        return Member.builder()
+                .name(this.getName())
+                .email(this.getEmail())
+                .socialId(this.getId())
+                .socialType(SocialType.KAKAO)
+                .profileImgUrl(this.getProfileUrl())
+                .role(MemberRole.ROLE_USER)
+                .build();
+    }
 
     @Getter
     @NoArgsConstructor
