@@ -24,6 +24,6 @@ public class LikeApi {
     @DeleteMapping("/members/{memberId}/phrases/{phraseId}")
     public CommonResponse<LikeResponseDTO.RemoveLike> removeLike(
             @PathVariable final Long memberId, @PathVariable final Long phraseId) {
-        return null;
+        return CommonResponse.onSuccess(likeFacade.removeLike(memberId, phraseId));
     }
 }

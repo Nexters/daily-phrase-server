@@ -1,6 +1,7 @@
 package com.nexters.dailyphrase.member.business;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.nexters.dailyphrase.common.enums.SocialType;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
@@ -13,7 +14,6 @@ import com.nexters.dailyphrase.member.presentation.dto.MemberRequestDTO;
 import com.nexters.dailyphrase.member.presentation.dto.MemberResponseDTO;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor

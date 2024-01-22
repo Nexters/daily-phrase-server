@@ -1,5 +1,6 @@
-package com.nexters.dailyphrase.member.exception;
+package com.nexters.dailyphrase.like.exception;
 
+import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.DUPLICATE;
 import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.NOT_FOUND;
 
 import com.nexters.dailyphrase.common.exception.BaseErrorCode;
@@ -10,8 +11,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum MemberErrorCode implements BaseErrorCode {
-    MEMBER_NOT_FOUND(NOT_FOUND, "MEMBER_404_1", "회원을 찾을 수 없습니다.");
+public enum LikeErrorCode implements BaseErrorCode {
+    LIKE_NOT_FOUND(NOT_FOUND, "LIKE_404_1", "좋아요 기록이 없습니다."),
+    DUPLICATE_LIKE(DUPLICATE, "LIKE_409_1", "이미 좋아요한 글귀입니다.");
 
     private final Integer status;
     private final String code;
