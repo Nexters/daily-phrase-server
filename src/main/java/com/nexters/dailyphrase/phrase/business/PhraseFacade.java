@@ -18,7 +18,7 @@ public class PhraseFacade {
     private final PhraseMapper phraseMapper;
 
     @Transactional
-    public PhraseResponseDTO.PhraseDetail getPhraseDetail(Long id) {
+    public PhraseResponseDTO.PhraseDetail getPhraseDetail(final Long id) {
         phraseCommandService.increaseViewCountById(id);
         Phrase phrase = phraseQueryService.findById(id);
         return phraseMapper.toPhraseDetail(phrase);
