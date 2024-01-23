@@ -14,13 +14,10 @@ public class AdminRequestDTO {
     @AllArgsConstructor
     public static class AddPhrase {
 
-        String title;
-        String content;
-        int viewCount;
-        String imageUrl;
-        String fileName;
-        String uuid;
-       // private int LikeCount;
+        private String title;
+        private String content;
+        private String fileName;
+        private String imageRatio;
 
     }
 

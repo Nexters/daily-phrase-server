@@ -1,14 +1,16 @@
 package com.nexters.dailyphrase.admin.business;
 
 import com.nexters.dailyphrase.admin.presentation.dto.AdminRequestDTO;
-import com.nexters.dailyphrase.phrase.business.PhraseMapper;
+import com.nexters.dailyphrase.admin.business.AdminMapper;
+import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
+import com.nexters.dailyphrase.member.presentation.dto.MemberRequestDTO;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
+import com.nexters.dailyphrase.phrase.implement.PhraseCommandService;
 import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
+import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
 import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
+import com.nexters.dailyphrase.phraseimage.implement.PhraseImageCommandService;
 import org.springframework.stereotype.Component;
-
-import com.nexters.dailyphrase.admin.implement.AdminCommandService;
-import com.nexters.dailyphrase.admin.implement.AdminQueryService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,23 +19,25 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 public class AdminFacade {
-    private final AdminQueryService adminQueryService;
-    private final AdminCommandService adminCommandService;
+    private final PhraseCommandService phraseCommandService;
+    private final PhraseImageCommandService phraseImageCommandService;
 
 
     // 관리자 글귀 등록 (단건)
     @Transactional
-    public void addPhrase(final AdminRequestDTO.AddPhrase request) {
+    public AdminResponseDTO.AddPhrase addPhrase(final AdminRequestDTO.AddPhrase request) {
 
 
-        final Phrase phrase = AdminMapper.DTOtoPhrase(request);
-        final PhraseImage phraseImage= AdminMapper.DTOtoPhraseImage(request);
+        final Phrase phrase = AdminMapper.toPhrase(request);
+        final PhraseImage phraseImage= AdminMapper.toPhraseImage(request);
         phraseImage.setPhrase(phrase);
 
-       adminCommandService.create(phrase,phraseImage);
+       Phrase savedPhrase=phraseCommandService.create(phrase);
+       phraseImageCommandService.create(savedPhrase,phraseImage);
+
+        return AdminMapper.toAddPhrase(savedPhrase);
 
     }
-
 
 
 }

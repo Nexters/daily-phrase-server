@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.phrase.implement;
 
+import com.nexters.dailyphrase.phrase.domain.Phrase;
 import org.springframework.stereotype.Service;
 
 import com.nexters.dailyphrase.phrase.domain.repository.PhraseRepository;
@@ -13,5 +14,11 @@ public class PhraseCommandService {
 
     public void increaseViewCountById(final Long phraseId) {
         phraseRepository.updateViewCountById(phraseId);
+    }
+
+    public Phrase create(final Phrase phrase) {
+
+        return phraseRepository.save(phrase);
+
     }
 }

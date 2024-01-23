@@ -41,8 +41,8 @@ public class AdminApi {
 
     @PostMapping("/phrases")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addPhrase(@RequestBody final AdminRequestDTO.AddPhrase request) {
-            adminFacade.addPhrase(request);
+    public CommonResponse<AdminResponseDTO.AddPhrase> addPhrase(@RequestBody final AdminRequestDTO.AddPhrase request) {
+        return CommonResponse.onSuccess(adminFacade.addPhrase(request));
     }
 
 

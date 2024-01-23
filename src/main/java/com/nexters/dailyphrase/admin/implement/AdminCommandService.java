@@ -13,19 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AdminCommandService {
-    private final PhraseRepository phraseRepository;
-    private final PhraseImageRepository phraseImageRepository;
-
-
-    public void create(final Phrase phrase, final PhraseImage phraseImage) {
-
-        Phrase savedPhrase = phraseRepository.save(phrase);
-        phraseImage.setPhrase(savedPhrase);
-        phraseImageRepository.save(phraseImage);
-
-    }
-}
+public class AdminCommandService { }
 
 
 
