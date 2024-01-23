@@ -15,4 +15,12 @@ public class MemberMapper {
                 .refreshToken(refreshToken)
                 .build();
     }
+
+    public MemberResponseDTO.MemberDetail toMemberDetail(Member member) {
+        return MemberResponseDTO.MemberDetail.builder()
+                .memberId(member.getId())
+                .name(member.getName())
+                .email(member.getEmail())
+                .build();
+    }
 }

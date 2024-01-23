@@ -37,11 +37,14 @@ public class MemberFacade {
         return memberMapper.toLoginMember(member, accessToken, refreshToken);
     }
 
+    @Transactional
     public MemberResponseDTO.QuitMember quit(Long id) {
         return null;
     }
 
+    @Transactional(readOnly = true)
     public MemberResponseDTO.MemberDetail getMemberDetail(Long id) {
-        return null;
+        Member member = memberQueryService.findById(id);
+        return memberMapper.toMemberDetail(member);
     }
 }
