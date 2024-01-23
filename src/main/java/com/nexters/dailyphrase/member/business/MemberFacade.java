@@ -1,6 +1,7 @@
 package com.nexters.dailyphrase.member.business;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.nexters.dailyphrase.common.enums.SocialType;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
@@ -23,6 +24,7 @@ public class MemberFacade {
     private final JwtTokenService jwtTokenService;
     private final MemberMapper memberMapper;
 
+    @Transactional
     public MemberResponseDTO.LoginMember login(
             final SocialType socialType, final MemberRequestDTO.LoginMember request) {
         SocialLoginService socialLoginService =

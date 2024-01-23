@@ -18,12 +18,12 @@ public class LikeApi {
     @PostMapping
     public CommonResponse<LikeResponseDTO.AddLike> addLike(
             @RequestBody final LikeRequestDTO.AddLike request) {
-        return null;
+        return CommonResponse.onSuccess(likeFacade.addLike(request));
     }
 
     @DeleteMapping("/members/{memberId}/phrases/{phraseId}")
     public CommonResponse<LikeResponseDTO.RemoveLike> removeLike(
             @PathVariable final Long memberId, @PathVariable final Long phraseId) {
-        return null;
+        return CommonResponse.onSuccess(likeFacade.removeLike(memberId, phraseId));
     }
 }
