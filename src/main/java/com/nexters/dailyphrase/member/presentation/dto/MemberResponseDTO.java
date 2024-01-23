@@ -24,4 +24,14 @@ public class MemberResponseDTO {
     public static class QuitMember {
         private LocalDateTime quitAt;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MemberDetail {
+        private Long memberId;
+        private String name;
+        private String email;
+    }
 }

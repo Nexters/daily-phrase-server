@@ -38,4 +38,8 @@ public class MemberFacade {
     public MemberResponseDTO.QuitMember quit(Long id) {
         return null;
     }
+
+    public MemberResponseDTO.MemberDetail getMemberDetail(Long id) {
+        return null;
+    }
 }
