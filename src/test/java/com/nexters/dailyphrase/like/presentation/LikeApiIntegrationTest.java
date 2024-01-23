@@ -1,7 +1,14 @@
 package com.nexters.dailyphrase.like.presentation;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,9 +16,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -64,6 +73,49 @@ class LikeApiIntegrationTest {
                                 .content(jsonRequest))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.isSuccess").value("true"));
+    }
+
+    @Test
+    @DisplayName("동시에 여러번 좋아요 요청을 보내면, 1개의 요청만 성공해야합니다.")
+    void 좋아요_기능_동시요청_테스트() throws Exception {
+        // given
+        Member member = Member.builder().build();
+        Long memberId = memberRepository.save(member).getId();
+        Phrase phrase = Phrase.builder().build();
+        Long phraseId = phraseRepository.save(phrase).getId();
+        String jsonRequest =
+                "{\"memberId\":"
+                        + memberId.toString()
+                        + ",\"phraseId\":"
+                        + phraseId.toString()
+                        + "}";
+        int numberOfThreads = 10;
+
+        // when
+        ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
+        List<Future<ResultActions>> futures = new ArrayList<>();
+
+        for (int i = 0; i < numberOfThreads; i++) {
+            futures.add(
+                    executor.submit(
+                            () ->
+                                    mockMvc.perform(
+                                            MockMvcRequestBuilders.post("/api/v1/likes")
+                                                    .contentType(MediaType.APPLICATION_JSON)
+                                                    .content(jsonRequest))));
+        }
+
+        // then
+        int successCount = 0;
+        for (Future<ResultActions> future : futures) {
+            ResultActions resultActions = future.get();
+            if (resultActions.andReturn().getResponse().getStatus() == HttpStatus.OK.value()) {
+                successCount++;
+            }
+        }
+
+        executor.shutdown();
+        assertEquals(1, successCount, "하나의 요청만 성공해야 합니다.");
     }
 
     @Test
