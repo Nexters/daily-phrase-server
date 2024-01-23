@@ -34,4 +34,8 @@ public class MemberFacade {
         String refreshToken = jwtTokenService.generateRefreshToken(member.getId());
         return memberMapper.toLoginMember(member, accessToken, refreshToken);
     }
+
+    public MemberResponseDTO.QuitMember quit(Long id) {
+        return null;
+    }
 }

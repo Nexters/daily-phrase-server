@@ -2,6 +2,8 @@ package com.nexters.dailyphrase.member.presentation.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MemberResponseDTO {
 
@@ -19,7 +21,7 @@ public class MemberResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class ExitMember {
-        private String field;
+    public static class QuitMember {
+        private LocalDateTime quitAt;
     }
 }

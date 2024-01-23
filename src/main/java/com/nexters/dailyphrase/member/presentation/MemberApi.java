@@ -24,7 +24,7 @@ public class MemberApi {
     }
 
     @DeleteMapping("/{id}")
-    public CommonResponse<MemberResponseDTO.ExitMember> exit(@PathVariable final Long id) {
-        return null;
+    public CommonResponse<MemberResponseDTO.QuitMember> quit(@PathVariable final Long id) {
+        return CommonResponse.onSuccess(memberFacade.quit(id));
     }
 }
