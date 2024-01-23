@@ -1,8 +1,8 @@
 package com.nexters.dailyphrase.member.presentation.dto;
 
-import lombok.*;
-
 import java.time.LocalDateTime;
+
+import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MemberResponseDTO {

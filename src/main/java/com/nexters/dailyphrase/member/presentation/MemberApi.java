@@ -17,7 +17,8 @@ public class MemberApi {
     private final MemberFacade memberFacade;
 
     @GetMapping("/{id}")
-    public CommonResponse<MemberResponseDTO.MemberDetail> getMemberDetail(@PathVariable final Long id) {
+    public CommonResponse<MemberResponseDTO.MemberDetail> getMemberDetail(
+            @PathVariable final Long id) {
         return CommonResponse.onSuccess(memberFacade.getMemberDetail(id));
     }
 

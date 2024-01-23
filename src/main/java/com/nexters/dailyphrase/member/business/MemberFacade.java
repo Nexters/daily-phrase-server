@@ -1,10 +1,15 @@
 package com.nexters.dailyphrase.member.business;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nexters.dailyphrase.common.enums.SocialType;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
+import com.nexters.dailyphrase.like.domain.Like;
+import com.nexters.dailyphrase.like.implement.LikeCommandService;
+import com.nexters.dailyphrase.like.implement.LikeQueryService;
 import com.nexters.dailyphrase.member.domain.Member;
 import com.nexters.dailyphrase.member.implement.MemberCommandService;
 import com.nexters.dailyphrase.member.implement.MemberQueryService;
@@ -20,6 +25,8 @@ import lombok.RequiredArgsConstructor;
 public class MemberFacade {
     private final MemberQueryService memberQueryService;
     private final MemberCommandService memberCommandService;
+    private final LikeQueryService likeQueryService;
+    private final LikeCommandService likeCommandService;
     private final SocialLoginServiceFactory socialLoginServiceFactory;
     private final JwtTokenService jwtTokenService;
     private final MemberMapper memberMapper;
@@ -39,7 +46,11 @@ public class MemberFacade {
 
     @Transactional
     public MemberResponseDTO.QuitMember quit(Long id) {
-        return null;
+        Member member = memberQueryService.findById(id);
+        List<Long> likeIds = likeQueryService.findByMemberId(id).stream().map(Like::getId).toList();
+        likeCommandService.deleteAllByIdInBatch(likeIds);
+        memberCommandService.delete(member);
+        return memberMapper.toQuitMember();
     }
 
     @Transactional(readOnly = true)

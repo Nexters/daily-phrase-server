@@ -1,5 +1,7 @@
 package com.nexters.dailyphrase.like.implement;
 
+import java.util.List;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +26,9 @@ public class LikeCommandService {
 
     public void remove(Like like) {
         likeRepository.delete(like);
+    }
+
+    public void deleteAllByIdInBatch(List<Long> likeIds) {
+        likeRepository.deleteAllByIdInBatch(likeIds);
     }
 }
