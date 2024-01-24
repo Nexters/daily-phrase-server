@@ -13,14 +13,14 @@ import java.util.Optional;
 @Component
 public class AdminMapper {
 
-    public static Phrase toPhrase(AdminRequestDTO.AddPhrase request) {
+    public Phrase toPhrase(AdminRequestDTO.AddPhrase request) {
         return Phrase.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
                 .build();
     }
 
-    public static PhraseImage toPhraseImage(AdminRequestDTO.AddPhrase request) {
+    public PhraseImage toPhraseImage(AdminRequestDTO.AddPhrase request) {
         return PhraseImage.builder()
                 .fileName(request.getFileName())
                 .imageRatio(request.getImageRatio())
@@ -28,7 +28,7 @@ public class AdminMapper {
 
     }
 
-    public static AdminResponseDTO.AddPhrase toAddPhrase(Phrase savedPhrase) {
+    public AdminResponseDTO.AddPhrase toAddPhrase(Phrase savedPhrase) {
         return AdminResponseDTO.AddPhrase.builder()
                 .id(savedPhrase.getId())
                 .createdAt(savedPhrase.getCreatedAt())
