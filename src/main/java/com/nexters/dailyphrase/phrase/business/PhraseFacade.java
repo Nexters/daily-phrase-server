@@ -24,8 +24,8 @@ public class PhraseFacade {
         return phraseMapper.toPhraseDetail(phrase);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public PhraseResponseDTO.PhraseList getPhraseList(final int page, final int size) {
-        return null;
+        return phraseQueryService.findPhraseListDTO(page, size);
     }
 }

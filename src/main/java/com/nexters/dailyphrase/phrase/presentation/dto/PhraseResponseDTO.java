@@ -39,8 +39,8 @@ public class PhraseResponseDTO {
     public static class PhraseList {
         private int page;
         private int size;
-        private long totalPhraseCount;
-        private int totalPageCount;
+        private boolean hasNext;
+        private long total;
         @Builder.Default private List<PhraseListItem> phraseList = new ArrayList<>();
     }
 }
