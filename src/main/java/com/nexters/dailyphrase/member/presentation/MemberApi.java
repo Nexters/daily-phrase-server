@@ -16,6 +16,12 @@ import lombok.RequiredArgsConstructor;
 public class MemberApi {
     private final MemberFacade memberFacade;
 
+    @GetMapping("/{id}")
+    public CommonResponse<MemberResponseDTO.MemberDetail> getMemberDetail(
+            @PathVariable final Long id) {
+        return CommonResponse.onSuccess(memberFacade.getMemberDetail(id));
+    }
+
     @PostMapping("/login/{socialType}")
     public CommonResponse<MemberResponseDTO.LoginMember> login(
             @PathVariable final SocialType socialType,
@@ -24,7 +30,7 @@ public class MemberApi {
     }
 
     @DeleteMapping("/{id}")
-    public CommonResponse<MemberResponseDTO.ExitMember> exit(@PathVariable final Long id) {
-        return null;
+    public CommonResponse<MemberResponseDTO.QuitMember> quit(@PathVariable final Long id) {
+        return CommonResponse.onSuccess(memberFacade.quit(id));
     }
 }

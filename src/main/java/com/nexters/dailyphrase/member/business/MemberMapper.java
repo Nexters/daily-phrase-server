@@ -1,5 +1,7 @@
 package com.nexters.dailyphrase.member.business;
 
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Component;
 
 import com.nexters.dailyphrase.member.domain.Member;
@@ -14,5 +16,17 @@ public class MemberMapper {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    public MemberResponseDTO.MemberDetail toMemberDetail(Member member) {
+        return MemberResponseDTO.MemberDetail.builder()
+                .memberId(member.getId())
+                .name(member.getName())
+                .email(member.getEmail())
+                .build();
+    }
+
+    public MemberResponseDTO.QuitMember toQuitMember() {
+        return MemberResponseDTO.QuitMember.builder().quitAt(LocalDateTime.now()).build();
     }
 }
