@@ -55,17 +55,24 @@ public class PhraseCustomRepositoryImpl implements PhraseCustomRepository {
                                     Phrase phrase = tuple.get(qPhrase);
                                     PhraseImage phraseImage = tuple.get(qPhraseImage);
                                     Long likeCount = tuple.get(qLike.count());
-                                    return new PhraseResponseDTO.PhraseListItem(
-                                            phrase.getId(),
-                                            phrase.getTitle(),
-                                            phrase.getContent(),
-                                            phraseImage != null ? phraseImage.getUrl() : "",
-                                            phrase.getViewCount(),
-                                            likeCount.intValue());
+                                    return PhraseResponseDTO.PhraseListItem.builder()
+                                            .phraseId(phrase.getId())
+                                            .title(phrase.getTitle())
+                                            .content(phrase.getContent())
+                                            .imageUrl(
+                                                    phraseImage != null ? phraseImage.getUrl() : "")
+                                            .viewCount(phrase.getViewCount())
+                                            .likeCount(likeCount.intValue())
+                                            .build();
                                 })
                         .toList();
 
-        return new PhraseResponseDTO.PhraseList(
-                page, size, hasNext, totalElemCount, phraseListItems);
+        return PhraseResponseDTO.PhraseList.builder()
+                .page(page)
+                .size(size)
+                .hasNext(hasNext)
+                .total(totalElemCount)
+                .phraseList(phraseListItems)
+                .build();
     }
 }
