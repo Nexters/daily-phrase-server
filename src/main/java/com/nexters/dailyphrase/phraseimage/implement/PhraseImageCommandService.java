@@ -15,9 +15,8 @@ public class PhraseImageCommandService {
     private final PhraseImageRepository phraseImageRepository;
 
 
-    public void create(final Phrase savedPhrase, final PhraseImage phraseImage) {
+    public void create(final PhraseImage phraseImage) {
 
-        phraseImage.setPhrase(savedPhrase);
         phraseImageRepository.save(phraseImage);
 
     }

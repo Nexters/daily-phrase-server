@@ -26,10 +26,10 @@ public class AdminFacade {
 
         final Phrase phrase = adminMapper.toPhrase(request);
         final PhraseImage phraseImage= adminMapper.toPhraseImage(request);
-        phraseImage.setPhrase(phrase);
 
-       Phrase savedPhrase=phraseCommandService.create(phrase);
-       phraseImageCommandService.create(savedPhrase,phraseImage);
+        Phrase savedPhrase=phraseCommandService.create(phrase);
+        phraseImage.setPhrase(savedPhrase);
+        phraseImageCommandService.create(phraseImage);
 
         return adminMapper.toAddPhrase(savedPhrase);
 
