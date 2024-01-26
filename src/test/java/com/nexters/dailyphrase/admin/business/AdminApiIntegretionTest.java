@@ -1,9 +1,12 @@
 package com.nexters.dailyphrase.admin.business;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.nexters.dailyphrase.admin.presentation.AdminApi;
-import com.nexters.dailyphrase.phrase.domain.repository.PhraseRepository;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Optional;
+
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,52 +16,99 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
+import com.nexters.dailyphrase.phrase.domain.Phrase;
+import com.nexters.dailyphrase.phrase.domain.repository.PhraseRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 class AdminApiIntegrationTest {
 
+    @Autowired private PhraseRepository phraseRepository;
+    @Autowired private AdminFacade adminFacade;
     @Autowired private WebApplicationContext webApplicationContext;
 
     private MockMvc mockMvc;
-
-
 
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
+
     @Test
     @DisplayName("글귀 등록 로직을 테스트합니다.")
     void 글귀_등록() throws Exception {
-
         // given
         String testTitle = "test title";
         String testContent = "test content";
         String testFileName = "test filename";
         String testImageRatio = "16:9";
 
-        String jsonRequest = toJsonString(testTitle, testContent, testFileName, testImageRatio);
-
         // when & then
-        mockMvc.perform(
-                        MockMvcRequestBuilders.post("/api/admin/phrases")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(jsonRequest))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.isSuccess").value("true"));
+        long phraseId = phraseCreation(testTitle, testContent, testFileName, testImageRatio);
+        Optional<Phrase> findItem = phraseRepository.findById(phraseId);
 
+        assertEquals(testContent, findItem.get().getContent());
+        assertEquals(testTitle, findItem.get().getTitle());
+        assertEquals(testFileName, findItem.get().getPhraseImage().getFileName());
+        assertEquals(testImageRatio, findItem.get().getPhraseImage().getImageRatio());
     }
 
-    private String toJsonString(String title, String content, String fileName, String imageRatio) throws JsonProcessingException {
+    @Test
+    @DisplayName("관리자 글귀 상세조회 로직을 테스트합니다.")
+    void 관리자글귀_상세조회() throws Exception {
+        // given
+        String testTitle = "test title2";
+        String testContent = "test content2";
+        String testFileName = "test filename2";
+        String testImageRatio = "16:10";
+
+        long phraseId = phraseCreation(testTitle, testContent, testFileName, testImageRatio);
+
+        // when
+        AdminResponseDTO.AdminPhraseDetail adminPhraseDetail =
+        adminFacade.getAdminPhraseDetail(phraseId);
+        Optional<Phrase> findItem = phraseRepository.findById(phraseId);
+
+        // then
+        assertEquals(testTitle, adminPhraseDetail.getTitle());
+        assertEquals(testContent, adminPhraseDetail.getContent());
+        System.out.println("image url은 return하기만 합니다 imageurl=" + adminPhraseDetail.getImageUrl());
+    }
+
+    @DisplayName("테스트용 글귀 등록 공통 로직")
+    private long phraseCreation(
+            String testTitle, String testContent, String testFileName, String testImageRatio)
+            throws Exception {
+        String jsonRequest = toJsonString(testTitle, testContent, testFileName, testImageRatio);
+
+        MvcResult result =
+                mockMvc.perform(
+                                MockMvcRequestBuilders.post("/api/admin/phrases")
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .content(jsonRequest))
+                        .andExpect(status().isCreated())
+                        .andExpect(jsonPath("$.isSuccess").value("true"))
+                        .andReturn();
+
+        String responseBody = result.getResponse().getContentAsString();
+        JSONObject jsonObject = new JSONObject(responseBody);
+
+        return jsonObject.getJSONObject("result").getInt("id");
+    }
+
+    @DisplayName("테스트용 Json build")
+    private String toJsonString(String title, String content, String fileName, String imageRatio)
+            throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode jsonNode = objectMapper.createObjectNode();
         jsonNode.put("title", title);
@@ -66,13 +116,5 @@ class AdminApiIntegrationTest {
         jsonNode.put("fileName", fileName);
         jsonNode.put("imageRatio", imageRatio);
         return objectMapper.writeValueAsString(jsonNode);
-    }
-
-    @Test
-    @DisplayName("관리자 글귀 상세조회 로직을 테스트합니다.")
-    void 관리자글귀_상세조회() {
-
-
-
     }
 }
