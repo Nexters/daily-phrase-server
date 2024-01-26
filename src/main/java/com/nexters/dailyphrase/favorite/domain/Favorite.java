@@ -9,6 +9,7 @@ import com.nexters.dailyphrase.phrase.domain.Phrase;
 import lombok.*;
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"member_id", "phrase_id"})})
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
