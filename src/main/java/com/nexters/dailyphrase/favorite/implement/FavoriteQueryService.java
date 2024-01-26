@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.favorite.implement;
 
+import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteResponseDTO;
 import org.springframework.stereotype.Service;
 
 import com.nexters.dailyphrase.favorite.domain.Favorite;
@@ -17,5 +18,9 @@ public class FavoriteQueryService {
         return favoriteRepository
                 .findByMember_IdAndPhrase_Id(memberId, phraseId)
                 .orElseThrow(() -> FavoriteNotFoundException.EXCEPTION);
+    }
+
+    public FavoriteResponseDTO.FavoriteList findFavoriteListDTO(final Long memberId) {
+        return favoriteRepository.findFavoriteListDTO(memberId);
     }
 }

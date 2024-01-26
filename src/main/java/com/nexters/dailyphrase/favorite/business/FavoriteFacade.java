@@ -42,6 +42,6 @@ public class FavoriteFacade {
 
     @Transactional(readOnly = true)
     public FavoriteResponseDTO.FavoriteList getFavoriteList(Long memberId) {
-        return null;
+        return favoriteQueryService.findFavoriteListDTO(memberId);
     }
 }

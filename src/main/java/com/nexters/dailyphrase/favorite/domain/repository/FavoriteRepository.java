@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.nexters.dailyphrase.favorite.domain.Favorite;
 
-public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
+public interface FavoriteRepository extends JpaRepository<Favorite, Long>, FavoriteCustomRepository {
     Optional<Favorite> findByMember_IdAndPhrase_Id(Long memberId, Long phraseId);
 }
