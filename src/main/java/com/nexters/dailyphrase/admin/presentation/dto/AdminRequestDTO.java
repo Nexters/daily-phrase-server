@@ -2,11 +2,8 @@ package com.nexters.dailyphrase.admin.presentation.dto;
 
 import lombok.*;
 
-
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AdminRequestDTO {
-
 
     @Builder
     @Getter
