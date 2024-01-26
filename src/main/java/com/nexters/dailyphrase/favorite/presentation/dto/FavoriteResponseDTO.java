@@ -1,6 +1,8 @@
 package com.nexters.dailyphrase.favorite.presentation.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -28,8 +30,22 @@ public class FavoriteResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class FavoriteListItem {
+        private Long phraseId;
+        private String title;
+        private String content;
+        private String imageUrl;
+        private int viewCount;
+        private int likeCount;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class FavoriteList {
-        private String field;
+        private long total;
+        @Builder.Default private List<FavoriteListItem> phraseList = new ArrayList<>();
     }
 
     @Builder

@@ -24,7 +24,7 @@ public class FavoriteApi {
     @GetMapping("/members/{id}")
     public CommonResponse<FavoriteResponseDTO.FavoriteList> getFavoriteList(
             @PathVariable final Long id) {
-        return null;
+        return CommonResponse.onSuccess(favoriteFacade.getFavoriteList(id));
     }
 
     @DeleteMapping("/members/{memberId}/phrases/{phraseId}")

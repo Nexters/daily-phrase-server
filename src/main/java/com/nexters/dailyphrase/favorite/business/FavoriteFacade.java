@@ -39,4 +39,9 @@ public class FavoriteFacade {
         favoriteCommandService.remove(favorite);
         return favoriteMapper.toRemoveFavorite(memberId, phraseId);
     }
+
+    @Transactional(readOnly = true)
+    public FavoriteResponseDTO.FavoriteList getFavoriteList(Long memberId) {
+        return null;
+    }
 }
