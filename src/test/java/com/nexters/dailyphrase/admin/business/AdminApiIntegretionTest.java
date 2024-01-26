@@ -1,9 +1,8 @@
 package com.nexters.dailyphrase.admin.business;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.nexters.dailyphrase.admin.presentation.AdminApi;
-import com.nexters.dailyphrase.phrase.domain.repository.PhraseRepository;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,13 +12,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -30,12 +29,11 @@ class AdminApiIntegrationTest {
 
     private MockMvc mockMvc;
 
-
-
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
+
     @Test
     @DisplayName("글귀 등록 로직을 테스트합니다.")
     void 글귀_등록() throws Exception {
@@ -55,10 +53,10 @@ class AdminApiIntegrationTest {
                                 .content(jsonRequest))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.isSuccess").value("true"));
-
     }
 
-    private String toJsonString(String title, String content, String fileName, String imageRatio) throws JsonProcessingException {
+    private String toJsonString(String title, String content, String fileName, String imageRatio)
+            throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode jsonNode = objectMapper.createObjectNode();
         jsonNode.put("title", title);
@@ -70,9 +68,5 @@ class AdminApiIntegrationTest {
 
     @Test
     @DisplayName("관리자 글귀 상세조회 로직을 테스트합니다.")
-    void 관리자글귀_상세조회() {
-
-
-
-    }
+    void 관리자글귀_상세조회() {}
 }

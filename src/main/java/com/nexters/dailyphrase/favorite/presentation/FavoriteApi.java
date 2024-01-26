@@ -18,7 +18,7 @@ public class FavoriteApi {
     @PostMapping
     public CommonResponse<FavoriteResponseDTO.AddFavorite> addFavorite(
             @RequestBody final FavoriteRequestDTO.AddFavorite request) {
-        return null;
+        return CommonResponse.onSuccess(favoriteFacade.addFavorite(request));
     }
 
     @GetMapping("/members/{id}")
@@ -30,6 +30,6 @@ public class FavoriteApi {
     @DeleteMapping("/members/{memberId}/phrases/{phraseId}")
     public CommonResponse<FavoriteResponseDTO.RemoveFavorite> removeFavorite(
             @PathVariable final Long memberId, @PathVariable final Long phraseId) {
-        return null;
+        return CommonResponse.onSuccess(favoriteFacade.removeLike(memberId, phraseId));
     }
 }
