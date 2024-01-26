@@ -1,14 +1,11 @@
 package com.nexters.dailyphrase.admin.business;
 
+import java.util.Optional;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminRequestDTO;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
-import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
 import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Component
 public class AdminMapper {
@@ -33,9 +30,18 @@ public class AdminMapper {
                 .id(savedPhrase.getId())
                 .createdAt(savedPhrase.getCreatedAt())
                 .build();
-
     }
 
+    public AdminResponseDTO.AdminPhraseDetail toAdminPhraseDetail(Phrase phrase) {
+        String imageUrl =
+                Optional.ofNullable(phrase.getPhraseImage())
+                        .map(PhraseImage::getUrl)
+                        .orElse("");
 
-
+        return AdminResponseDTO.AdminPhraseDetail.builder()
+                .title(phrase.getTitle())
+                .imageUrl(imageUrl)
+                .content(phrase.getContent())
+                .build();
+    }
 }
