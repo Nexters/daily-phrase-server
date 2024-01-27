@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 
-public interface PhraseRepository extends JpaRepository<Phrase, Long> {
+public interface PhraseRepository extends JpaRepository<Phrase, Long>, PhraseCustomRepository {
 
     @Query("select p from Phrase p left join fetch p.phraseImage where p.id = :phraseId")
     Optional<Phrase> findById(Long phraseId);
