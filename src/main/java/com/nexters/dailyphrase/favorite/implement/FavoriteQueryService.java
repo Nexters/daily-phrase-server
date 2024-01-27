@@ -1,11 +1,11 @@
 package com.nexters.dailyphrase.favorite.implement;
 
-import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteResponseDTO;
 import org.springframework.stereotype.Service;
 
 import com.nexters.dailyphrase.favorite.domain.Favorite;
 import com.nexters.dailyphrase.favorite.domain.repository.FavoriteRepository;
 import com.nexters.dailyphrase.favorite.exception.FavoriteNotFoundException;
+import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteResponseDTO;
 
 import lombok.RequiredArgsConstructor;
 

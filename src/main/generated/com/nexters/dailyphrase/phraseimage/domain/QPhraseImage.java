@@ -31,6 +31,8 @@ public class QPhraseImage extends EntityPathBase<PhraseImage> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final StringPath imageRatio = createString("imageRatio");
+
     public final com.nexters.dailyphrase.phrase.domain.QPhrase phrase;
 
     //inherited

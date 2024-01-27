@@ -1,11 +1,20 @@
 package com.nexters.dailyphrase.favorite.domain.repository;
 
-import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteResponseDTO;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
 import javax.swing.*;
+
+import org.springframework.stereotype.Repository;
+
+import com.nexters.dailyphrase.favorite.domain.QFavorite;
+import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteResponseDTO;
+import com.nexters.dailyphrase.like.domain.QLike;
+import com.nexters.dailyphrase.phrase.domain.QPhrase;
+import com.nexters.dailyphrase.phraseimage.domain.QPhraseImage;
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
@@ -14,6 +23,34 @@ public class FavoriteCustomRepositoryImpl implements FavoriteCustomRepository {
 
     @Override
     public FavoriteResponseDTO.FavoriteList findFavoriteListDTO(final Long memberId) {
-        return null;
+        QPhrase qPhrase = QPhrase.phrase;
+        QPhraseImage qPhraseImage = QPhraseImage.phraseImage;
+        QLike qLike = QLike.like;
+        QFavorite qFavorite = QFavorite.favorite;
+
+        List<FavoriteResponseDTO.FavoriteListItem> favoriteListItems =
+                queryFactory
+                        .select(
+                                Projections.constructor(
+                                        FavoriteResponseDTO.FavoriteListItem.class,
+                                        qFavorite.phrase.id,
+                                        qFavorite.phrase.title,
+                                        qFavorite.phrase.content,
+                                        qFavorite.phrase.phraseImage.url.coalesce(""),
+                                        qFavorite.phrase.viewCount,
+                                        qLike.count().intValue()))
+                        .from(qFavorite)
+                        .leftJoin(qFavorite.phrase, qPhrase)
+                        .leftJoin(qLike)
+                        .on(qLike.phrase.id.eq(qFavorite.phrase.id))
+                        .where(qFavorite.member.id.eq(memberId))
+                        .groupBy(qFavorite.phrase.id)
+                        .orderBy(qFavorite.createdAt.asc())
+                        .fetch();
+
+        return FavoriteResponseDTO.FavoriteList.builder()
+                .phraseList(favoriteListItems)
+                .total(favoriteListItems.size())
+                .build();
     }
 }
