@@ -10,7 +10,6 @@ import com.nexters.dailyphrase.favorite.domain.QFavorite;
 import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteResponseDTO;
 import com.nexters.dailyphrase.like.domain.QLike;
 import com.nexters.dailyphrase.phrase.domain.QPhrase;
-import com.nexters.dailyphrase.phraseimage.domain.QPhraseImage;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -24,7 +23,6 @@ public class FavoriteCustomRepositoryImpl implements FavoriteCustomRepository {
     @Override
     public FavoriteResponseDTO.FavoriteList findFavoriteListDTO(final Long memberId) {
         QPhrase qPhrase = QPhrase.phrase;
-        QPhraseImage qPhraseImage = QPhraseImage.phraseImage;
         QLike qLike = QLike.like;
         QFavorite qFavorite = QFavorite.favorite;
 
@@ -37,6 +35,7 @@ public class FavoriteCustomRepositoryImpl implements FavoriteCustomRepository {
                                         qFavorite.phrase.title,
                                         qFavorite.phrase.content,
                                         qFavorite.phrase.phraseImage.url.coalesce(""),
+                                        qFavorite.phrase.phraseImage.imageRatio.coalesce(""),
                                         qFavorite.phrase.viewCount,
                                         qLike.count().intValue()))
                         .from(qFavorite)
@@ -45,7 +44,7 @@ public class FavoriteCustomRepositoryImpl implements FavoriteCustomRepository {
                         .on(qLike.phrase.id.eq(qFavorite.phrase.id))
                         .where(qFavorite.member.id.eq(memberId))
                         .groupBy(qFavorite.phrase.id)
-                        .orderBy(qFavorite.createdAt.asc())
+                        .orderBy(qFavorite.createdAt.desc())
                         .fetch();
 
         return FavoriteResponseDTO.FavoriteList.builder()
