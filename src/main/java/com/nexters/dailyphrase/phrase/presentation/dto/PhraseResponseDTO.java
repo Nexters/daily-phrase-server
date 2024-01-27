@@ -28,6 +28,7 @@ public class PhraseResponseDTO {
         private String title;
         private String content;
         private String imageUrl;
+        private String imageRatio;
         private int viewCount;
         private int likeCount;
     }
