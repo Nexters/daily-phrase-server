@@ -1,8 +1,7 @@
 package com.nexters.dailyphrase.admin.presentation.dto;
 
-import lombok.*;
-
 import java.time.LocalDateTime;
+import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AdminResponseDTO {
@@ -30,10 +29,20 @@ public class AdminResponseDTO {
 
         private Long id;
         private LocalDateTime createdAt;
-//        private String imageRatio; 목록 조회할때 나오면 될듯
-//        private String imageUrl;
-//        private String uuid;
+        //        private String imageRatio; 목록 조회할때 나오면 될듯
+        //        private String imageUrl;
+        //        private String uuid;
 
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AdminPhraseDetail {
+        private String title;
+        private String imageUrl;
+        private String content;
     }
 
     @Builder

@@ -1,6 +1,5 @@
 package com.nexters.dailyphrase.admin.presentation;
 
-import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,6 +7,7 @@ import com.nexters.dailyphrase.admin.business.AdminFacade;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminRequestDTO;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
+import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/admin")
 public class AdminApi {
     private final AdminFacade adminFacade;
-
 
     @PostMapping("/login")
     public CommonResponse<AdminResponseDTO.LoginAdmin> loginAdmin() {
@@ -34,9 +33,9 @@ public class AdminApi {
     }
 
     @GetMapping("/phrases/{id}")
-    public CommonResponse<PhraseResponseDTO.PhraseDetail> getAdminPhraseDetail(
+    public CommonResponse<AdminResponseDTO.AdminPhraseDetail> getAdminPhraseDetail(
             @PathVariable final Long id) {
-        return null;
+        return CommonResponse.onSuccess(adminFacade.getAdminPhraseDetail(id));
     }
 
     @PostMapping("/phrases")
@@ -44,7 +43,6 @@ public class AdminApi {
     public CommonResponse<AdminResponseDTO.AddPhrase> addPhrase(@RequestBody final AdminRequestDTO.AddPhrase request) {
         return CommonResponse.onSuccess(adminFacade.addPhrase(request));
     }
-
 
     @PatchMapping("/phrases/{id}")
     public CommonResponse<AdminResponseDTO.ModifyPhrase> modifyPhrase(
@@ -57,7 +55,3 @@ public class AdminApi {
         return null;
     }
 }
-
-
-
-
