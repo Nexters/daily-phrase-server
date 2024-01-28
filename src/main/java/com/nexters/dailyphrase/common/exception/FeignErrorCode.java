@@ -1,21 +1,25 @@
-package com.nexters.dailyphrase.member.exception;
+package com.nexters.dailyphrase.common.exception;
 
-import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.NOT_FOUND;
+import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.BAD_REQUEST;
 
 import java.lang.reflect.Field;
 import java.util.Objects;
 
 import com.nexters.dailyphrase.common.annotation.ExplainError;
-import com.nexters.dailyphrase.common.exception.BaseErrorCode;
-import com.nexters.dailyphrase.common.exception.ErrorReason;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum MemberErrorCode implements BaseErrorCode {
-    MEMBER_NOT_FOUND(NOT_FOUND, "MEMBER_404_1", "회원을 찾을 수 없습니다.");
+public enum FeignErrorCode implements BaseErrorCode {
+    OTHER_SERVER_BAD_REQUEST(BAD_REQUEST, "FEIGN_400_1", "Other server bad request"),
+    OTHER_SERVER_UNAUTHORIZED(BAD_REQUEST, "FEIGN_400_2", "Other server unauthorized"),
+    OTHER_SERVER_FORBIDDEN(BAD_REQUEST, "FEIGN_400_3", "Other server forbidden"),
+    OTHER_SERVER_EXPIRED_TOKEN(BAD_REQUEST, "FEIGN_400_4", "Other server expired token"),
+    OTHER_SERVER_NOT_FOUND(BAD_REQUEST, "FEIGN_400_5", "Other server not found error"),
+    OTHER_SERVER_INTERNAL_SERVER_ERROR(
+            BAD_REQUEST, "FEIGN_400_6", "Other server internal server error");
 
     private final Integer status;
     private final String code;
