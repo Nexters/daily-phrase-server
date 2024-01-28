@@ -33,9 +33,9 @@ public class AdminApi {
     }
 
     @GetMapping("/phrases/{id}")
-    public CommonResponse<PhraseResponseDTO.PhraseDetail> getAdminPhraseDetail(
+    public CommonResponse<AdminResponseDTO.AdminPhraseDetail> getAdminPhraseDetail(
             @PathVariable final Long id) {
-        return null;
+        return CommonResponse.onSuccess(adminFacade.getAdminPhraseDetail(id));
     }
 
     @PostMapping("/phrases")

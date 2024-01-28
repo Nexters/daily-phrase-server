@@ -1,6 +1,7 @@
 package com.nexters.dailyphrase.admin.presentation.dto;
 
 import java.time.LocalDateTime;
+import lombok.*;
 
 import lombok.*;
 
@@ -35,6 +36,16 @@ public class AdminResponseDTO {
         //        private String imageUrl;
         //        private String uuid;
 
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AdminPhraseDetail {
+        private String title;
+        private String imageUrl;
+        private String content;
     }
 
     @Builder
