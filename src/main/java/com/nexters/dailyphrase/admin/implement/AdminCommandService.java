@@ -6,4 +6,4 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AdminCommandService { }
+public class AdminCommandService {}

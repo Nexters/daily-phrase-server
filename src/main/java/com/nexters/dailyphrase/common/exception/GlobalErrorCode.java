@@ -2,6 +2,11 @@ package com.nexters.dailyphrase.common.exception;
 
 import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.*;
 
+import java.lang.reflect.Field;
+import java.util.Objects;
+
+import com.nexters.dailyphrase.common.annotation.ExplainError;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -35,5 +40,12 @@ public enum GlobalErrorCode implements BaseErrorCode {
     @Override
     public ErrorReason getErrorReason() {
         return ErrorReason.builder().reason(reason).code(code).status(status).build();
+    }
+
+    @Override
+    public String getExplainError() throws NoSuchFieldException {
+        Field field = this.getClass().getField(this.name());
+        ExplainError annotation = field.getAnnotation(ExplainError.class);
+        return Objects.nonNull(annotation) ? annotation.value() : this.getReason();
     }
 }

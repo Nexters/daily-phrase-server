@@ -6,14 +6,18 @@ import com.nexters.dailyphrase.common.presentation.CommonResponse;
 import com.nexters.dailyphrase.phrase.business.PhraseFacade;
 import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "02-Phrase📄", description = "글귀 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/phrases")
 public class PhraseApi {
     private final PhraseFacade phraseFacade;
 
+    @Operation(summary = "02-01 Phrase📄 글귀 목록 조회 Made By 성훈", description = "글귀 목록 조회 API입니다.")
     @GetMapping
     public CommonResponse<PhraseResponseDTO.PhraseList> getPhraseList(
             @RequestParam(required = false, defaultValue = "1") final int page,
@@ -21,6 +25,7 @@ public class PhraseApi {
         return CommonResponse.onSuccess(phraseFacade.getPhraseList(page, size));
     }
 
+    @Operation(summary = "02-02 Phrase📄 글귀 상세 조회 Made By 성훈", description = "글귀 상세 조회 API입니다.")
     @GetMapping("/{id}")
     public CommonResponse<PhraseResponseDTO.PhraseDetail> getPhraseDetail(
             @PathVariable final Long id) {

@@ -7,26 +7,38 @@ import com.nexters.dailyphrase.favorite.business.FavoriteFacade;
 import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteRequestDTO;
 import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteResponseDTO;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "04-Favorite⭐️", description = "즐겨찾기 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/favorites")
 public class FavoriteApi {
     private final FavoriteFacade favoriteFacade;
 
+    @Operation(
+            summary = "04-03 Favorite⭐ 글귀 즐겨찾기 저장 Made By 성훈",
+            description = "글귀 즐겨찾기 저장 API입니다.")
     @PostMapping
     public CommonResponse<FavoriteResponseDTO.AddFavorite> addFavorite(
             @RequestBody final FavoriteRequestDTO.AddFavorite request) {
         return CommonResponse.onSuccess(favoriteFacade.addFavorite(request));
     }
 
+    @Operation(
+            summary = "04-02 Favorite⭐ 글귀 즐겨찾기 목록 조회 Made By 성훈",
+            description = "글귀 즐겨찾기 목록 조회 API입니다.")
     @GetMapping("/members/{id}")
     public CommonResponse<FavoriteResponseDTO.FavoriteList> getFavoriteList(
             @PathVariable final Long id) {
         return CommonResponse.onSuccess(favoriteFacade.getFavoriteList(id));
     }
 
+    @Operation(
+            summary = "04-01 Favorite⭐ 글귀 즐겨찾기 취소 Made By 성훈",
+            description = "글귀 즐겨찾기 취소 API입니다.")
     @DeleteMapping("/members/{memberId}/phrases/{phraseId}")
     public CommonResponse<FavoriteResponseDTO.RemoveFavorite> removeFavorite(
             @PathVariable final Long memberId, @PathVariable final Long phraseId) {
