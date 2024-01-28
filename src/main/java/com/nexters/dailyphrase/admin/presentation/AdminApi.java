@@ -51,7 +51,8 @@ public class AdminApi {
     }
 
     @DeleteMapping("/phrases/{id}")
-    public CommonResponse<AdminResponseDTO.DeletePhrase> deletePhrase(@PathVariable Long id) {
-        return null;
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public CommonResponse<AdminResponseDTO.DeletePhrase> deletePhrase(@PathVariable final Long id) {
+        return CommonResponse.onSuccess(adminFacade.deletePhrase(id));
     }
 }

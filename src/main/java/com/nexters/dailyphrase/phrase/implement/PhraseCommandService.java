@@ -20,4 +20,7 @@ public class PhraseCommandService {
         return phraseRepository.save(phrase);
     }
 
+    public void deleteById(final Long id) {
+        phraseRepository.deleteById(id);
+    }
 }

@@ -39,8 +39,6 @@ public class AdminFacade {
         return adminMapper.toAdminPhraseDetail(phrase);
     }
 
-
-
     @Transactional
     public AdminResponseDTO.ModifyPhrase modifyPhrase(
             final Long id, final AdminRequestDTO.ModifyPhrase request) {
@@ -60,4 +58,14 @@ public class AdminFacade {
         return adminMapper.toModifyPhrase(updatedPhrase);
     }
 
+    @Transactional
+    public AdminResponseDTO.DeletePhrase deletePhrase(final Long id) {
+
+        Phrase phrase = phraseQueryService.findById(id);
+
+        phraseCommandService.deleteById(id);
+        phraseImageCommandService.deleteByPhraseId(id);
+
+        return adminMapper.toDeletePhrase();
+    }
 }
