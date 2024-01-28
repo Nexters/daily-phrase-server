@@ -46,7 +46,7 @@ class AdminApiIntegrationTest {
 
     @Test
     @DisplayName("글귀 등록 로직을 테스트합니다.")
-    void 글귀_등록() throws Exception {
+    Long 글귀_등록() throws Exception {
         // given
         String testTitle = "test title";
         String testContent = "test content";
@@ -61,6 +61,7 @@ class AdminApiIntegrationTest {
         assertEquals(testTitle, findItem.get().getTitle());
         assertEquals(testFileName, findItem.get().getPhraseImage().getFileName());
         assertEquals(testImageRatio, findItem.get().getPhraseImage().getImageRatio());
+        return phraseId;
     }
 
     @Test
@@ -83,6 +84,43 @@ class AdminApiIntegrationTest {
         assertEquals(testTitle, adminPhraseDetail.getTitle());
         assertEquals(testContent, adminPhraseDetail.getContent());
         System.out.println("image url은 return하기만 합니다 imageurl=" + adminPhraseDetail.getImageUrl());
+    }
+    @Test
+    @DisplayName("글귀 수정 로직을 테스트합니다.")
+    void 글귀_수정() throws Exception {
+        // given
+
+        long phraseId = 글귀_등록();
+
+        String testTitle = "modify_title";
+        String testContent = "modify_content";
+        String testFileName = "modify_fileName";
+        String testImageRatio = "modify_ratio";
+
+        String jsonRequest = toJsonString(testTitle, testContent, testFileName, testImageRatio);
+
+        // when & then
+        MvcResult result =
+                mockMvc.perform(
+                                MockMvcRequestBuilders.patch("/api/admin/phrases/{id}", phraseId)
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .content(jsonRequest))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.isSuccess").value("true"))
+                        .andExpect(jsonPath("$.result.title").value(testTitle))
+                        .andExpect(jsonPath("$.result.content").value(testContent))
+                        .andReturn();
+
+        String responseBody = result.getResponse().getContentAsString();
+        JSONObject jsonObject = new JSONObject(responseBody);
+
+        String imageUrl = jsonObject.getJSONObject("result").getString("imageUrl");
+        String updatedAt = jsonObject.getJSONObject("result").getString("updatedAt");
+        String createdAt = jsonObject.getJSONObject("result").getString("createdAt");
+
+        System.out.println("image url은 return하기만 합니다 imageurl=" + imageUrl);
+        System.out.println("updatedAt은 return하기만 합니다 updatedAt=" + updatedAt);
+        System.out.println("createdAt은 return하기만 합니다 createdAt=" + createdAt);
     }
 
     @DisplayName("테스트용 글귀 등록 공통 로직")

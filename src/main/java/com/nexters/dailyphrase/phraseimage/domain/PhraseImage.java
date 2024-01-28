@@ -41,4 +41,12 @@ public class PhraseImage extends BaseDateTimeEntity {
             phrase.setPhraseImage(this);
         }
     }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setImageRatio(String imageRatio) {
+        this.imageRatio = imageRatio;
+    }
 }

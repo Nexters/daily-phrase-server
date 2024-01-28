@@ -47,7 +47,7 @@ public class AdminApi {
     @PatchMapping("/phrases/{id}")
     public CommonResponse<AdminResponseDTO.ModifyPhrase> modifyPhrase(
             @PathVariable Long id, @RequestBody final AdminRequestDTO.ModifyPhrase request) {
-        return null;
+        return CommonResponse.onSuccess(adminFacade.modifyPhrase(id, request));
     }
 
     @DeleteMapping("/phrases/{id}")
