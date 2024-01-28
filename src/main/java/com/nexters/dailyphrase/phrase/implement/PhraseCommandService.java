@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.phrase.implement;
 
+import com.nexters.dailyphrase.phrase.domain.Phrase;
 import org.springframework.stereotype.Service;
 
 import com.nexters.dailyphrase.phrase.domain.Phrase;

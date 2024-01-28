@@ -3,6 +3,8 @@ package com.nexters.dailyphrase.admin.presentation.dto;
 import java.time.LocalDateTime;
 import lombok.*;
 
+import lombok.*;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AdminResponseDTO {
 
@@ -10,14 +12,7 @@ public class AdminResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class LogoutAdmin{
-        private String field;
-    }
-    @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class LoginAdmin{
+    public static class LogoutAdmin {
         private String field;
     }
 
@@ -25,7 +20,15 @@ public class AdminResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class AddPhrase{
+    public static class LoginAdmin {
+        private String field;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AddPhrase {
 
         private Long id;
         private LocalDateTime createdAt;

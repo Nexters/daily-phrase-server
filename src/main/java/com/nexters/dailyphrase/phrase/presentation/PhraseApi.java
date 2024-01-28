@@ -1,9 +1,6 @@
 package com.nexters.dailyphrase.phrase.presentation;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
 import com.nexters.dailyphrase.phrase.business.PhraseFacade;
@@ -18,8 +15,10 @@ public class PhraseApi {
     private final PhraseFacade phraseFacade;
 
     @GetMapping
-    public CommonResponse<PhraseResponseDTO.PhraseList> getPhraseList() {
-        return null;
+    public CommonResponse<PhraseResponseDTO.PhraseList> getPhraseList(
+            @RequestParam(required = false, defaultValue = "1") final int page,
+            @RequestParam(required = false, defaultValue = "10") final int size) {
+        return CommonResponse.onSuccess(phraseFacade.getPhraseList(page, size));
     }
 
     @GetMapping("/{id}")
