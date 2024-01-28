@@ -1,6 +1,6 @@
 package com.nexters.dailyphrase.common.exception;
 
-import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.*;
+import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.BAD_REQUEST;
 
 import java.lang.reflect.Field;
 import java.util.Objects;
@@ -12,10 +12,14 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum GlobalErrorCode implements BaseErrorCode {
-    ARGUMENT_NOT_VALID_ERROR(BAD_REQUEST, "GLOBAL_400_1", "검증 오류"),
-    INTERNAL_SERVER_ERROR(INTERNAL_SERVER, "GLOBAL_500_1", "서버 오류. 관리자에게 문의 부탁드립니다."),
-    TOO_MANY_REQUEST(TOO_MANY_REQUESTS, "GLOBAL_429_1", "과도한 요청을 보내셨습니다. 잠시 기다려 주세요.");
+public enum FeignErrorCode implements BaseErrorCode {
+    OTHER_SERVER_BAD_REQUEST(BAD_REQUEST, "FEIGN_400_1", "Other server bad request"),
+    OTHER_SERVER_UNAUTHORIZED(BAD_REQUEST, "FEIGN_400_2", "Other server unauthorized"),
+    OTHER_SERVER_FORBIDDEN(BAD_REQUEST, "FEIGN_400_3", "Other server forbidden"),
+    OTHER_SERVER_EXPIRED_TOKEN(BAD_REQUEST, "FEIGN_400_4", "Other server expired token"),
+    OTHER_SERVER_NOT_FOUND(BAD_REQUEST, "FEIGN_400_5", "Other server not found error"),
+    OTHER_SERVER_INTERNAL_SERVER_ERROR(
+            BAD_REQUEST, "FEIGN_400_6", "Other server internal server error");
 
     private final Integer status;
     private final String code;
