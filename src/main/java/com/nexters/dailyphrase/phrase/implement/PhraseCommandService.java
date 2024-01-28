@@ -18,9 +18,7 @@ public class PhraseCommandService {
     }
 
     public Phrase create(final Phrase phrase) {
-
         return phraseRepository.save(phrase);
     }
 
-    public void update(final Long id, Phrase phrase) {}
 }
