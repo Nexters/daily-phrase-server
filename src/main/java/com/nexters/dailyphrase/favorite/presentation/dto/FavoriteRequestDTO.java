@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 public class FavoriteRequestDTO {
     @Getter
     public static class AddFavorite {
-        private String field;
+        private Long memberId;
+        private Long phraseId;
     }
 }
