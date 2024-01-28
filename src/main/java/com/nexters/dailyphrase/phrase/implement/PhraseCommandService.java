@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PhraseCommandService {
     private final PhraseRepository phraseRepository;
-    private final PhraseQueryService phraseQueryService;
 
     public void increaseViewCountById(final Long phraseId) {
         phraseRepository.updateViewCountById(phraseId);
