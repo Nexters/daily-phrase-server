@@ -1,7 +1,6 @@
 package com.nexters.dailyphrase.admin.presentation.dto;
 
 import java.time.LocalDateTime;
-import lombok.*;
 
 import lombok.*;
 
