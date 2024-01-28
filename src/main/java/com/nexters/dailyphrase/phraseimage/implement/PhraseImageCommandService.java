@@ -16,4 +16,8 @@ public class PhraseImageCommandService {
 
         phraseImageRepository.save(phraseImage);
     }
+
+    public void deleteByPhraseId(final Long id) {
+        phraseImageRepository.deleteByPhraseId(id);
+    }
 }

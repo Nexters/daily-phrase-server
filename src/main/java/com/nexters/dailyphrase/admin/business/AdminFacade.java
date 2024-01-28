@@ -1,8 +1,5 @@
 package com.nexters.dailyphrase.admin.business;
 
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.nexters.dailyphrase.admin.presentation.dto.AdminRequestDTO;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
@@ -10,9 +7,9 @@ import com.nexters.dailyphrase.phrase.implement.PhraseCommandService;
 import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
 import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
 import com.nexters.dailyphrase.phraseimage.implement.PhraseImageCommandService;
-
+import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
-
+import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 public class AdminFacade {
@@ -40,8 +37,6 @@ public class AdminFacade {
         return adminMapper.toAdminPhraseDetail(phrase);
     }
 
-
-
     @Transactional
     public AdminResponseDTO.ModifyPhrase modifyPhrase(
             final Long id, final AdminRequestDTO.ModifyPhrase request) {
@@ -61,4 +56,14 @@ public class AdminFacade {
         return adminMapper.toModifyPhrase(updatedPhrase);
     }
 
+    @Transactional
+    public AdminResponseDTO.DeletePhrase deletePhrase(final Long id) {
+
+        Phrase phrase = phraseQueryService.findById(id);
+
+        phraseCommandService.deleteById(id);
+        phraseImageCommandService.deleteByPhraseId(id);
+
+        return adminMapper.toDeletePhrase();
+    }
 }

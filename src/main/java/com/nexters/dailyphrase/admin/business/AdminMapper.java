@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.admin.business;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
@@ -52,7 +53,6 @@ public class AdminMapper {
                 .build();
     }
 
-
     public AdminResponseDTO.ModifyPhrase toModifyPhrase(Phrase updatedPhrase) {
         return AdminResponseDTO.ModifyPhrase.builder()
                 .id(updatedPhrase.getId())
@@ -62,5 +62,9 @@ public class AdminMapper {
                 .imageUrl(updatedPhrase.getPhraseImage().getUrl())
                 .content(updatedPhrase.getContent())
                 .build();
+    }
+
+    public AdminResponseDTO.DeletePhrase toDeletePhrase() {
+        return AdminResponseDTO.DeletePhrase.builder().deletedAt(LocalDateTime.now()).build();
     }
 }
