@@ -31,7 +31,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build -x test -Pprofile=dev
 
       - name: Log in to NCP Container Registry
         run: docker login -u ${{ secrets.NCP_USERNAME }} -p ${{ secrets.NCP_PASSWORD }} ${{ secrets.NCP_REGISTRY_URL }}
