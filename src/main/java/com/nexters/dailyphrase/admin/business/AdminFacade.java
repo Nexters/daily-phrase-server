@@ -34,11 +34,13 @@ public class AdminFacade {
         return adminMapper.toAddPhrase(savedPhrase);
     }
 
+
     @Transactional(readOnly = true)
     public AdminResponseDTO.AdminPhraseDetail getAdminPhraseDetail(final Long id) {
         Phrase phrase = phraseQueryService.findById(id);
         return adminMapper.toAdminPhraseDetail(phrase);
     }
+
 
     @Transactional
     public AdminResponseDTO.ModifyPhrase modifyPhrase(
@@ -58,6 +60,7 @@ public class AdminFacade {
         return adminMapper.toModifyPhrase(updatedPhrase);
     }
 
+
     @Transactional
     public AdminResponseDTO.DeletePhrase deletePhrase(final Long id) {
 
@@ -66,4 +69,5 @@ public class AdminFacade {
 
         return adminMapper.toDeletePhrase();
     }
+
 }

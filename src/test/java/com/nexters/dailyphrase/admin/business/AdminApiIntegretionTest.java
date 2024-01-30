@@ -78,7 +78,7 @@ class AdminApiIntegrationTest {
 
         // when
         AdminResponseDTO.AdminPhraseDetail adminPhraseDetail =
-        adminFacade.getAdminPhraseDetail(phraseId);
+                adminFacade.getAdminPhraseDetail(phraseId);
         Optional<Phrase> findItem = phraseRepository.findById(phraseId);
 
         // then
@@ -123,6 +123,7 @@ class AdminApiIntegrationTest {
         System.out.println("updatedAt은 return하기만 합니다 updatedAt=" + updatedAt);
         System.out.println("createdAt은 return하기만 합니다 createdAt=" + createdAt);
     }
+
 
     @Test
     @DisplayName("존재하지 않는 글귀 수정 요청은 404 응답이 옵니다.")
@@ -170,6 +171,7 @@ class AdminApiIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/admin/phrases/{id}", phraseId))
                 .andExpect(status().isNotFound());
     }
+
 
     @DisplayName("테스트용 글귀 등록 공통 로직")
     private long phraseCreation(
