@@ -34,9 +34,32 @@ public class AdminFacade {
         return adminMapper.toAddPhrase(savedPhrase);
     }
 
+
     @Transactional(readOnly = true)
     public AdminResponseDTO.AdminPhraseDetail getAdminPhraseDetail(final Long id) {
         Phrase phrase = phraseQueryService.findById(id);
         return adminMapper.toAdminPhraseDetail(phrase);
     }
+
+
+
+    @Transactional
+    public AdminResponseDTO.ModifyPhrase modifyPhrase(
+            final Long id, final AdminRequestDTO.ModifyPhrase request) {
+
+        final Phrase requestedPhrase = adminMapper.toPhrase(request);
+        final PhraseImage requestedPhraseImage = adminMapper.toPhraseImage(request);
+
+        Phrase updatedPhrase = phraseQueryService.findById(id);
+        updatedPhrase.setTitle(requestedPhrase.getTitle());
+        updatedPhrase.setContent(requestedPhrase.getContent());
+
+        PhraseImage updatedPhraseImage = updatedPhrase.getPhraseImage();
+        updatedPhraseImage.setImageRatio(requestedPhraseImage.getImageRatio());
+        updatedPhraseImage.setFileName(requestedPhraseImage.getFileName());
+        updatedPhrase.setPhraseImage(updatedPhraseImage);
+
+        return adminMapper.toModifyPhrase(updatedPhrase);
+    }
+
 }

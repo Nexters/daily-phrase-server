@@ -52,7 +52,12 @@ public class AdminResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ModifyPhrase {
-        private String field;
+        private Long id;
+        private LocalDateTime updatedAt;
+        private LocalDateTime createdAt;
+        private String title;
+        private String imageUrl;
+        private String content;
     }
 
     @Builder

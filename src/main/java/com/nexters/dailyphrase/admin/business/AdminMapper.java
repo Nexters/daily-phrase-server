@@ -40,4 +40,27 @@ public class AdminMapper {
                 .content(phrase.getContent())
                 .build();
     }
+
+    public Phrase toPhrase(AdminRequestDTO.ModifyPhrase request) {
+        return Phrase.builder().title(request.getTitle()).content(request.getContent()).build();
+    }
+
+    public PhraseImage toPhraseImage(AdminRequestDTO.ModifyPhrase request) {
+        return PhraseImage.builder()
+                .fileName(request.getFileName())
+                .imageRatio(request.getImageRatio())
+                .build();
+    }
+
+
+    public AdminResponseDTO.ModifyPhrase toModifyPhrase(Phrase updatedPhrase) {
+        return AdminResponseDTO.ModifyPhrase.builder()
+                .id(updatedPhrase.getId())
+                .updatedAt(updatedPhrase.getUpdatedAt())
+                .createdAt(updatedPhrase.getCreatedAt())
+                .title(updatedPhrase.getTitle())
+                .imageUrl(updatedPhrase.getPhraseImage().getUrl())
+                .content(updatedPhrase.getContent())
+                .build();
+    }
 }

@@ -29,4 +29,12 @@ public class Phrase extends BaseDateTimeEntity {
     public void setPhraseImage(PhraseImage phraseImage) {
         this.phraseImage = phraseImage;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

@@ -61,7 +61,7 @@ public class AdminApi {
     @PatchMapping("/phrases/{id}")
     public CommonResponse<AdminResponseDTO.ModifyPhrase> modifyPhrase(
             @PathVariable Long id, @RequestBody final AdminRequestDTO.ModifyPhrase request) {
-        return null;
+        return CommonResponse.onSuccess(adminFacade.modifyPhrase(id, request));
     }
 
     @Operation(summary = "05-01 Admin️👷🏻 관리자 글귀 삭제 Made By 채은", description = "관리자 글귀 삭제 API입니다.")
