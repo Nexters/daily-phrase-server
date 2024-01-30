@@ -1,6 +1,7 @@
 package com.nexters.dailyphrase.admin.business;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -122,6 +123,55 @@ class AdminApiIntegrationTest {
         System.out.println("updatedAt은 return하기만 합니다 updatedAt=" + updatedAt);
         System.out.println("createdAt은 return하기만 합니다 createdAt=" + createdAt);
     }
+
+
+    @Test
+    @DisplayName("존재하지 않는 글귀 수정 요청은 404 응답이 옵니다.")
+    void 존재하지않는_글귀_수정요청() throws Exception {
+        // given
+        long phraseId = 1234567890;
+        assertFalse(phraseRepository.existsById(phraseId));
+
+        String testTitle = "modify_title";
+        String testContent = "modify_content";
+        String testFileName = "modify_fileName";
+        String testImageRatio = "modify_ratio";
+
+        String jsonRequest = toJsonString(testTitle, testContent, testFileName, testImageRatio);
+
+        //when&then
+        mockMvc.perform(
+                        MockMvcRequestBuilders.patch("/api/admin/phrases/{id}", phraseId)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(jsonRequest))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("글귀 삭제 로직을 테스트합니다.")
+    void 글귀_삭제() throws Exception {
+        // given
+        long phraseId = 글귀_등록();
+
+        //when & then
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/admin/phrases/{id}", phraseId))
+                .andExpect(status().isNoContent());
+
+        assertFalse(phraseRepository.existsById(phraseId));
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 글귀 삭제 요청은 404 응답이 옵니다.")
+    void 존재하지않는_글귀_삭제요청() throws Exception {
+        // given
+        long phraseId = 1234567890;
+        assertFalse(phraseRepository.existsById(phraseId));
+
+        //when&then
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/admin/phrases/{id}", phraseId))
+                .andExpect(status().isNotFound());
+    }
+
 
     @DisplayName("테스트용 글귀 등록 공통 로직")
     private long phraseCreation(

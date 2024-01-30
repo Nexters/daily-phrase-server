@@ -42,7 +42,6 @@ public class AdminFacade {
     }
 
 
-
     @Transactional
     public AdminResponseDTO.ModifyPhrase modifyPhrase(
             final Long id, final AdminRequestDTO.ModifyPhrase request) {
@@ -57,9 +56,18 @@ public class AdminFacade {
         PhraseImage updatedPhraseImage = updatedPhrase.getPhraseImage();
         updatedPhraseImage.setImageRatio(requestedPhraseImage.getImageRatio());
         updatedPhraseImage.setFileName(requestedPhraseImage.getFileName());
-        updatedPhrase.setPhraseImage(updatedPhraseImage);
 
         return adminMapper.toModifyPhrase(updatedPhrase);
+    }
+
+
+    @Transactional
+    public AdminResponseDTO.DeletePhrase deletePhrase(final Long id) {
+
+        phraseImageCommandService.deleteByPhraseId(id);
+        phraseCommandService.deleteById(id);
+
+        return adminMapper.toDeletePhrase();
     }
 
 }
