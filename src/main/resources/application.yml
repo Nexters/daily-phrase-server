@@ -1,3 +1,7 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
 spring:
   profiles:
     active: local
@@ -6,7 +10,20 @@ auth:
     secret-key: ${JWT_SECRET_KEY:testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey}
     access-exp: ${JWT_ACCESS_EXP:3600}
     refresh-exp: ${JWT_REFRESH_EXP:2592000}
-
+springdoc:
+  packages-to-scan: com.nexters.dailyphrase
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:       # Swagger UI 경로 => localhost:8000/demo-ui.html
+    tags-sorter: alpha            # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+    operations-sorter: method      # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+  api-docs:
+    path: /api-docs/json
+    groups:
+      enabled: true
+  cache:
+    disabled: true
+  use-fqn: true
 ---
 spring:
   config:
@@ -26,7 +43,30 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
         show_sql: true
         format_sql: true
-        use_sql_comments: true
+        use_sql_comments: false
+        hbm2ddl:
+          auto: update
+        default_batch_fetch_size: 1000
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    username: ${DEV_DB_USERNAME}
+    password: ${DEV_DB_PASSWORD}
+    url: ${DEV_DB_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: never
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        show_sql: true
+        format_sql: true
+        use_sql_comments: false
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 1000

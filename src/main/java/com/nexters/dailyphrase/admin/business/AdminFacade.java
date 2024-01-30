@@ -34,6 +34,8 @@ public class AdminFacade {
         return adminMapper.toAddPhrase(savedPhrase);
     }
 
+
+    @Transactional(readOnly = true)
     public AdminResponseDTO.AdminPhraseDetail getAdminPhraseDetail(final Long id) {
         Phrase phrase = phraseQueryService.findById(id);
         return adminMapper.toAdminPhraseDetail(phrase);

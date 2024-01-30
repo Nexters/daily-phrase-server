@@ -77,7 +77,7 @@ class AdminApiIntegrationTest {
 
         // when
         AdminResponseDTO.AdminPhraseDetail adminPhraseDetail =
-        adminFacade.getAdminPhraseDetail(phraseId);
+                adminFacade.getAdminPhraseDetail(phraseId);
         Optional<Phrase> findItem = phraseRepository.findById(phraseId);
 
         // then

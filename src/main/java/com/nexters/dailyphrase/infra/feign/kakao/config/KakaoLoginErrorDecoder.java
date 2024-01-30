@@ -1,6 +1,6 @@
 package com.nexters.dailyphrase.infra.feign.kakao.config;
 
-import static com.nexters.dailyphrase.common.exception.GlobalErrorCode.*;
+import static com.nexters.dailyphrase.common.exception.FeignErrorCode.*;
 
 import com.nexters.dailyphrase.common.exception.BaseCodeException;
 

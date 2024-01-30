@@ -3,6 +3,10 @@ package com.nexters.dailyphrase.like.exception;
 import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.DUPLICATE;
 import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.NOT_FOUND;
 
+import java.lang.reflect.Field;
+import java.util.Objects;
+
+import com.nexters.dailyphrase.common.annotation.ExplainError;
 import com.nexters.dailyphrase.common.exception.BaseErrorCode;
 import com.nexters.dailyphrase.common.exception.ErrorReason;
 
@@ -22,5 +26,12 @@ public enum LikeErrorCode implements BaseErrorCode {
     @Override
     public ErrorReason getErrorReason() {
         return ErrorReason.builder().reason(reason).code(code).status(status).build();
+    }
+
+    @Override
+    public String getExplainError() throws NoSuchFieldException {
+        Field field = this.getClass().getField(this.name());
+        ExplainError annotation = field.getAnnotation(ExplainError.class);
+        return Objects.nonNull(annotation) ? annotation.value() : this.getReason();
     }
 }

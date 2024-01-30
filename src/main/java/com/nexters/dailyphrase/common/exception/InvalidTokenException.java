@@ -4,6 +4,6 @@ public class InvalidTokenException extends BaseCodeException {
     public static final BaseCodeException EXCEPTION = new InvalidTokenException();
 
     private InvalidTokenException() {
-        super(GlobalErrorCode.INVALID_TOKEN);
+        super(AuthErrorCode.INVALID_TOKEN);
     }
 }
