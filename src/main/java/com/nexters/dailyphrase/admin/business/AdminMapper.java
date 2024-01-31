@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import com.nexters.dailyphrase.admin.domain.Admin;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminRequestDTO;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
@@ -53,7 +54,6 @@ public class AdminMapper {
                 .build();
     }
 
-
     public AdminResponseDTO.ModifyPhrase toModifyPhrase(Phrase updatedPhrase) {
         return AdminResponseDTO.ModifyPhrase.builder()
                 .id(updatedPhrase.getId())
@@ -65,9 +65,16 @@ public class AdminMapper {
                 .build();
     }
 
-
     public AdminResponseDTO.DeletePhrase toDeletePhrase() {
         return AdminResponseDTO.DeletePhrase.builder().deletedAt(LocalDateTime.now()).build();
     }
 
+    public AdminResponseDTO.LoginAdmin toLogin(
+            Admin admin, String accessToken, String refreshToken) {
+        return AdminResponseDTO.LoginAdmin.builder()
+                .userId(admin.getUserId())
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
 }

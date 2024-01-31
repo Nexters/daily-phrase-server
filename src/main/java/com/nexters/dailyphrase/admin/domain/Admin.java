@@ -1,8 +1,14 @@
 package com.nexters.dailyphrase.admin.domain;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import jakarta.persistence.*;
 
-import com.nexters.dailyphrase.common.domain.BaseDateTimeEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.nexters.dailyphrase.common.enums.MemberRole;
 
 import lombok.*;
@@ -12,7 +18,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Admin extends BaseDateTimeEntity {
+public class Admin implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,6 +29,37 @@ public class Admin extends BaseDateTimeEntity {
 
     private String password;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private MemberRole role;
+    private MemberRole role = MemberRole.ROLE_ADMIN;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority(role.toString()));
+    }
+
+    @Override
+    public String getUsername() {
+        return String.valueOf(userId);
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

@@ -3,8 +3,13 @@ package com.nexters.dailyphrase.admin.business;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nexters.dailyphrase.admin.domain.Admin;
+import com.nexters.dailyphrase.admin.exception.AdminPasswordInvalidException;
+import com.nexters.dailyphrase.admin.implement.AdminLoginService;
+import com.nexters.dailyphrase.admin.implement.AdminQueryService;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminRequestDTO;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
+import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phrase.implement.PhraseCommandService;
 import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
@@ -18,8 +23,32 @@ import lombok.RequiredArgsConstructor;
 public class AdminFacade {
     private final PhraseCommandService phraseCommandService;
     private final PhraseQueryService phraseQueryService;
+    private final AdminLoginService adminLoginService;
     private final PhraseImageCommandService phraseImageCommandService;
     private final AdminMapper adminMapper;
+    private final JwtTokenService jwtTokenService;
+
+    @Transactional
+    public AdminResponseDTO.LoginAdmin loginAdmin(final AdminRequestDTO.LoginAdmin request) {
+
+        Admin admin = adminLoginService.findByLoginId(request.getUserId());
+
+        // PW 체크
+        //        if (!passwordEncoder.matches(request.getPassword(), admin.getPassword())) {
+        //            throw new AdminPasswordInvalidException();
+        //        }
+
+        if (!request.getPassword().equals(admin.getPassword())) {
+            throw new AdminPasswordInvalidException();
+        }
+
+        System.out.println("admin = " + admin);
+
+        String accessToken =
+                jwtTokenService.generateAccessToken(admin.getId(), admin.getRole().name());
+        String refreshToken = jwtTokenService.generateRefreshToken(admin.getId());
+        return adminMapper.toLogin(admin, accessToken, refreshToken);
+    }
 
     @Transactional
     public AdminResponseDTO.AddPhrase addPhrase(final AdminRequestDTO.AddPhrase request) {
@@ -59,7 +88,6 @@ public class AdminFacade {
 
         return adminMapper.toModifyPhrase(updatedPhrase);
     }
-
 
     @Transactional
     public AdminResponseDTO.DeletePhrase deletePhrase(final Long id) {

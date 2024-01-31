@@ -20,10 +20,12 @@ import lombok.RequiredArgsConstructor;
 public class AdminApi {
     private final AdminFacade adminFacade;
 
-    @Operation(summary = "05-07 Admin️👷🏻 관리자 로그인 Made By 채은", description = "관리자 로그인 API입니다.")
+    @Operation(summary = "05-07 Admin👷🏻 관리자 로그인 Made By 채은", description = "관리자 로그인 API입니다.")
     @PostMapping("/login")
-    public CommonResponse<AdminResponseDTO.LoginAdmin> loginAdmin() {
-        return null;
+    public CommonResponse<AdminResponseDTO.LoginAdmin> loginAdmin(
+            @RequestBody final AdminRequestDTO.LoginAdmin request) {
+        System.out.println("loginapi");
+        return CommonResponse.onSuccess(adminFacade.loginAdmin(request));
     }
 
     @Operation(summary = "05-06 Admin️👷🏻 관리자 로그아웃 Made By 채은", description = "관리자 로그아웃 API입니다.")

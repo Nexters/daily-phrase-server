@@ -20,7 +20,9 @@ public class AdminResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class LoginAdmin {
-        private String field;
+        private String userId;
+        private String accessToken;
+        private String refreshToken;
     }
 
     @Builder
