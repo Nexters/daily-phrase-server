@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.lang.Nullable;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nexters.dailyphrase.admin.exception.AdminErrorCode;
 import com.nexters.dailyphrase.common.exception.*;
 import com.nexters.dailyphrase.common.presentation.ErrorResponse;
 
@@ -163,6 +165,27 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                         url);
 
         return ResponseEntity.status(HttpStatus.valueOf(internalServerError.getStatus()))
+                .body(errorResponse);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    protected ResponseEntity<ErrorResponse> handleBadCredentialsException(
+            BadCredentialsException e, HttpServletRequest request) throws IOException {
+        String url =
+                UriComponentsBuilder.fromHttpRequest(new ServletServerHttpRequest(request))
+                        .build()
+                        .toUriString();
+
+        AdminErrorCode unauthorizedError = AdminErrorCode.ADMIN_BAD_CREDENTIALS_EXCEPTION;
+
+        ErrorResponse errorResponse =
+                new ErrorResponse(
+                        unauthorizedError.getStatus(),
+                        unauthorizedError.getCode(),
+                        unauthorizedError.getReason(),
+                        url);
+
+        return ResponseEntity.status(HttpStatus.valueOf(unauthorizedError.getStatus()))
                 .body(errorResponse);
     }
 }

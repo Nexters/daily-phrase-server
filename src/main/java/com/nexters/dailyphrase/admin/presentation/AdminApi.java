@@ -24,9 +24,14 @@ public class AdminApi {
     @PostMapping("/login")
     public CommonResponse<AdminResponseDTO.LoginAdmin> loginAdmin(
             @RequestBody final AdminRequestDTO.LoginAdmin request) {
-        System.out.println("loginapi");
         return CommonResponse.onSuccess(adminFacade.loginAdmin(request));
     }
+
+    @Operation(
+            summary = "05-07 Admin👷🏻 관리자 로그인 토큰 재발행 Made By 채은",
+            description = "관리자 로그인 토큰 재발행 API입니다.")
+    @PostMapping("/reissue")
+    public void reissueToken() {}
 
     @Operation(summary = "05-06 Admin️👷🏻 관리자 로그아웃 Made By 채은", description = "관리자 로그아웃 API입니다.")
     @PostMapping("/logout")

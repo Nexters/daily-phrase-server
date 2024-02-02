@@ -1,11 +1,15 @@
 package com.nexters.dailyphrase.admin.business;
 
+import java.util.stream.Collectors;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nexters.dailyphrase.admin.domain.Admin;
-import com.nexters.dailyphrase.admin.exception.AdminPasswordInvalidException;
-import com.nexters.dailyphrase.admin.implement.AdminLoginService;
 import com.nexters.dailyphrase.admin.implement.AdminQueryService;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminRequestDTO;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
@@ -23,30 +27,37 @@ import lombok.RequiredArgsConstructor;
 public class AdminFacade {
     private final PhraseCommandService phraseCommandService;
     private final PhraseQueryService phraseQueryService;
-    private final AdminLoginService adminLoginService;
+    private final AdminQueryService adminQueryService;
     private final PhraseImageCommandService phraseImageCommandService;
     private final AdminMapper adminMapper;
     private final JwtTokenService jwtTokenService;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @Transactional
     public AdminResponseDTO.LoginAdmin loginAdmin(final AdminRequestDTO.LoginAdmin request) {
 
-        Admin admin = adminLoginService.findByLoginId(request.getUserId());
+        String username = request.getUserId();
+        String password = request.getPassword();
 
-        // PW 체크
-        //        if (!passwordEncoder.matches(request.getPassword(), admin.getPassword())) {
-        //            throw new AdminPasswordInvalidException();
-        //        }
+        // adminQueryService.findByLoginId(username); UserId 틀렸다고 예외처리 하려면 여기서 해야함
 
-        if (!request.getPassword().equals(admin.getPassword())) {
-            throw new AdminPasswordInvalidException();
-        }
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(username, password);
 
-        System.out.println("admin = " + admin);
+        Authentication authentication =
+                authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-        String accessToken =
-                jwtTokenService.generateAccessToken(admin.getId(), admin.getRole().name());
+        // 권한 가져오기
+        String role =
+                authentication.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.joining(",")); // role_admin
+        String authenticatedUserId = authentication.getName(); // admin UserId
+
+        Admin admin = adminQueryService.findByLoginId(authenticatedUserId); // admin id
+        String accessToken = jwtTokenService.generateAccessToken(admin.getId(), role);
         String refreshToken = jwtTokenService.generateRefreshToken(admin.getId());
+
         return adminMapper.toLogin(admin, accessToken, refreshToken);
     }
 

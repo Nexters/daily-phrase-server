@@ -17,8 +17,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum AdminErrorCode implements BaseErrorCode {
     ADMIN_NOT_FOUND(NOT_FOUND, "ADMIN_404_1", "해당 관리자를 찾을 수 없습니다."),
-    ADMIN_UNAUTHORIZED(UNAUTHORIZED, "ADMIN_401_2", "관리자 권한이 없습니다."),
-    ADMIN_PASSWORD_INVALID(UNAUTHORIZED, "ADMIN_401_1", "패스워드가 일치하지 않습니다.");
+    ADMIN_BAD_CREDENTIALS_EXCEPTION(UNAUTHORIZED, "ADMIN_401_1", "자격증명이 없습니다. 아이디 또는 비밀번호가 틀렸습니다.");
 
     private final Integer status;
     private final String code;

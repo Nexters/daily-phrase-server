@@ -25,13 +25,15 @@ public class Admin implements UserDetails {
 
     private String name;
 
+    @Column(nullable = false)
     private String userId;
 
+    @Column(nullable = false)
     private String password;
 
-    @Builder.Default
+    // @Builder.Default
     @Enumerated(EnumType.STRING)
-    private MemberRole role = MemberRole.ROLE_ADMIN;
+    private MemberRole role = MemberRole.ADMIN;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
