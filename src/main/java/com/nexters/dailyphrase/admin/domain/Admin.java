@@ -33,7 +33,7 @@ public class Admin implements UserDetails {
 
     // @Builder.Default
     @Enumerated(EnumType.STRING)
-    private MemberRole role = MemberRole.ADMIN;
+    private final MemberRole role = MemberRole.ADMIN;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

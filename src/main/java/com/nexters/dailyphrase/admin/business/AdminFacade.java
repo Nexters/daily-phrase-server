@@ -39,7 +39,7 @@ public class AdminFacade {
         String username = request.getUserId();
         String password = request.getPassword();
 
-        // adminQueryService.findByLoginId(username); UserId 틀렸다고 예외처리 하려면 여기서 해야함
+        adminQueryService.findByLoginId(username); // UserId Notfound 예외처리용
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
@@ -47,14 +47,13 @@ public class AdminFacade {
         Authentication authentication =
                 authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-        // 권한 가져오기
         String role =
                 authentication.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.joining(",")); // role_admin
-        String authenticatedUserId = authentication.getName(); // admin UserId
+        String authenticatedUserId = authentication.getName(); //  UserId
 
-        Admin admin = adminQueryService.findByLoginId(authenticatedUserId); // admin id
+        Admin admin = adminQueryService.findByLoginId(authenticatedUserId); // id
         String accessToken = jwtTokenService.generateAccessToken(admin.getId(), role);
         String refreshToken = jwtTokenService.generateRefreshToken(admin.getId());
 

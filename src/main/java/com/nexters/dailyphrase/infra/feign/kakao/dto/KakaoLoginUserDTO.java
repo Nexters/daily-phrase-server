@@ -26,7 +26,7 @@ public class KakaoLoginUserDTO {
                 .socialId(this.getId())
                 .socialType(SocialType.KAKAO)
                 .profileImgUrl(this.getProfileUrl())
-                .role(MemberRole.ROLE_USER)
+                .role(MemberRole.USER)
                 .build();
     }
 
