@@ -308,7 +308,6 @@ class AdminApiIntegrationTest {
 
         // when & then
         mockMvc.perform(
-
                         MockMvcRequestBuilders.get("/api/admin/phrases")
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(System.out::println)
@@ -317,17 +316,6 @@ class AdminApiIntegrationTest {
                 .andExpect(jsonPath("$.isSuccess").value(true))
                 .andExpect(jsonPath("$.result.phraseList.length()").value(20))
                 .andReturn();
-
-                                MockMvcRequestBuilders.get("/api/admin/phrases")
-                                        .contentType(MediaType.APPLICATION_JSON))
-                        .andDo(System.out::println)
-                        .andExpect(status().isOk())
-                        .andExpect(jsonPath("$.result.phraseList").isArray())
-                        .andExpect(jsonPath("$.isSuccess").value(true))
-                        .andExpect(jsonPath("$.result.phraseList.length()").value(20))
-                        .andReturn();
-
-
     }
 
     @DisplayName("테스트용 글귀 등록 공통 로직")
