@@ -1,14 +1,22 @@
 package com.nexters.dailyphrase.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.nexters.dailyphrase.common.presentation.converter.SocialTypeRequestConverter;
 
 import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
 public class GlobalWebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addFormatters(final FormatterRegistry registry) {
+        registry.addConverter(new SocialTypeRequestConverter());
+    }
 
     @Override
     public void addCorsMappings(final CorsRegistry registry) {

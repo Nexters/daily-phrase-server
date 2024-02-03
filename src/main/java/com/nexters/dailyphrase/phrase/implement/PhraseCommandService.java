@@ -1,6 +1,5 @@
 package com.nexters.dailyphrase.phrase.implement;
 
-import com.nexters.dailyphrase.phrase.domain.Phrase;
 import org.springframework.stereotype.Service;
 
 import com.nexters.dailyphrase.phrase.domain.Phrase;
@@ -21,9 +20,7 @@ public class PhraseCommandService {
         return phraseRepository.save(phrase);
     }
 
-
     public void deleteById(final Long id) {
         phraseRepository.deleteById(id);
     }
-
 }
