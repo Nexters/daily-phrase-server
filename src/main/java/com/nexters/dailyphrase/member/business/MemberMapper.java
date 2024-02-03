@@ -3,11 +3,10 @@ package com.nexters.dailyphrase.member.business;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import com.nexters.dailyphrase.member.domain.repository.MemberRepository;
-import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
 import org.springframework.stereotype.Component;
 
 import com.nexters.dailyphrase.member.domain.Member;
+import com.nexters.dailyphrase.member.domain.repository.MemberRepository;
 import com.nexters.dailyphrase.member.presentation.dto.MemberResponseDTO;
 
 @Component
@@ -34,7 +33,7 @@ public class MemberMapper {
                 .memberId(member.getId())
                 .name(member.getName())
                 .email(member.getEmail())
-                .profileImgUrl(profileImgUrlgi
+                .profileImgUrl(profileImgUrl)
                 .build();
     }
 
