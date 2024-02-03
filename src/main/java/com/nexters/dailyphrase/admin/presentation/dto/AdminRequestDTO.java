@@ -27,4 +27,13 @@ public class AdminRequestDTO {
         private String fileName;
         private String imageRatio;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LoginAdmin {
+        private String userId;
+        private String password;
+    }
 }

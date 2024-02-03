@@ -22,7 +22,7 @@ public class Member extends BaseDateTimeEntity {
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private MemberRole role = MemberRole.ROLE_USER;
+    private MemberRole role = MemberRole.USER;
 
     private String socialId;
 
