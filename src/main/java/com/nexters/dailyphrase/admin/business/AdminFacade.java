@@ -10,7 +10,10 @@ import com.nexters.dailyphrase.phrase.implement.PhraseCommandService;
 import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
 import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
 import com.nexters.dailyphrase.phraseimage.implement.PhraseImageCommandService;
+
+
 import lombok.RequiredArgsConstructor;
+
 @Component
 @RequiredArgsConstructor
 public class AdminFacade {
@@ -32,11 +35,13 @@ public class AdminFacade {
         return adminMapper.toAddPhrase(savedPhrase);
     }
 
+
     @Transactional(readOnly = true)
     public AdminResponseDTO.AdminPhraseDetail getAdminPhraseDetail(final Long id) {
         Phrase phrase = phraseQueryService.findById(id);
         return adminMapper.toAdminPhraseDetail(phrase);
     }
+
 
     @Transactional
     public AdminResponseDTO.ModifyPhrase modifyPhrase(
@@ -52,7 +57,6 @@ public class AdminFacade {
         PhraseImage updatedPhraseImage = updatedPhrase.getPhraseImage();
         updatedPhraseImage.setImageRatio(requestedPhraseImage.getImageRatio());
         updatedPhraseImage.setFileName(requestedPhraseImage.getFileName());
-        updatedPhrase.setPhraseImage(updatedPhraseImage);
 
         return adminMapper.toModifyPhrase(updatedPhrase);
     }
@@ -62,14 +66,14 @@ public class AdminFacade {
         return phraseQueryService.findAdminPhraseListDTO();
     }
 
+
     @Transactional
     public AdminResponseDTO.DeletePhrase deletePhrase(final Long id) {
 
-        Phrase phrase = phraseQueryService.findById(id);
-
-        phraseCommandService.deleteById(id);
         phraseImageCommandService.deleteByPhraseId(id);
+        phraseCommandService.deleteById(id);
 
         return adminMapper.toDeletePhrase();
     }
+
 }
