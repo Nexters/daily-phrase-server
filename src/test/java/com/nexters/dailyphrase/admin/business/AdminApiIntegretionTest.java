@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -25,6 +26,8 @@ import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.nexters.dailyphrase.admin.domain.Admin;
+import com.nexters.dailyphrase.admin.domain.repository.AdminRepository;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phrase.domain.repository.PhraseRepository;
@@ -35,8 +38,10 @@ import com.nexters.dailyphrase.phrase.domain.repository.PhraseRepository;
 class AdminApiIntegrationTest {
 
     @Autowired private PhraseRepository phraseRepository;
+    @Autowired private AdminRepository adminRepository;
     @Autowired private AdminFacade adminFacade;
     @Autowired private WebApplicationContext webApplicationContext;
+    @Autowired private PasswordEncoder passwordEncoder;
 
     private MockMvc mockMvc;
 
@@ -86,6 +91,7 @@ class AdminApiIntegrationTest {
         assertEquals(testContent, adminPhraseDetail.getContent());
         System.out.println("image url은 return하기만 합니다 imageurl=" + adminPhraseDetail.getImageUrl());
     }
+
     @Test
     @DisplayName("글귀 수정 로직을 테스트합니다.")
     void 글귀_수정() throws Exception {
@@ -124,7 +130,6 @@ class AdminApiIntegrationTest {
         System.out.println("createdAt은 return하기만 합니다 createdAt=" + createdAt);
     }
 
-
     @Test
     @DisplayName("존재하지 않는 글귀 수정 요청은 404 응답이 옵니다.")
     void 존재하지않는_글귀_수정요청() throws Exception {
@@ -139,7 +144,7 @@ class AdminApiIntegrationTest {
 
         String jsonRequest = toJsonString(testTitle, testContent, testFileName, testImageRatio);
 
-        //when&then
+        // when&then
         mockMvc.perform(
                         MockMvcRequestBuilders.patch("/api/admin/phrases/{id}", phraseId)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -153,7 +158,7 @@ class AdminApiIntegrationTest {
         // given
         long phraseId = 글귀_등록();
 
-        //when & then
+        // when & then
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/admin/phrases/{id}", phraseId))
                 .andExpect(status().isNoContent());
 
@@ -161,17 +166,157 @@ class AdminApiIntegrationTest {
     }
 
     @Test
-    @DisplayName("존재하지 않는 글귀 삭제 요청은 404 응답이 옵니다.")
+    @DisplayName("관리자 로그인 기능 테스트를 합니다.")
+    String 관리자_로그인() throws Exception {
+        // given
+        String name = "Admin1";
+        String userId = "AdminId";
+        String password = "test1234";
+        // role 은 default 값이 ADMIN
+        Admin admin = Admin.builder().name(name).userId(userId).password(password).build();
+        admin = adminRepository.save(admin);
+
+        // when & then
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode jsonNode = objectMapper.createObjectNode();
+        jsonNode.put("name", name);
+        jsonNode.put("userId", userId);
+        jsonNode.put("password", password);
+        String jsonRequest = objectMapper.writeValueAsString(jsonNode);
+
+        MvcResult result =
+                mockMvc.perform(
+                                MockMvcRequestBuilders.post("/api/admin/login")
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .content(jsonRequest))
+                        .andExpect(status().isUnauthorized())
+                        .andExpect(jsonPath("$.isSuccess").value("true"))
+                        .andReturn();
+        String responseBody = result.getResponse().getContentAsString();
+        JSONObject jsonObject = new JSONObject(responseBody);
+
+        String loginUserId = jsonObject.getJSONObject("result").getString("userId");
+        String accessToken = jsonObject.getJSONObject("result").getString("accessToken");
+        String refreshToken = jsonObject.getJSONObject("result").getString("refreshToken");
+
+        return accessToken;
+    }
+
+    //
+    //    @Test
+    //    @DisplayName("관리자 로그인 후 생성된 Access Token으로 /api/admin URL에 접근합니다.")
+    //    String 관리자_로그인_토큰() throws Exception {
+    //
+    //
+    //        String accessToken = 관리자_로그인();
+    //        HttpHeaders httpHeaders = new HttpHeaders();
+    //        httpHeaders.setBearerAuth(accessToken);
+    //
+    //        글귀_등록();
+    //
+    //        mockMvc.perform(
+    //                        MockMvcRequestBuilders.get("/api/admin/phrases/1")
+    //                                .headers(httpHeaders)
+    //                                .contentType(MediaType.APPLICATION_JSON)
+    //                .andExpect(status().isOk())
+    //                .andExpect(jsonPath("$.isSuccess").value("true"));
+    //    }
+    @Test
+    @DisplayName("관리자 로그인 시 비밀번호를 틀리면 401 에러가 나옵니다.")
+    void 관리자_로그인_비밀번호_오류() throws Exception {
+        // given
+        String name = "Admin1";
+        String userId = "AdminId";
+        String password = "test1234";
+        String WrongPassword = "wrong1234";
+        // role 은 default 값이 ADMIN
+        Admin admin = Admin.builder().name(name).userId(userId).password(password).build();
+        admin = adminRepository.save(admin);
+
+        // when & then
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode jsonNode = objectMapper.createObjectNode();
+        jsonNode.put("name", name);
+        jsonNode.put("userId", userId);
+        jsonNode.put("password", WrongPassword);
+        String jsonRequest = objectMapper.writeValueAsString(jsonNode);
+
+        MvcResult result =
+                mockMvc.perform(
+                                MockMvcRequestBuilders.post("/api/admin/login")
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .content(jsonRequest))
+                        .andExpect(status().isUnauthorized())
+                        .andExpect(jsonPath("$.isSuccess").value("false"))
+                        .andExpect(jsonPath("$.message").value("자격증명이 없습니다. 아이디 또는 비밀번호가 틀렸습니다."))
+                        .andExpect(jsonPath("$.code").value("ADMIN_401_1"))
+                        .andReturn();
+    }
+
+    @Test
+    @DisplayName("관리자 사용자 ID를 틀리면 ADMIN_404_1 에러가 나옵니다")
+    void 관리자_로그인_ID오류() throws Exception {
+
+        // given
+        String name = "Admin1";
+        String userId = "AdminId";
+        String password = "test1234";
+        String WrongUserId = "AdminId1";
+        // role 은 default 값이 ADMIN
+        Admin admin = Admin.builder().name(name).userId(userId).password(password).build();
+        admin = adminRepository.save(admin);
+
+        // when & then
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode jsonNode = objectMapper.createObjectNode();
+        jsonNode.put("name", name);
+        jsonNode.put("userId", WrongUserId);
+        jsonNode.put("password", password);
+        String jsonRequest = objectMapper.writeValueAsString(jsonNode);
+
+        MvcResult result =
+                mockMvc.perform(
+                                MockMvcRequestBuilders.post("/api/admin/login")
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .content(jsonRequest))
+                        .andExpect(status().isNotFound())
+                        .andExpect(jsonPath("$.isSuccess").value("false"))
+                        .andExpect(jsonPath("$.message").value("해당 관리자를 찾을 수 없습니다."))
+                        .andExpect(jsonPath("$.code").value("ADMIN_404_1"))
+                        .andReturn();
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 글귀 삭제 요청은 204 응답이 옵니다.")
     void 존재하지않는_글귀_삭제요청() throws Exception {
         // given
         long phraseId = 1234567890;
         assertFalse(phraseRepository.existsById(phraseId));
 
-        //when&then
+        // when&then
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/admin/phrases/{id}", phraseId))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNoContent());
     }
 
+    @Test
+    @DisplayName("관리자 글귀 목록 조회 기능 테스트입니다.")
+    void 관리자_글귀_목록_조회_테스트() throws Exception {
+        // given
+        for (int i = 0; i < 20; i++) {
+            글귀_등록();
+        }
+
+        // when & then
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/admin/phrases")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(System.out::println)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.phraseList").isArray())
+                .andExpect(jsonPath("$.isSuccess").value(true))
+                .andExpect(jsonPath("$.result.phraseList.length()").value(20))
+                .andReturn();
+    }
 
     @DisplayName("테스트용 글귀 등록 공통 로직")
     private long phraseCreation(

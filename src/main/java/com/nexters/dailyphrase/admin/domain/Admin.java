@@ -31,7 +31,7 @@ public class Admin implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    // @Builder.Default
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private final MemberRole role = MemberRole.ADMIN;
 
