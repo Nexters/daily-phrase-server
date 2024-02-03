@@ -2,6 +2,7 @@ package com.nexters.dailyphrase.phrase.implement;
 
 import org.springframework.stereotype.Service;
 
+import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phrase.domain.repository.PhraseRepository;
 import com.nexters.dailyphrase.phrase.exception.PhraseNotFoundException;
@@ -20,5 +21,9 @@ public class PhraseQueryService {
 
     public PhraseResponseDTO.PhraseList findPhraseListDTO(final int page, final int size) {
         return phraseRepository.findPhraseListDTO(page, size);
+    }
+
+    public AdminResponseDTO.AdminPhraseList findAdminPhraseListDTO() {
+        return phraseRepository.findAdminPhraseListDTO();
     }
 }

@@ -1,6 +1,8 @@
 package com.nexters.dailyphrase.admin.presentation.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.*;
 
@@ -60,6 +62,29 @@ public class AdminResponseDTO {
         private String title;
         private String imageUrl;
         private String content;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AdminPhraseListItem {
+        private Long phraseId;
+        private String title;
+        private String content;
+        private String filename;
+        private LocalDateTime createdAt;
+        private int viewCount;
+        private int likeCount;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AdminPhraseList {
+        @Builder.Default
+        private List<AdminResponseDTO.AdminPhraseListItem> phraseList = new ArrayList<>();
     }
 
     @Builder

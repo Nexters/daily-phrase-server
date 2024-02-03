@@ -17,4 +17,13 @@ public enum SocialType {
     String getSocialType() {
         return this.name().toLowerCase();
     }
+
+    public static SocialType findByValue(String value) {
+        for (SocialType type : values()) {
+            if (type.value.equals(value)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Invalid SocialType value: " + value);
+    }
 }

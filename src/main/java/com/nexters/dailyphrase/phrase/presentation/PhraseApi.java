@@ -1,5 +1,8 @@
 package com.nexters.dailyphrase.phrase.presentation;
 
+import jakarta.validation.constraints.Min;
+
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.nexters.dailyphrase.common.annotation.ApiErrorCodeExample;
@@ -14,6 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @Tag(name = "02-Phrase📄", description = "글귀 관련 API")
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/phrases")
@@ -24,8 +28,12 @@ public class PhraseApi {
     @ApiErrorCodeExample(value = {GlobalErrorCode.class})
     @GetMapping
     public CommonResponse<PhraseResponseDTO.PhraseList> getPhraseList(
-            @RequestParam(required = false, defaultValue = "1") final int page,
-            @RequestParam(required = false, defaultValue = "10") final int size) {
+            @RequestParam(required = false, defaultValue = "1")
+                    @Min(value = 1, message = "page는 1 이상이어야 합니다.")
+                    final int page,
+            @RequestParam(required = false, defaultValue = "10")
+                    @Min(value = 1, message = "size는 1 이상이어야 합니다.")
+                    final int size) {
         return CommonResponse.onSuccess(phraseFacade.getPhraseList(page, size));
     }
 
