@@ -53,7 +53,6 @@ public class AdminMapper {
                 .build();
     }
 
-
     public AdminResponseDTO.ModifyPhrase toModifyPhrase(Phrase updatedPhrase) {
         return AdminResponseDTO.ModifyPhrase.builder()
                 .id(updatedPhrase.getId())
@@ -65,9 +64,7 @@ public class AdminMapper {
                 .build();
     }
 
-
     public AdminResponseDTO.DeletePhrase toDeletePhrase() {
         return AdminResponseDTO.DeletePhrase.builder().deletedAt(LocalDateTime.now()).build();
     }
-
 }
