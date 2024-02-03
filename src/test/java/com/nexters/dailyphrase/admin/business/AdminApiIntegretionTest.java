@@ -125,7 +125,6 @@ class AdminApiIntegrationTest {
         System.out.println("createdAt은 return하기만 합니다 createdAt=" + createdAt);
     }
 
-
     @Test
     @DisplayName("존재하지 않는 글귀 수정 요청은 404 응답이 옵니다.")
     void 존재하지않는_글귀_수정요청() throws Exception {
@@ -193,7 +192,6 @@ class AdminApiIntegrationTest {
                         .andReturn();
 
     }
-
 
     @DisplayName("테스트용 글귀 등록 공통 로직")
     private long phraseCreation(
