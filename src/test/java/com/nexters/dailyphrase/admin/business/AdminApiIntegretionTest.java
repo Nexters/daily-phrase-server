@@ -161,7 +161,7 @@ class AdminApiIntegrationTest {
     }
 
     @Test
-    @DisplayName("존재하지 않는 글귀 삭제 요청은 404 응답이 옵니다.")
+    @DisplayName("존재하지 않는 글귀 삭제 요청은 204 응답이 옵니다.")
     void 존재하지않는_글귀_삭제요청() throws Exception {
         // given
         long phraseId = 1234567890;
@@ -169,7 +169,28 @@ class AdminApiIntegrationTest {
 
         // when&then
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/admin/phrases/{id}", phraseId))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("관리자 글귀 목록 조회 기능 테스트입니다.")
+    void 관리자_글귀_목록_조회_테스트() throws Exception {
+        // given
+        for (int i = 0; i < 20; i++) {
+            글귀_등록();
+        }
+
+        // when & then
+        mockMvc.perform(
+                                MockMvcRequestBuilders.get("/api/admin/phrases")
+                                        .contentType(MediaType.APPLICATION_JSON))
+                        .andDo(System.out::println)
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.result.phraseList").isArray())
+                        .andExpect(jsonPath("$.isSuccess").value(true))
+                        .andExpect(jsonPath("$.result.phraseList.length()").value(20))
+                        .andReturn();
+
     }
 
     @DisplayName("테스트용 글귀 등록 공통 로직")
