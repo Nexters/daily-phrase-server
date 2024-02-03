@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 import com.nexters.dailyphrase.like.domain.QLike;
 import com.nexters.dailyphrase.phrase.domain.QPhrase;
 import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
@@ -59,5 +60,34 @@ public class PhraseCustomRepositoryImpl implements PhraseCustomRepository {
                 .total(totalElemCount)
                 .phraseList(phraseListItems)
                 .build();
+    }
+
+    @Override
+    public AdminResponseDTO.AdminPhraseList findAdminPhraseListDTO() {
+        QPhrase qPhrase = QPhrase.phrase;
+        QPhraseImage qPhraseImage = QPhraseImage.phraseImage;
+        QLike qLike = QLike.like;
+
+        List<AdminResponseDTO.AdminPhraseListItem> adminPhraseListItems =
+                queryFactory
+                        .select(
+                                Projections.constructor(
+                                        AdminResponseDTO.AdminPhraseListItem.class,
+                                        qPhrase.id,
+                                        qPhrase.title,
+                                        qPhrase.content,
+                                        qPhraseImage.fileName.coalesce(""),
+                                        qPhrase.createdAt,
+                                        qPhrase.viewCount,
+                                        qLike.count().intValue()))
+                        .from(qPhrase)
+                        .leftJoin(qPhrase.phraseImage, qPhraseImage)
+                        .leftJoin(qLike)
+                        .on(qLike.phrase.eq(qPhrase))
+                        .groupBy(qPhrase.id)
+                        .orderBy(qPhrase.createdAt.desc())
+                        .fetch();
+
+        return AdminResponseDTO.AdminPhraseList.builder().phraseList(adminPhraseListItems).build();
     }
 }

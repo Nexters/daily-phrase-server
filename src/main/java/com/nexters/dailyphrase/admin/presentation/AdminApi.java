@@ -7,7 +7,6 @@ import com.nexters.dailyphrase.admin.business.AdminFacade;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminRequestDTO;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
-import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,8 +42,8 @@ public class AdminApi {
             summary = "05-02 Admin️👷🏻 관리자 글귀 목록 조회 Made By 채은",
             description = "관리자 글귀 목록 조회 API입니다.")
     @GetMapping("/phrases")
-    public CommonResponse<PhraseResponseDTO.PhraseList> getAdminPhraseList() {
-        return null;
+    public CommonResponse<AdminResponseDTO.AdminPhraseList> getAdminPhraseList() {
+        return CommonResponse.onSuccess(adminFacade.getAdminPhraseList());
     }
 
     @Operation(

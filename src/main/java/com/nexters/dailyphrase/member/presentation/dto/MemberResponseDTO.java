@@ -33,5 +33,6 @@ public class MemberResponseDTO {
         private Long memberId;
         private String name;
         private String email;
+        private String profileImgUrl;
     }
 }
