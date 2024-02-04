@@ -15,7 +15,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
 
-
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 

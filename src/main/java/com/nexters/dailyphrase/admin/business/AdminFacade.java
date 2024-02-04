@@ -20,7 +20,6 @@ import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
 import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
 import com.nexters.dailyphrase.phraseimage.implement.PhraseImageCommandService;
 
-
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -97,7 +96,6 @@ public class AdminFacade {
 
         return adminMapper.toModifyPhrase(updatedPhrase);
     }
-
 
     @Transactional(readOnly = true)
     public AdminResponseDTO.AdminPhraseList getAdminPhraseList() {

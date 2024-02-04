@@ -1,5 +1,7 @@
 package com.nexters.dailyphrase.favorite.implement;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.nexters.dailyphrase.favorite.domain.Favorite;
@@ -22,5 +24,9 @@ public class FavoriteQueryService {
 
     public FavoriteResponseDTO.FavoriteList findFavoriteListDTO(final Long memberId) {
         return favoriteRepository.findFavoriteListDTO(memberId);
+    }
+
+    public List<Favorite> findByMemberId(Long id) {
+        return favoriteRepository.findByMember_Id(id);
     }
 }

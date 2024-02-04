@@ -16,6 +16,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.nexters.dailyphrase.favorite.domain.Favorite;
+import com.nexters.dailyphrase.favorite.domain.repository.FavoriteRepository;
 import com.nexters.dailyphrase.like.domain.Like;
 import com.nexters.dailyphrase.like.domain.repository.LikeRepository;
 import com.nexters.dailyphrase.member.domain.Member;
@@ -34,6 +36,7 @@ class MemberApiIntegrationTest {
     @Autowired private MemberRepository memberRepository;
     @Autowired private PhraseRepository phraseRepository;
     @Autowired private LikeRepository likeRepository;
+    @Autowired private FavoriteRepository favoriteRepository;
 
     @BeforeEach
     public void setup() {
@@ -78,7 +81,9 @@ class MemberApiIntegrationTest {
         Phrase phrase = Phrase.builder().build();
         Long phraseId = phraseRepository.save(phrase).getId();
         Like like = Like.builder().member(member).phrase(phrase).build();
+        Favorite favorite = Favorite.builder().member(member).phrase(phrase).build();
         likeRepository.save(like);
+        favoriteRepository.save(favorite);
 
         // when & then
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/members/{id}", memberId.toString()))

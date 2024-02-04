@@ -106,7 +106,6 @@ public class JwtTokenService {
         throw InvalidTokenException.EXCEPTION;
     }
 
-
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
 

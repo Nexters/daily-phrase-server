@@ -19,11 +19,6 @@ public class QAdmin extends EntityPathBase<Admin> {
 
     public static final QAdmin admin = new QAdmin("admin");
 
-    public final com.nexters.dailyphrase.common.domain.QBaseDateTimeEntity _super = new com.nexters.dailyphrase.common.domain.QBaseDateTimeEntity(this);
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
-
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath name = createString("name");
@@ -31,9 +26,6 @@ public class QAdmin extends EntityPathBase<Admin> {
     public final StringPath password = createString("password");
 
     public final EnumPath<com.nexters.dailyphrase.common.enums.MemberRole> role = createEnum("role", com.nexters.dailyphrase.common.enums.MemberRole.class);
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public final StringPath userId = createString("userId");
 

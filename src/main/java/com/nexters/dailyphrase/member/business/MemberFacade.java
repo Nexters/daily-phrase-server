@@ -7,6 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nexters.dailyphrase.common.enums.SocialType;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
+import com.nexters.dailyphrase.favorite.domain.Favorite;
+import com.nexters.dailyphrase.favorite.implement.FavoriteCommandService;
+import com.nexters.dailyphrase.favorite.implement.FavoriteQueryService;
 import com.nexters.dailyphrase.like.domain.Like;
 import com.nexters.dailyphrase.like.implement.LikeCommandService;
 import com.nexters.dailyphrase.like.implement.LikeQueryService;
@@ -27,6 +30,8 @@ public class MemberFacade {
     private final MemberCommandService memberCommandService;
     private final LikeQueryService likeQueryService;
     private final LikeCommandService likeCommandService;
+    private final FavoriteQueryService favoriteQueryService;
+    private final FavoriteCommandService favoriteCommandService;
     private final SocialLoginServiceFactory socialLoginServiceFactory;
     private final JwtTokenService jwtTokenService;
     private final MemberMapper memberMapper;
@@ -49,6 +54,9 @@ public class MemberFacade {
         Member member = memberQueryService.findById(id);
         List<Long> likeIds = likeQueryService.findByMemberId(id).stream().map(Like::getId).toList();
         likeCommandService.deleteAllByIdInBatch(likeIds);
+        List<Long> favoriteIds =
+                favoriteQueryService.findByMemberId(id).stream().map(Favorite::getId).toList();
+        favoriteCommandService.deleteAllByIdInBatch(favoriteIds);
         memberCommandService.delete(member);
         return memberMapper.toQuitMember();
     }
