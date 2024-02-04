@@ -1,5 +1,7 @@
 package com.nexters.dailyphrase.favorite.implement;
 
+import java.util.List;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +26,9 @@ public class FavoriteCommandService {
 
     public void remove(Favorite favorite) {
         favoriteRepository.delete(favorite);
+    }
+
+    public void deleteAllByIdInBatch(List<Long> favoriteIds) {
+        favoriteRepository.deleteAllByIdInBatch(favoriteIds);
     }
 }
