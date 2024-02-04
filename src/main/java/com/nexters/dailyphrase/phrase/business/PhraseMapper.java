@@ -18,6 +18,7 @@ public class PhraseMapper {
                         .orElse(""); // 또는 기본값 사용
 
         return PhraseResponseDTO.PhraseDetail.builder()
+                .phraseId(phrase.getId())
                 .title(phrase.getTitle())
                 .imageUrl(imageUrl)
                 .content(phrase.getContent())

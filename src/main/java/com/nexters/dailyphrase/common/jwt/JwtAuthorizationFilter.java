@@ -26,8 +26,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             throws ServletException, IOException, java.io.IOException {
 
         String jwt = resolveToken(request);
-
-        if (StringUtils.hasText(jwt) && jwtTokenService.isAccessToken(jwt)) {
+        if (StringUtils.hasText(jwt)
+                && !jwt.equals(NULL_STRING)
+                && jwtTokenService.isAccessToken(jwt)) {
             Authentication authentication = jwtTokenService.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

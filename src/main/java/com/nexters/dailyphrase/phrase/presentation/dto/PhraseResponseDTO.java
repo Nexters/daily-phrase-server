@@ -13,6 +13,7 @@ public class PhraseResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class PhraseDetail {
+        private Long phraseId;
         private String title;
         private String imageUrl;
         private String content;
