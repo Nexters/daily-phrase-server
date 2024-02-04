@@ -24,7 +24,9 @@ public class SecurityConfig {
     //    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     //    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-    private final String[] allowedUrls = {"/", "/swagger-ui/**", "/api/v1/**", "/api/admin/login"};
+    private final String[] allowedUrls = {
+        "/", "/swagger-ui/**", "/api/v1/**", "/api/admin/login", "/api-docs/**"
+    };
 
     //    @Component
     //    public static class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
