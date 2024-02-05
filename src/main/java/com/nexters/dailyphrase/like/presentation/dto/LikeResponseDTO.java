@@ -21,6 +21,7 @@ public class LikeResponseDTO {
         @JsonProperty("isLike")
         private boolean like = true;
 
+        private int likeCount;
         private LocalDateTime likedAt;
     }
 
@@ -36,6 +37,7 @@ public class LikeResponseDTO {
         @JsonProperty("isLike")
         private boolean like = false;
 
+        private int likeCount;
         private LocalDateTime canceledAt;
     }
 }

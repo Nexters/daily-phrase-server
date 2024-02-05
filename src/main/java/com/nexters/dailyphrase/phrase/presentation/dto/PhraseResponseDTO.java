@@ -18,6 +18,7 @@ public class PhraseResponseDTO {
         private String imageUrl;
         private String content;
         private int viewCount;
+        private int likeCount;
     }
 
     @Builder
