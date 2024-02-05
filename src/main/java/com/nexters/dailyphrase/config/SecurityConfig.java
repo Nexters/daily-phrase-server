@@ -20,12 +20,18 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
     private final JwtTokenService jwtTokenService;
     //    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     //    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     private final String[] allowedUrls = {
-        "/", "/swagger-ui/**", "/api/v1/**", "/api/admin/login", "/api-docs/**"
+        "/",
+        "/swagger-ui/**",
+        "/api/v1/phrases/**",
+        "/api/v1/members/login/{socialType}",
+        "/api/admin/login",
+        "/api-docs/**"
     };
 
     //    @Component
@@ -73,6 +79,11 @@ public class SecurityConfig {
                                         .permitAll()
                                         .requestMatchers("/api/admin/**")
                                         .hasAuthority("ROLE_ADMIN")
+                                        .requestMatchers(
+                                                "/api/v1/members/**",
+                                                "/api/v1/likes/**",
+                                                "/api/v1/favorites/**")
+                                        .authenticated()
                                         .anyRequest()
                                         .authenticated())
                 .addFilterBefore(
