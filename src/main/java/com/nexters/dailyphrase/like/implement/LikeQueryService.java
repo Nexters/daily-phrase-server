@@ -24,4 +24,8 @@ public class LikeQueryService {
     public List<Like> findByMemberId(Long id) {
         return likeRepository.findByMember_Id(id);
     }
+
+    public int countByPhraseId(Long id) {
+        return likeRepository.countByPhrase_Id(id);
+    }
 }
