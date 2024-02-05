@@ -10,7 +10,7 @@ import lombok.*;
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 public class PhraseImage extends BaseDateTimeEntity {
     @Id
@@ -18,17 +18,24 @@ public class PhraseImage extends BaseDateTimeEntity {
     private Long id;
 
     @JoinColumn(nullable = false)
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Phrase phrase;
 
+    @Column(nullable = false)
     private String fileName;
 
-    private String uuid;
+    @Column(nullable = false, length = 1000)
+    private String url; // filePath
+
+    private Long fileSize;
 
     private String imageRatio;
 
-    @Column(length = 1000)
-    private String url;
+    public PhraseImage(String fileName, String url, Long fileSize) {
+        this.fileName = fileName;
+        this.url = url;
+        this.fileSize = fileSize;
+    }
 
     public void setPhrase(Phrase phrase) {
         if (this.phrase != null) {

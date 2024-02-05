@@ -1,7 +1,10 @@
 package com.nexters.dailyphrase.admin.presentation;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.nexters.dailyphrase.admin.business.AdminFacade;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminRequestDTO;
@@ -55,13 +58,16 @@ public class AdminApi {
         return CommonResponse.onSuccess(adminFacade.getAdminPhraseDetail(id));
     }
 
-    @Operation(summary = "05-05 Admin️👷🏻 관리자 글귀 등록 Made By 채은", description = "관리자 글귀 등록 API입니다.")
+    @Operation(summary = "05-05 Admin👷🏻 관리자 글귀 등록 Made By 채은", description = "관리자 글귀 등록 API입니다.")
     @PostMapping("/phrases")
     @ResponseStatus(HttpStatus.CREATED)
     public CommonResponse<AdminResponseDTO.AddPhrase> addPhrase(
-            @RequestBody final AdminRequestDTO.AddPhrase request) {
-        return CommonResponse.onSuccess(adminFacade.addPhrase(request));
+            @RequestPart(value = "images") List<MultipartFile> images,
+            @RequestPart(value = "request") final AdminRequestDTO.AddPhrase request)
+            throws Exception {
+        return CommonResponse.onSuccess(adminFacade.addPhrase(request, images));
     }
+
 
     @Operation(summary = "05-04 Admin️👷🏻 관리자 글귀 수정 Made By 채은", description = "관리자 글귀 수정 API입니다.")
     @PatchMapping("/phrases/{id}")

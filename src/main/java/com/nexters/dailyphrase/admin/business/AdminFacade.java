@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.admin.business;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.nexters.dailyphrase.admin.domain.Admin;
 import com.nexters.dailyphrase.admin.implement.AdminQueryService;
@@ -17,6 +19,7 @@ import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phrase.implement.PhraseCommandService;
 import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
+import com.nexters.dailyphrase.phraseimage.business.FileHandler;
 import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
 import com.nexters.dailyphrase.phraseimage.implement.PhraseImageCommandService;
 
@@ -32,6 +35,7 @@ public class AdminFacade {
     private final AdminMapper adminMapper;
     private final JwtTokenService jwtTokenService;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final FileHandler fileHandler;
 
     @Transactional
     public AdminResponseDTO.LoginAdmin loginAdmin(final AdminRequestDTO.LoginAdmin request) {
@@ -61,14 +65,30 @@ public class AdminFacade {
     }
 
     @Transactional
-    public AdminResponseDTO.AddPhrase addPhrase(final AdminRequestDTO.AddPhrase request) {
+    public AdminResponseDTO.AddPhrase addPhrase(
+            final AdminRequestDTO.AddPhrase request, List<MultipartFile> images) throws Exception {
 
         final Phrase phrase = adminMapper.toPhrase(request);
-        final PhraseImage phraseImage = adminMapper.toPhraseImage(request);
+        // final PhraseImage phraseImage = adminMapper.toPhraseImage(request);
+        final List<PhraseImage> imageList =
+                fileHandler.parseFileInfo(images); // 파일핸들러는 request 이미지 리스트를 반환한다
 
-        Phrase savedPhrase = phraseCommandService.create(phrase);
-        phraseImage.setPhrase(savedPhrase);
-        phraseImageCommandService.create(phraseImage);
+        // 파일이 존재할 때에만 처리
+        if (!imageList.isEmpty()) {
+            for (PhraseImage image : imageList) {
+
+                image.setPhrase(phrase); // 이미지에 phrase 설정
+                // 파일을 DB에 저장
+                phraseImageCommandService.create(image); // image를 이미지 레포지터리에 하나씩 저장
+            }
+        }
+
+        phrase.getPhraseImage().addAll(imageList); // phrase에 이미지 리스트를 모두 저장한다.
+
+        Phrase savedPhrase = phraseCommandService.create(phrase); // phrase를 db에저장한다.
+
+        // phrase.setPhraseImage(imageList)
+        // phraseImageCommandService.create(phraseImage);
 
         return adminMapper.toAddPhrase(savedPhrase);
     }
@@ -89,10 +109,10 @@ public class AdminFacade {
         Phrase updatedPhrase = phraseQueryService.findById(id);
         updatedPhrase.setTitle(requestedPhrase.getTitle());
         updatedPhrase.setContent(requestedPhrase.getContent());
-
-        PhraseImage updatedPhraseImage = updatedPhrase.getPhraseImage();
-        updatedPhraseImage.setImageRatio(requestedPhraseImage.getImageRatio());
-        updatedPhraseImage.setFileName(requestedPhraseImage.getFileName());
+        // 수정해야됨
+        //        PhraseImage updatedPhraseImage = updatedPhrase.getPhraseImage();
+        //        updatedPhraseImage.setImageRatio(requestedPhraseImage.getImageRatio());
+        //        updatedPhraseImage.setFileName(requestedPhraseImage.getFileName());
 
         return adminMapper.toModifyPhrase(updatedPhrase);
     }

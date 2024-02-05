@@ -1,7 +1,6 @@
 package com.nexters.dailyphrase.admin.business;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -18,12 +17,12 @@ public class AdminMapper {
         return Phrase.builder().title(request.getTitle()).content(request.getContent()).build();
     }
 
-    public PhraseImage toPhraseImage(AdminRequestDTO.AddPhrase request) {
-        return PhraseImage.builder()
-                .fileName(request.getFileName())
-                .imageRatio(request.getImageRatio())
-                .build();
-    }
+    //    public PhraseImage toPhraseImage(AdminRequestDTO.AddPhrase request) {
+    //        return PhraseImage.builder()
+    //                .fileName(request.getFileName())
+    //                .imageRatio(request.getImageRatio())
+    //                .build();
+    //    }
 
     public AdminResponseDTO.AddPhrase toAddPhrase(Phrase savedPhrase) {
         return AdminResponseDTO.AddPhrase.builder()
@@ -33,12 +32,12 @@ public class AdminMapper {
     }
 
     public AdminResponseDTO.AdminPhraseDetail toAdminPhraseDetail(Phrase phrase) {
-        String imageUrl =
-                Optional.ofNullable(phrase.getPhraseImage()).map(PhraseImage::getUrl).orElse("");
+        // String imageUrl =
+        //   Optional.ofNullable(phrase.getPhraseImage()).map(PhraseImage::getUrl).orElse("");
 
         return AdminResponseDTO.AdminPhraseDetail.builder()
                 .title(phrase.getTitle())
-                .imageUrl(imageUrl)
+                //   .imageUrl(imageUrl)
                 .content(phrase.getContent())
                 .build();
     }
@@ -60,7 +59,7 @@ public class AdminMapper {
                 .updatedAt(updatedPhrase.getUpdatedAt())
                 .createdAt(updatedPhrase.getCreatedAt())
                 .title(updatedPhrase.getTitle())
-                .imageUrl(updatedPhrase.getPhraseImage().getUrl())
+                //                .imageUrl(updatedPhrase.getPhraseImage().getUrl())
                 .content(updatedPhrase.getContent())
                 .build();
     }

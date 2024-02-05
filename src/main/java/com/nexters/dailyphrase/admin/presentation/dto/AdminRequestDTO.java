@@ -13,8 +13,7 @@ public class AdminRequestDTO {
 
         private String title;
         private String content;
-        private String fileName;
-        private String imageRatio;
+        // private String imageRatio;
     }
 
     @Builder
