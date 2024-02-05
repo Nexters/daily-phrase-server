@@ -13,18 +13,20 @@ public class AdminResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class LogoutAdmin {
-        private String field;
+    public static class LoginAdmin {
+        private String userId;
+        private String accessToken;
+        private String refreshToken;
     }
 
     @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class LoginAdmin {
-        private String userId;
-        private String accessToken;
-        private String refreshToken;
+    public static class ImageListItem {
+        private String fileName;
+        private String imageUrl;
+        private Long fileSize;
     }
 
     @Builder
@@ -45,9 +47,17 @@ public class AdminResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class UploadImageFiles {
+        @Builder.Default private List<ImageListItem> images = new ArrayList<>();
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class AdminPhraseDetail {
         private String title;
-        private String imageUrl;
+        private String imageUrl; // 수정필요
         private String content;
     }
 
@@ -60,7 +70,7 @@ public class AdminResponseDTO {
         private LocalDateTime updatedAt;
         private LocalDateTime createdAt;
         private String title;
-        private String imageUrl;
+        private String imageUrl; // 수정필요
         private String content;
     }
 
@@ -72,7 +82,7 @@ public class AdminResponseDTO {
         private Long phraseId;
         private String title;
         private String content;
-        private String filename;
+        private String filename; // 수정필요
         private LocalDateTime createdAt;
         private int viewCount;
         private int likeCount;

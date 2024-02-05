@@ -1,5 +1,8 @@
 package com.nexters.dailyphrase.admin.presentation.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -9,11 +12,22 @@ public class AdminRequestDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class ImageListItem {
+        private String imageUrl;
+        private String imageRatio;
+        private String fileName;
+        private Long fileSize;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class AddPhrase {
 
         private String title;
         private String content;
-        // private String imageRatio;
+        @Builder.Default private List<AdminRequestDTO.ImageListItem> images = new ArrayList<>();
     }
 
     @Builder
@@ -23,8 +37,9 @@ public class AdminRequestDTO {
     public static class ModifyPhrase {
         private String title;
         private String content;
-        private String fileName;
-        private String imageRatio;
+        @Builder.Default private List<AdminRequestDTO.ImageListItem> images = new ArrayList<>();
+        //        private String fileName;
+        //        private String imageRatio;
     }
 
     @Builder

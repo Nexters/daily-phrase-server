@@ -30,6 +30,7 @@ public class Phrase extends BaseDateTimeEntity {
             mappedBy = "phrase",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true)
+    @Builder.Default
     private List<PhraseImage> phraseImage = new ArrayList<>();
 
     public void setPhraseImage(PhraseImage phraseImage) {

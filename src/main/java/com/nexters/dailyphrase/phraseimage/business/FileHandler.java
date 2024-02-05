@@ -11,7 +11,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
+import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,9 +19,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FileHandler {
 
-    public List<PhraseImage> parseFileInfo(List<MultipartFile> multipartFiles) throws Exception {
+    public List<AdminResponseDTO.ImageListItem> parseFileInfo(List<MultipartFile> multipartFiles)
+            throws Exception {
         // 반환할 파일 리스트
-        List<PhraseImage> imageList = new ArrayList<>();
+        List<AdminResponseDTO.ImageListItem> images = new ArrayList<>();
 
         // 전달되어 온 파일이 존재할 경우
         if (!CollectionUtils.isEmpty(multipartFiles)) {
@@ -66,15 +67,15 @@ public class FileHandler {
                 // 파일명 중복 피하고자 나노초까지 얻어와 지정 (수정필요)
                 String new_file_name = System.nanoTime() + originalFileExtension;
 
-                // phraseImage 엔터티 생성(수정필요)
-                PhraseImage phraseImage =
-                        new PhraseImage(
+                // phraseImage 엔터티 생성(ratio를 추가해야하는가?!)
+                AdminResponseDTO.ImageListItem phraseImage =
+                        new AdminResponseDTO.ImageListItem(
                                 multipartFile.getOriginalFilename(),
                                 path + File.separator + new_file_name,
                                 multipartFile.getSize());
 
                 // 생성 후 리스트에 추가
-                imageList.add(phraseImage);
+                images.add(phraseImage);
 
                 // 업로드 한 파일 데이터를 지정한 파일에 저장
                 file = new File(absolutePath + path + File.separator + new_file_name);
@@ -86,6 +87,6 @@ public class FileHandler {
             }
         }
 
-        return imageList;
+        return images;
     }
 }

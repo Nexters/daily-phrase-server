@@ -65,30 +65,26 @@ public class AdminFacade {
     }
 
     @Transactional
-    public AdminResponseDTO.AddPhrase addPhrase(
-            final AdminRequestDTO.AddPhrase request, List<MultipartFile> images) throws Exception {
+    public AdminResponseDTO.UploadImageFiles uploadImageFiles(final List<MultipartFile> images)
+            throws Exception {
+
+        final List<AdminResponseDTO.ImageListItem> imageList = fileHandler.parseFileInfo(images);
+
+        return adminMapper.toUploadImageFiles(imageList);
+    }
+
+    @Transactional
+    public AdminResponseDTO.AddPhrase addPhrase(final AdminRequestDTO.AddPhrase request) {
 
         final Phrase phrase = adminMapper.toPhrase(request);
-        // final PhraseImage phraseImage = adminMapper.toPhraseImage(request);
-        final List<PhraseImage> imageList =
-                fileHandler.parseFileInfo(images); // 파일핸들러는 request 이미지 리스트를 반환한다
+        final List<PhraseImage> phraseImages = adminMapper.toPhraseImage(request);
 
-        // 파일이 존재할 때에만 처리
-        if (!imageList.isEmpty()) {
-            for (PhraseImage image : imageList) {
+        Phrase savedPhrase = phraseCommandService.create(phrase);
 
-                image.setPhrase(phrase); // 이미지에 phrase 설정
-                // 파일을 DB에 저장
-                phraseImageCommandService.create(image); // image를 이미지 레포지터리에 하나씩 저장
-            }
+        for (PhraseImage phraseImage : phraseImages) {
+            phraseImage.setPhrase(savedPhrase);
+            phraseImageCommandService.create(phraseImage);
         }
-
-        phrase.getPhraseImage().addAll(imageList); // phrase에 이미지 리스트를 모두 저장한다.
-
-        Phrase savedPhrase = phraseCommandService.create(phrase); // phrase를 db에저장한다.
-
-        // phrase.setPhraseImage(imageList)
-        // phraseImageCommandService.create(phraseImage);
 
         return adminMapper.toAddPhrase(savedPhrase);
     }
