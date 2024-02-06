@@ -16,9 +16,12 @@ public class PhraseResponseDTO {
         private Long phraseId;
         private String title;
         private String imageUrl;
+        private String imageRatio;
         private String content;
         private int viewCount;
         private int likeCount;
+        @Builder.Default private Boolean isLike = false;
+        @Builder.Default private Boolean isFavorite = false;
     }
 
     @Builder
@@ -33,6 +36,8 @@ public class PhraseResponseDTO {
         private String imageRatio;
         private int viewCount;
         private int likeCount;
+        @Builder.Default private Boolean isLike = false;
+        @Builder.Default private Boolean isFavorite = false;
     }
 
     @Builder
