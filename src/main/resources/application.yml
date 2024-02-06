@@ -96,4 +96,16 @@ spring:
     multipart:
       maxFileSize: 10MB
       maxRequestSize: 20MB
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    s3:
+      endpoint: https://kr.object.ncloudstorage.com
+      bucket: dailyphrase.bucket
+    credentials:
+      access-key: gAdZ5cLnJhvSonMfvoaw
+      secret-key: i3TRUwDzXkuyxEXMv8Cxd4y8XRihJjiqdZEX5qmh
+    stack:
+      auto: false
 

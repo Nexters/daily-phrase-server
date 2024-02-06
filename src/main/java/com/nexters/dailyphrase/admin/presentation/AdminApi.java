@@ -1,7 +1,5 @@
 package com.nexters.dailyphrase.admin.presentation;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,14 +58,25 @@ public class AdminApi {
         return CommonResponse.onSuccess(adminFacade.addPhrase(request));
     }
 
+    // 이미지 파일 다건일때(주석처리)
+    //    @Operation(
+    //            summary = "05-05 Admin👷🏻 관리자 이미지 파일 업로드 Made By 채은",
+    //            description = "관리자 이미지 파일 업로드 API입니다.")
+    //    @PostMapping("/phrases/upload")
+    //    @ResponseStatus(HttpStatus.CREATED)
+    //    public CommonResponse<AdminResponseDTO.UploadImageFiles> uploadImageFiles(
+    //            @RequestParam final List<MultipartFile> images) throws Exception {
+    //        return CommonResponse.onSuccess(adminFacade.uploadImageFiles(images));
+    //    }
+
     @Operation(
             summary = "05-05 Admin👷🏻 관리자 이미지 파일 업로드 Made By 채은",
             description = "관리자 이미지 파일 업로드 API입니다.")
     @PostMapping("/phrases/upload")
     @ResponseStatus(HttpStatus.CREATED)
-    public CommonResponse<AdminResponseDTO.UploadImageFiles> uploadImageFiles(
-            @RequestParam final List<MultipartFile> images) throws Exception {
-        return CommonResponse.onSuccess(adminFacade.uploadImageFiles(images));
+    public CommonResponse<AdminResponseDTO.UploadImageFile> uploadImageFile(
+            @RequestParam final MultipartFile image) throws Exception {
+        return CommonResponse.onSuccess(adminFacade.uploadImageFile(image));
     }
 
     @Operation(summary = "05-04 Admin️👷🏻 관리자 글귀 수정 Made By 채은", description = "관리자 글귀 수정 API입니다.")

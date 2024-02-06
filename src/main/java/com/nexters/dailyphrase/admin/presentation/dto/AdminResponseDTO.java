@@ -19,15 +19,16 @@ public class AdminResponseDTO {
         private String refreshToken;
     }
 
-    @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class ImageListItem {
-        private String fileName;
-        private String imageUrl;
-        private Long fileSize;
-    }
+    // 이미지 다건일때
+    //    @Builder
+    //    @Getter
+    //    @NoArgsConstructor
+    //    @AllArgsConstructor
+    //    public static class ImageListItem {
+    //        private String fileName;
+    //        private String imageUrl;
+    //        private Long fileSize;
+    //    }
 
     @Builder
     @Getter
@@ -43,12 +44,23 @@ public class AdminResponseDTO {
 
     }
 
+    // 이미지 다건일 떄
+    //    @Builder
+    //    @Getter
+    //    @NoArgsConstructor
+    //    @AllArgsConstructor
+    //    public static class UploadImageFiles {
+    //        @Builder.Default private List<ImageListItem> images = new ArrayList<>();
+    //    }
+
     @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class UploadImageFiles {
-        @Builder.Default private List<ImageListItem> images = new ArrayList<>();
+    public static class UploadImageFile {
+        private String fileName;
+        private String imageUrl;
+        private Long fileSize;
     }
 
     @Builder

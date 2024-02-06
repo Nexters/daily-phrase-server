@@ -1,8 +1,7 @@
 package com.nexters.dailyphrase.admin.business;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -19,27 +18,37 @@ public class AdminMapper {
         return Phrase.builder().title(request.getTitle()).content(request.getContent()).build();
     }
 
-    public List<PhraseImage> toPhraseImage(AdminRequestDTO.AddPhrase request) {
-        List<PhraseImage> phraseImages = new ArrayList<>();
+    // 이미지 다건일때
+    //    public List<PhraseImage> toPhraseImage(AdminRequestDTO.AddPhrase request) {
+    //        List<PhraseImage> phraseImages = new ArrayList<>();
+    //
+    //        for (AdminRequestDTO.ImageListItem imageItem : request.getImages()) {
+    //            String url = imageItem.getImageUrl();
+    //            String imageRatio = imageItem.getImageRatio();
+    //            String fileName = imageItem.getFileName();
+    //            Long fileSize = imageItem.getFileSize();
+    //
+    //            PhraseImage phraseImage =
+    //                    PhraseImage.builder()
+    //                            .url(url)
+    //                            .imageRatio(imageRatio)
+    //                            .fileName(fileName)
+    //                            .fileSize(fileSize)
+    //                            .build();
+    //
+    //            phraseImages.add(phraseImage);
+    //        }
+    //
+    //        return phraseImages;
+    //    }
 
-        for (AdminRequestDTO.ImageListItem imageItem : request.getImages()) {
-            String url = imageItem.getImageUrl();
-            String imageRatio = imageItem.getImageRatio();
-            String fileName = imageItem.getFileName();
-            Long fileSize = imageItem.getFileSize();
-
-            PhraseImage phraseImage =
-                    PhraseImage.builder()
-                            .url(url)
-                            .imageRatio(imageRatio)
-                            .fileName(fileName)
-                            .fileSize(fileSize)
-                            .build();
-
-            phraseImages.add(phraseImage);
-        }
-
-        return phraseImages;
+    public PhraseImage toPhraseImage(AdminRequestDTO.AddPhrase request) {
+        return PhraseImage.builder()
+                .url(request.getImageUrl())
+                .imageRatio(request.getImageRatio())
+                .fileName(request.getFileName())
+                .fileSize(request.getFileSize())
+                .build();
     }
 
     public AdminResponseDTO.AddPhrase toAddPhrase(Phrase savedPhrase) {
@@ -49,18 +58,28 @@ public class AdminMapper {
                 .build();
     }
 
-    public AdminResponseDTO.UploadImageFiles toUploadImageFiles(
-            List<AdminResponseDTO.ImageListItem> imageList) {
-        return AdminResponseDTO.UploadImageFiles.builder().images(imageList).build();
+    // 이미지 다건일때
+    //    public AdminResponseDTO.UploadImageFiles toUploadImageFiles(
+    //            List<AdminResponseDTO.ImageListItem> imageList) {
+    //        return AdminResponseDTO.UploadImageFiles.builder().images(imageList).build();
+    //    }
+
+    public AdminResponseDTO.UploadImageFile toUploadImageFile(
+            String url, Long fileSize, String fileName) {
+        return AdminResponseDTO.UploadImageFile.builder()
+                .imageUrl(url)
+                .fileName(fileName)
+                .fileSize(fileSize)
+                .build();
     }
 
     public AdminResponseDTO.AdminPhraseDetail toAdminPhraseDetail(Phrase phrase) {
-        // String imageUrl =
-        //   Optional.ofNullable(phrase.getPhraseImage()).map(PhraseImage::getUrl).orElse("");
+        String imageUrl =
+                Optional.ofNullable(phrase.getPhraseImage()).map(PhraseImage::getUrl).orElse("");
 
         return AdminResponseDTO.AdminPhraseDetail.builder()
                 .title(phrase.getTitle())
-                //   .imageUrl(imageUrl)
+                .imageUrl(imageUrl)
                 .content(phrase.getContent())
                 .build();
     }
@@ -71,8 +90,8 @@ public class AdminMapper {
 
     public PhraseImage toPhraseImage(AdminRequestDTO.ModifyPhrase request) {
         return PhraseImage.builder()
-                //                .fileName(request.getFileName())
-                //                .imageRatio(request.getImageRatio())
+                .fileName(request.getFileName())
+                .imageRatio(request.getImageRatio())
                 .build();
     }
 
@@ -82,7 +101,7 @@ public class AdminMapper {
                 .updatedAt(updatedPhrase.getUpdatedAt())
                 .createdAt(updatedPhrase.getCreatedAt())
                 .title(updatedPhrase.getTitle())
-                //                .imageUrl(updatedPhrase.getPhraseImage().getUrl())
+                .imageUrl(updatedPhrase.getPhraseImage().getUrl())
                 .content(updatedPhrase.getContent())
                 .build();
     }
