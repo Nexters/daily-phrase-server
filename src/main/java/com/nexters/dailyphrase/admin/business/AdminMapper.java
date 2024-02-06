@@ -92,6 +92,8 @@ public class AdminMapper {
         return PhraseImage.builder()
                 .fileName(request.getFileName())
                 .imageRatio(request.getImageRatio())
+                .fileSize(request.getFileSize())
+                .url(request.getImageUrl())
                 .build();
     }
 
