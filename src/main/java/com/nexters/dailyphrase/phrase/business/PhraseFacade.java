@@ -29,8 +29,8 @@ public class PhraseFacade {
         Phrase phrase = phraseQueryService.findById(id);
         int likeCount = likeQueryService.countByPhraseId(id);
         Long memberId = memberUtils.getCurrentMemberId();
-        boolean isLike = likeQueryService.existsByMemberId(memberId);
-        boolean isFavorite = favoriteQueryService.existsByMemberId(memberId);
+        boolean isLike = likeQueryService.existsByMemberIdAndPhraseId(memberId, id);
+        boolean isFavorite = favoriteQueryService.existsByMemberIdAndPhraseId(memberId, id);
         return phraseMapper.toPhraseDetail(phrase, likeCount, isLike, isFavorite);
     }
 

@@ -14,5 +14,5 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
     int countByPhrase_Id(Long id);
 
-    boolean existsByMember_Id(Long memberId);
+    boolean existsByMember_IdAndPhrase_Id(Long memberId, Long phraseId);
 }

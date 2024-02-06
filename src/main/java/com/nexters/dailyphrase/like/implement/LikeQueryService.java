@@ -29,7 +29,7 @@ public class LikeQueryService {
         return likeRepository.countByPhrase_Id(id);
     }
 
-    public boolean existsByMemberId(Long memberId) {
-        return likeRepository.existsByMember_Id(memberId);
+    public boolean existsByMemberIdAndPhraseId(Long memberId, Long phraseId) {
+        return likeRepository.existsByMember_IdAndPhrase_Id(memberId, phraseId);
     }
 }

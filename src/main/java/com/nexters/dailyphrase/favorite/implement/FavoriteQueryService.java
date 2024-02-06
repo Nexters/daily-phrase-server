@@ -30,7 +30,7 @@ public class FavoriteQueryService {
         return favoriteRepository.findByMember_Id(id);
     }
 
-    public boolean existsByMemberId(Long memberId) {
-        return favoriteRepository.existsByMember_Id(memberId);
+    public boolean existsByMemberIdAndPhraseId(Long memberId, Long phraseId) {
+        return favoriteRepository.existsByMember_IdAndPhrase_Id(memberId, phraseId);
     }
 }

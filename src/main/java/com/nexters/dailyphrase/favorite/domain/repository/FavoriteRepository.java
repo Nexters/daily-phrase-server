@@ -13,5 +13,5 @@ public interface FavoriteRepository
 
     List<Favorite> findByMember_Id(Long id);
 
-    boolean existsByMember_Id(Long memberId);
+    boolean existsByMember_IdAndPhrase_Id(Long memberId, Long phraseId);
 }
