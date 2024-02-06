@@ -67,14 +67,14 @@ public class SecurityConfig {
                 // .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 //
                 // .accessDeniedHandler(jwtAccessDeniedHandler))
-                //                .authorizeHttpRequests(
-                //                        auth ->
-                //                                auth.requestMatchers(allowedUrls)
-                //                                        .permitAll()
-                //                                        .requestMatchers("/api/admin/**")
-                //                                        .hasAuthority("ROLE_ADMIN")
-                //                                        .anyRequest()
-                //                                        .authenticated())
+                                .authorizeHttpRequests(
+                                        auth ->
+                                                auth.requestMatchers(allowedUrls)
+                                                        .permitAll()
+                                                        .requestMatchers("/api/admin/**")
+                                                        .hasAuthority("ROLE_ADMIN")
+                                                        .anyRequest()
+                                                        .authenticated())
                 .addFilterBefore(
                         new JwtAuthorizationFilter(jwtTokenService),
                         UsernamePasswordAuthenticationFilter.class)
