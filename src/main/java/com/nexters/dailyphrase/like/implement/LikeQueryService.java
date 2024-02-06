@@ -28,4 +28,8 @@ public class LikeQueryService {
     public int countByPhraseId(Long id) {
         return likeRepository.countByPhrase_Id(id);
     }
+
+    public boolean existsByMemberId(Long memberId) {
+        return likeRepository.existsByMember_Id(memberId);
+    }
 }

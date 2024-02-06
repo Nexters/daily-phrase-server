@@ -11,7 +11,8 @@ import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
 @Component
 public class PhraseMapper {
 
-    public PhraseResponseDTO.PhraseDetail toPhraseDetail(Phrase phrase, int likeCount) {
+    public PhraseResponseDTO.PhraseDetail toPhraseDetail(
+            Phrase phrase, int likeCount, boolean isLike, boolean isFavorite) {
         String imageUrl =
                 Optional.ofNullable(phrase.getPhraseImage())
                         .map(PhraseImage::getUrl)
@@ -24,6 +25,8 @@ public class PhraseMapper {
                 .content(phrase.getContent())
                 .viewCount(phrase.getViewCount())
                 .likeCount(likeCount)
+                .isLike(isLike)
+                .isFavorite(isFavorite)
                 .build();
     }
 }

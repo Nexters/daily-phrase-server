@@ -11,7 +11,7 @@ public class SecurityUtils {
 
     public static Long getCurrentMemberId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) return 0L;
+        if (authentication == null || authentication.getName().equals("anonymousUser")) return 0L;
         return Long.valueOf(authentication.getName());
     }
 }

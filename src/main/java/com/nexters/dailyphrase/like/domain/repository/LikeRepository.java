@@ -13,4 +13,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     List<Like> findByMember_Id(Long memberId);
 
     int countByPhrase_Id(Long id);
+
+    boolean existsByMember_Id(Long memberId);
 }

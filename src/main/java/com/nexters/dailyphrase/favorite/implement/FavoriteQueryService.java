@@ -29,4 +29,8 @@ public class FavoriteQueryService {
     public List<Favorite> findByMemberId(Long id) {
         return favoriteRepository.findByMember_Id(id);
     }
+
+    public boolean existsByMemberId(Long memberId) {
+        return favoriteRepository.existsByMember_Id(memberId);
+    }
 }
