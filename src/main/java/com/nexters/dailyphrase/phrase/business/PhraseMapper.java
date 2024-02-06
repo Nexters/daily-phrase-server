@@ -22,6 +22,7 @@ public class PhraseMapper {
                 .phraseId(phrase.getId())
                 .title(phrase.getTitle())
                 .imageUrl(imageUrl)
+                .imageRatio(phrase.getPhraseImage().getImageRatio())
                 .content(phrase.getContent())
                 .viewCount(phrase.getViewCount())
                 .likeCount(likeCount)
