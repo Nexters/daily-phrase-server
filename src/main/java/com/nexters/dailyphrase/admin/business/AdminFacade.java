@@ -25,7 +25,6 @@ import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phrase.implement.PhraseCommandService;
 import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
-import com.nexters.dailyphrase.phraseimage.business.FileHandler;
 import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
 import com.nexters.dailyphrase.phraseimage.implement.PhraseImageCommandService;
 

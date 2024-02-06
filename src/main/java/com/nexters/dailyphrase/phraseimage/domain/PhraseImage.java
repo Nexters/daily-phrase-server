@@ -10,7 +10,7 @@ import lombok.*;
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class PhraseImage extends BaseDateTimeEntity {
     @Id
