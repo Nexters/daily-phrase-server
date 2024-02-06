@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.phrase.presentation;
 
+import com.nexters.dailyphrase.phrase.exception.PhraseErrorCode;
 import jakarta.validation.constraints.Min;
 
 import org.springframework.validation.annotation.Validated;
@@ -36,12 +37,11 @@ public class PhraseApi {
         return CommonResponse.onSuccess(phraseFacade.getPhraseList(page, size));
     }
 
-    //    @Operation(summary = "02-02 Phrase📄 글귀 상세 조회 Made By 성훈", description = "글귀 상세 조회
-    // API입니다.")
-    //    @ApiErrorCodeExample(value = {PhraseErrorCode.class, GlobalErrorCode.class})
-    //    @GetMapping("/{id}")
-    //    public CommonResponse<PhraseResponseDTO.PhraseDetail> getPhraseDetail(
-    //            @PathVariable final Long id) {
-    //        return CommonResponse.onSuccess(phraseFacade.getPhraseDetail(id));
-    //    }
+    @Operation(summary = "02-02 Phrase📄 글귀 상세 조회 Made By 성훈", description = "글귀 상세 조회 API입니다.")
+        @ApiErrorCodeExample(value = {PhraseErrorCode.class, GlobalErrorCode.class})
+        @GetMapping("/{id}")
+        public CommonResponse<PhraseResponseDTO.PhraseDetail> getPhraseDetail(
+                @PathVariable final Long id) {
+            return CommonResponse.onSuccess(phraseFacade.getPhraseDetail(id));
+        }
 }
