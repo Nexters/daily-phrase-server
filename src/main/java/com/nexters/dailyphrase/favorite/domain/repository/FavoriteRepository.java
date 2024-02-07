@@ -12,4 +12,6 @@ public interface FavoriteRepository
     Optional<Favorite> findByMember_IdAndPhrase_Id(Long memberId, Long phraseId);
 
     List<Favorite> findByMember_Id(Long id);
+
+    boolean existsByMember_IdAndPhrase_Id(Long memberId, Long phraseId);
 }

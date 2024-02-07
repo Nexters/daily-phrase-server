@@ -30,13 +30,15 @@ public class LikeFacade {
         Member member = memberQueryService.findById(request.getMemberId());
         Like like = likeMapper.toLike(phrase, member);
         Like savedLike = likeCommandService.add(like);
-        return likeMapper.toAddLike(savedLike);
+        int likeCount = likeQueryService.countByPhraseId(phrase.getId());
+        return likeMapper.toAddLike(savedLike, likeCount);
     }
 
     @Transactional
     public LikeResponseDTO.RemoveLike removeLike(Long memberId, Long phraseId) {
         Like like = likeQueryService.findByMemberIdAndPhraseId(memberId, phraseId);
         likeCommandService.remove(like);
-        return likeMapper.toRemoveLike(memberId, phraseId);
+        int likeCount = likeQueryService.countByPhraseId(phraseId);
+        return likeMapper.toRemoveLike(memberId, phraseId, likeCount);
     }
 }
