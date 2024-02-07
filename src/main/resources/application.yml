@@ -104,8 +104,8 @@ cloud:
       endpoint: https://kr.object.ncloudstorage.com
       bucket: dailyphrase.bucket
     credentials:
-      access-key: gAdZ5cLnJhvSonMfvoaw
-      secret-key: i3TRUwDzXkuyxEXMv8Cxd4y8XRihJjiqdZEX5qmh
+      access-key: ${ACCESS_KEY}
+      secret-key: ${SECRET_KEY}
     stack:
       auto: false
 
