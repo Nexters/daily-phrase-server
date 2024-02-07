@@ -1,8 +1,5 @@
 package com.nexters.dailyphrase.phrase.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.*;
 
 import com.nexters.dailyphrase.common.domain.BaseDateTimeEntity;
@@ -26,21 +23,29 @@ public class Phrase extends BaseDateTimeEntity {
 
     @Builder.Default private int viewCount = 0;
 
-    @OneToMany(
-            mappedBy = "phrase",
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-            orphanRemoval = true)
-    @Builder.Default
-    private List<PhraseImage> phraseImage = new ArrayList<>();
+    @OneToOne(mappedBy = "phrase", cascade = CascadeType.REMOVE)
+    private PhraseImage phraseImage;
 
     public void setPhraseImage(PhraseImage phraseImage) {
-        this.phraseImage.add(phraseImage);
-
-        // 게시글에 파일이 저장되어있지 않은 경우
-        if (phraseImage.getPhrase() != this)
-            // 파일 저장
-            phraseImage.setPhrase(this);
+        this.phraseImage = phraseImage;
     }
+
+    // PhraseImage가 다건인 경우 아래와 같이 설정 (주석처리)
+
+    //    @OneToMany(
+    //            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+    //            orphanRemoval = true)
+    //    @Builder.Default
+    //    private List<PhraseImage> phraseImage = new ArrayList<>();
+    //
+    //    public void setPhraseImage(PhraseImage phraseImage) {
+    //        this.phraseImage.add(phraseImage);
+    //
+    //        // 게시글에 파일이 저장되어있지 않은 경우
+    //        if (phraseImage.getPhrase() != this)
+    //            // 파일 저장
+    //            phraseImage.setPhrase(this);
+    //    }
 
     public void setTitle(String title) {
         this.title = title;

@@ -8,12 +8,6 @@ import com.nexters.dailyphrase.phrase.domain.Phrase;
 import lombok.*;
 
 @Entity
-//@Table(
-//        uniqueConstraints = {
-//            @UniqueConstraint(
-//                    name = "constraintName",
-//                    columnNames = {"id", "phrase_id"})
-//        })
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,8 +17,9 @@ public class PhraseImage extends BaseDateTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "phrase_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = true)
+    // 이미지 다건이면 @ManyToOne(fetch=FetchType.LAZY)로 설정
     private Phrase phrase;
 
     @Column(nullable = false)
@@ -35,14 +30,7 @@ public class PhraseImage extends BaseDateTimeEntity {
 
     private Long fileSize;
 
-    private String imageRatio; // addPhrase할때 저장됨
-
-    //    public PhraseImage(String fileName, String url, Long fileSize) {
-    //        this.fileName = fileName;
-    //        this.url = url;
-    //        this.fileSize = fileSize;
-    //        // this.imageRatio=imageRatio;
-    //    }
+    private String imageRatio;
 
     public void setPhrase(Phrase phrase) {
         if (this.phrase != null) {
