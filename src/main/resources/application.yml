@@ -4,7 +4,7 @@ server:
     context-path: /
 spring:
   profiles:
-    active: local
+    active: dev
 auth:
   jwt:
     secret-key: ${JWT_SECRET_KEY:testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey}

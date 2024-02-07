@@ -29,6 +29,8 @@ public class QPhraseImage extends EntityPathBase<PhraseImage> {
 
     public final StringPath fileName = createString("fileName");
 
+    public final NumberPath<Long> fileSize = createNumber("fileSize", Long.class);
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath imageRatio = createString("imageRatio");
@@ -39,8 +41,6 @@ public class QPhraseImage extends EntityPathBase<PhraseImage> {
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public final StringPath url = createString("url");
-
-    public final StringPath uuid = createString("uuid");
 
     public QPhraseImage(String variable) {
         this(PhraseImage.class, forVariable(variable), INITS);
