@@ -17,18 +17,20 @@ public class PhraseImage extends BaseDateTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(nullable = false)
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = true)
+    // 이미지 다건이면 @ManyToOne(fetch=FetchType.LAZY)로 설정
     private Phrase phrase;
 
+    @Column(nullable = false)
     private String fileName;
 
-    private String uuid;
+    @Column(nullable = false, length = 1000)
+    private String url; // filePath
+
+    private Long fileSize;
 
     private String imageRatio;
-
-    @Column(length = 1000)
-    private String url;
 
     public void setPhrase(Phrase phrase) {
         if (this.phrase != null) {

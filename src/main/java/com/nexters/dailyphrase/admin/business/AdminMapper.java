@@ -18,10 +18,36 @@ public class AdminMapper {
         return Phrase.builder().title(request.getTitle()).content(request.getContent()).build();
     }
 
+    // 이미지 다건일때
+    //    public List<PhraseImage> toPhraseImage(AdminRequestDTO.AddPhrase request) {
+    //        List<PhraseImage> phraseImages = new ArrayList<>();
+    //
+    //        for (AdminRequestDTO.ImageListItem imageItem : request.getImages()) {
+    //            String url = imageItem.getImageUrl();
+    //            String imageRatio = imageItem.getImageRatio();
+    //            String fileName = imageItem.getFileName();
+    //            Long fileSize = imageItem.getFileSize();
+    //
+    //            PhraseImage phraseImage =
+    //                    PhraseImage.builder()
+    //                            .url(url)
+    //                            .imageRatio(imageRatio)
+    //                            .fileName(fileName)
+    //                            .fileSize(fileSize)
+    //                            .build();
+    //
+    //            phraseImages.add(phraseImage);
+    //        }
+    //
+    //        return phraseImages;
+    //    }
+
     public PhraseImage toPhraseImage(AdminRequestDTO.AddPhrase request) {
         return PhraseImage.builder()
-                .fileName(request.getFileName())
+                .url(request.getImageUrl())
                 .imageRatio(request.getImageRatio())
+                .fileName(request.getFileName())
+                .fileSize(request.getFileSize())
                 .build();
     }
 
@@ -29,6 +55,21 @@ public class AdminMapper {
         return AdminResponseDTO.AddPhrase.builder()
                 .id(savedPhrase.getId())
                 .createdAt(savedPhrase.getCreatedAt())
+                .build();
+    }
+
+    // 이미지 다건일때
+    //    public AdminResponseDTO.UploadImageFiles toUploadImageFiles(
+    //            List<AdminResponseDTO.ImageListItem> imageList) {
+    //        return AdminResponseDTO.UploadImageFiles.builder().images(imageList).build();
+    //    }
+
+    public AdminResponseDTO.UploadImageFile toUploadImageFile(
+            String url, Long fileSize, String fileName) {
+        return AdminResponseDTO.UploadImageFile.builder()
+                .imageUrl(url)
+                .fileName(fileName)
+                .fileSize(fileSize)
                 .build();
     }
 
@@ -51,6 +92,8 @@ public class AdminMapper {
         return PhraseImage.builder()
                 .fileName(request.getFileName())
                 .imageRatio(request.getImageRatio())
+                .fileSize(request.getFileSize())
+                .url(request.getImageUrl())
                 .build();
     }
 

@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.phrase.presentation;
 
+import com.nexters.dailyphrase.phrase.exception.PhraseErrorCode;
 import jakarta.validation.constraints.Min;
 
 import org.springframework.validation.annotation.Validated;
@@ -9,7 +10,6 @@ import com.nexters.dailyphrase.common.annotation.ApiErrorCodeExample;
 import com.nexters.dailyphrase.common.exception.GlobalErrorCode;
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
 import com.nexters.dailyphrase.phrase.business.PhraseFacade;
-import com.nexters.dailyphrase.phrase.exception.PhraseErrorCode;
 import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,10 +38,10 @@ public class PhraseApi {
     }
 
     @Operation(summary = "02-02 Phrase📄 글귀 상세 조회 Made By 성훈", description = "글귀 상세 조회 API입니다.")
-    @ApiErrorCodeExample(value = {PhraseErrorCode.class, GlobalErrorCode.class})
-    @GetMapping("/{id}")
-    public CommonResponse<PhraseResponseDTO.PhraseDetail> getPhraseDetail(
-            @PathVariable final Long id) {
-        return CommonResponse.onSuccess(phraseFacade.getPhraseDetail(id));
-    }
+        @ApiErrorCodeExample(value = {PhraseErrorCode.class, GlobalErrorCode.class})
+        @GetMapping("/{id}")
+        public CommonResponse<PhraseResponseDTO.PhraseDetail> getPhraseDetail(
+                @PathVariable final Long id) {
+            return CommonResponse.onSuccess(phraseFacade.getPhraseDetail(id));
+        }
 }

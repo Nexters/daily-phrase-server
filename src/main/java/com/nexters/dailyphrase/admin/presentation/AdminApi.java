@@ -2,6 +2,7 @@ package com.nexters.dailyphrase.admin.presentation;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.nexters.dailyphrase.admin.business.AdminFacade;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminRequestDTO;
@@ -32,12 +33,6 @@ public class AdminApi {
     @PostMapping("/reissue")
     public void reissueToken() {}
 
-    @Operation(summary = "05-06 Admin️👷🏻 관리자 로그아웃 Made By 채은", description = "관리자 로그아웃 API입니다.")
-    @PostMapping("/logout")
-    public CommonResponse<AdminResponseDTO.LogoutAdmin> logoutAdmin() {
-        return null;
-    }
-
     @Operation(
             summary = "05-02 Admin️👷🏻 관리자 글귀 목록 조회 Made By 채은",
             description = "관리자 글귀 목록 조회 API입니다.")
@@ -55,12 +50,33 @@ public class AdminApi {
         return CommonResponse.onSuccess(adminFacade.getAdminPhraseDetail(id));
     }
 
-    @Operation(summary = "05-05 Admin️👷🏻 관리자 글귀 등록 Made By 채은", description = "관리자 글귀 등록 API입니다.")
+    @Operation(summary = "05-05 Admin👷🏻 관리자 글귀 등록 Made By 채은", description = "관리자 글귀 등록 API입니다.")
     @PostMapping("/phrases")
     @ResponseStatus(HttpStatus.CREATED)
     public CommonResponse<AdminResponseDTO.AddPhrase> addPhrase(
-            @RequestBody final AdminRequestDTO.AddPhrase request) {
+            @RequestBody final AdminRequestDTO.AddPhrase request) throws Exception {
         return CommonResponse.onSuccess(adminFacade.addPhrase(request));
+    }
+
+    // 이미지 파일 다건일때(주석처리)
+    //    @Operation(
+    //            summary = "05-05 Admin👷🏻 관리자 이미지 파일 업로드 Made By 채은",
+    //            description = "관리자 이미지 파일 업로드 API입니다.")
+    //    @PostMapping("/phrases/upload")
+    //    @ResponseStatus(HttpStatus.CREATED)
+    //    public CommonResponse<AdminResponseDTO.UploadImageFiles> uploadImageFiles(
+    //            @RequestParam final List<MultipartFile> images) throws Exception {
+    //        return CommonResponse.onSuccess(adminFacade.uploadImageFiles(images));
+    //    }
+
+    @Operation(
+            summary = "05-05 Admin👷🏻 관리자 이미지 파일 업로드 Made By 채은",
+            description = "관리자 이미지 파일 업로드 API입니다.")
+    @PostMapping("/phrases/upload")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CommonResponse<AdminResponseDTO.UploadImageFile> uploadImageFile(
+            @RequestParam final MultipartFile image) throws Exception {
+        return CommonResponse.onSuccess(adminFacade.uploadImageFile(image));
     }
 
     @Operation(summary = "05-04 Admin️👷🏻 관리자 글귀 수정 Made By 채은", description = "관리자 글귀 수정 API입니다.")

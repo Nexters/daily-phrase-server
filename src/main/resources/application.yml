@@ -90,4 +90,21 @@ spring:
 #        format_sql: true
 #        use_sql_comments: true
         default_batch_fetch_size: 1000
-
+---
+spring:
+  servlet:
+    multipart:
+      maxFileSize: 10MB
+      maxRequestSize: 20MB
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    s3:
+      endpoint: https://kr.object.ncloudstorage.com
+      bucket: dailyphrase.bucket
+    credentials:
+      access-key: ${ACCESS_KEY}
+      secret-key: ${SECRET_KEY}
+    stack:
+      auto: false
