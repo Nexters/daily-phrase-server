@@ -38,6 +38,8 @@ public class FavoriteResponseDTO {
         private String imageRatio;
         private int viewCount;
         private int likeCount;
+        @Builder.Default private Boolean isLike = false;
+        @Builder.Default private Boolean isFavorite = false;
     }
 
     @Builder
