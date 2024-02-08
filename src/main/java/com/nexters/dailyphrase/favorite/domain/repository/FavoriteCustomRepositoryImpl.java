@@ -38,7 +38,24 @@ public class FavoriteCustomRepositoryImpl implements FavoriteCustomRepository {
                                         qPhraseImage.url.coalesce(""),
                                         qPhraseImage.imageRatio.coalesce(""),
                                         qPhrase.viewCount,
-                                        qLike.count().intValue()))
+                                        qLike.count().intValue(),
+                                        JPAExpressions.selectOne()
+                                                .from(qLike)
+                                                .where(
+                                                        qLike.phrase
+                                                                .eq(qPhrase)
+                                                                .and(qLike.member.id.eq(memberId)))
+                                                .exists(),
+                                        JPAExpressions.selectOne()
+                                                .from(qFavorite)
+                                                .where(
+                                                        qFavorite
+                                                                .phrase
+                                                                .eq(qPhrase)
+                                                                .and(
+                                                                        qFavorite.member.id.eq(
+                                                                                memberId)))
+                                                .exists()))
                         .from(qPhrase)
                         .leftJoin(qPhrase.phraseImage, qPhraseImage)
                         .leftJoin(qLike)
