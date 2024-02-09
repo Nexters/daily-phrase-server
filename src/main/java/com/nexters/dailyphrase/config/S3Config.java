@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
@@ -31,8 +30,9 @@ public class S3Config {
         return (AmazonS3Client)
                 AmazonS3ClientBuilder.standard()
                         .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
-                        .withEndpointConfiguration(
-                                new AwsClientBuilder.EndpointConfiguration(endPoint, region))
+                        .withRegion(region)
+                        // .withEndpointConfiguration(new
+                        // AwsClientBuilder.EndpointConfiguration(endPoint, region))
                         .build();
     }
 }
