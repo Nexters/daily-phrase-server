@@ -41,7 +41,7 @@ class PhraseFacadeIntegrationTest {
         Long phraseId = phrase.getId();
 
         PhraseImage phraseImage =
-                PhraseImage.builder().url(imageUrl).fileName(fileName).uuid(uuid).build();
+                PhraseImage.builder().url(imageUrl).fileName(fileName).build();
         phraseImage.setPhrase(phrase);
         phraseImageRepository.save(phraseImage);
 
