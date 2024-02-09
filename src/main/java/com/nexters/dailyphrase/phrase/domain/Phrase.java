@@ -18,7 +18,7 @@ public class Phrase extends BaseDateTimeEntity {
     private Long id;
 
     private String title;
-    @Column(nullable = false, length = 10000)
+    @Column(length = 10000)
     private String content;
 
     @Builder.Default private int viewCount = 0;
