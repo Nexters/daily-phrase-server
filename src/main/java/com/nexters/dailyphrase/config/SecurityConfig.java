@@ -22,9 +22,12 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nexters.dailyphrase.admin.exception.AdminErrorCode;
 import com.nexters.dailyphrase.common.jwt.JwtAuthorizationFilter;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
+import com.nexters.dailyphrase.common.presentation.ErrorResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -60,12 +63,13 @@ public class SecurityConfig {
 
             AdminErrorCode unauthorizedError = AdminErrorCode.ADMIN_UNAUTHORIZED_EXCEPTION;
 
-            String ErrorResponse =
-                    String.format(
-                            "{\"isSuccess\":\"false\", \"code\":\"%s\", \"message\":\"%s\", \"status\":%d}",
-                            unauthorizedError.getCode(),
-                            unauthorizedError.getReason(),
-                            HttpServletResponse.SC_UNAUTHORIZED);
+            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectNode ErrorNode = objectMapper.createObjectNode();
+            ErrorNode.put("isSuccess", "false");
+            ErrorNode.put("code", unauthorizedError.getCode());
+            ErrorNode.put("message", unauthorizedError.getReason());
+            ErrorNode.put("status", HttpServletResponse.SC_UNAUTHORIZED);
+            String ErrorResponse = objectMapper.writeValueAsString(ErrorNode);
 
             response.getWriter().write(ErrorResponse);
         }
@@ -84,12 +88,13 @@ public class SecurityConfig {
 
             AdminErrorCode forbiddenError = AdminErrorCode.ADMIN_FORBIDDEN_EXCEPTION;
 
-            String ErrorResponse =
-                    String.format(
-                            "{\"isSuccess\":\"false\", \"code\":\"%s\", \"message\":\"%s\", \"status\":%d}",
-                            forbiddenError.getCode(),
-                            forbiddenError.getReason(),
-                            HttpServletResponse.SC_FORBIDDEN);
+            ObjectMapper objectMapper = new ObjectMapper();
+            ObjectNode ErrorNode = objectMapper.createObjectNode();
+            ErrorNode.put("isSuccess", "false");
+            ErrorNode.put("code", forbiddenError.getCode());
+            ErrorNode.put("message", forbiddenError.getReason());
+            ErrorNode.put("status", HttpServletResponse.SC_FORBIDDEN);
+            String ErrorResponse = objectMapper.writeValueAsString(ErrorNode);
 
             response.getWriter().write(ErrorResponse);
         }
