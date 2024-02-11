@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.phrase.presentation.dto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class PhraseResponseDTO {
         private int likeCount;
         @Builder.Default private Boolean isLike = false;
         @Builder.Default private Boolean isFavorite = false;
+        private LocalDateTime createdAt;
     }
 
     @Builder
@@ -38,6 +40,7 @@ public class PhraseResponseDTO {
         private int likeCount;
         @Builder.Default private Boolean isLike = false;
         @Builder.Default private Boolean isFavorite = false;
+        private LocalDateTime createdAt;
     }
 
     @Builder
