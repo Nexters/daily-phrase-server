@@ -28,6 +28,7 @@ public class PhraseMapper {
                 .likeCount(likeCount)
                 .isLike(isLike)
                 .isFavorite(isFavorite)
+                .createdAt(phrase.getCreatedAt())
                 .build();
     }
 }
