@@ -66,7 +66,8 @@ public class PhraseCustomRepositoryImpl implements PhraseCustomRepository {
                                                                 .and(
                                                                         qFavorite.member.id.eq(
                                                                                 memberId)))
-                                                .exists()))
+                                                .exists(),
+                                        qPhrase.createdAt))
                         .from(qPhrase)
                         .leftJoin(qPhrase.phraseImage, qPhraseImage)
                         .leftJoin(qLike)
