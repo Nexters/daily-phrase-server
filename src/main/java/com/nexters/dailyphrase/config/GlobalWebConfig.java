@@ -21,10 +21,10 @@ public class GlobalWebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")
+                .allowedOrigins("http://localhost:3020","https://daily-phrase-web-web-kappa.vercel.app","http://www.daily-phrase.com","http://admin.daily-phrase.com")
                 .allowedMethods("*")
                 .allowedHeaders("*")
-                .allowCredentials(false)
+                .allowCredentials(true)
                 .maxAge(6000);
     }
 }
