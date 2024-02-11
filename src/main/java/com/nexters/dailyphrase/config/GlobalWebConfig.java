@@ -23,6 +23,7 @@ public class GlobalWebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins(
                         "http://localhost:3020",
+                        "http://localhost:8080",
                         "https://daily-phrase-web-web-kappa.vercel.app",
                         "http://www.daily-phrase.com",
                         "http://admin.daily-phrase.com")
