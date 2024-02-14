@@ -39,6 +39,7 @@ public class MemberApi {
             summary = "01-03 Member\uD83D\uDC64 소셜 로그인 Made By 성훈",
             description = "KAKAO 소셜로그인 API입니다.")
     @ApiErrorCodeExample(value = {FeignErrorCode.class, GlobalErrorCode.class})
+    @CrossOrigin(allowCredentials = "false", allowedHeaders = "*", origins = "*", maxAge = 6000, methods = RequestMethod.POST)
     @PostMapping("/login/{socialType}")
     public CommonResponse<MemberResponseDTO.LoginMember> login(
             @PathVariable final SocialType socialType,

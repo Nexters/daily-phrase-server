@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/admin")
 public class AdminApi {
     private final AdminFacade adminFacade;
-
+    @CrossOrigin(allowCredentials = "false", allowedHeaders = "*", origins = "*", maxAge = 6000, methods = RequestMethod.POST)
     @Operation(summary = "05-07 Admin👷🏻 관리자 로그인 Made By 채은", description = "관리자 로그인 API입니다.")
     @PostMapping("/login")
     public CommonResponse<AdminResponseDTO.LoginAdmin> loginAdmin(
@@ -28,7 +28,7 @@ public class AdminApi {
     }
 
     @Operation(
-            summary = "05-07 Admin👷🏻 관리자 로그인 토큰 재발행 Made By 채은",
+            summary = "05-08 Admin👷🏻 관리자 로그인 토큰 재발행 Made By 채은",
             description = "관리자 로그인 토큰 재발행 API입니다.")
     @PostMapping("/reissue")
     public void reissueToken() {}
