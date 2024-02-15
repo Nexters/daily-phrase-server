@@ -32,4 +32,13 @@ public class GlobalWebConfig implements WebMvcConfigurer {
                 .allowCredentials(true)
                 .maxAge(6000);
     }
+
+    public void addPhraseCorsMappings(final CorsRegistry registry) {
+        registry.addMapping("/phrase/**")
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .allowCredentials(false)
+                .maxAge(6000);
+    }
 }
