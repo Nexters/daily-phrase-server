@@ -88,7 +88,6 @@ public class AdminApi {
 
     @Operation(summary = "05-01 Admin️👷🏻 관리자 글귀 삭제 Made By 채은", description = "관리자 글귀 삭제 API입니다.")
     @DeleteMapping("/phrases/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public CommonResponse<AdminResponseDTO.DeletePhrase> deletePhrase(@PathVariable final Long id) {
         return CommonResponse.onSuccess(adminFacade.deletePhrase(id));
     }
