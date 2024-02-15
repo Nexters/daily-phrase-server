@@ -44,7 +44,7 @@ public class AdminMapper {
 
     public PhraseImage toPhraseImage(AdminRequestDTO.AddPhrase request) {
         return PhraseImage.builder()
-                .url(request.getImageUrl())
+                .url(request.getUrl())
                 .imageRatio(request.getImageRatio())
                 .fileName(request.getFileName())
                 .fileSize(request.getFileSize())
@@ -67,7 +67,7 @@ public class AdminMapper {
     public AdminResponseDTO.UploadImageFile toUploadImageFile(
             String url, Long fileSize, String fileName) {
         return AdminResponseDTO.UploadImageFile.builder()
-                .imageUrl(url)
+                .url(url)
                 .fileName(fileName)
                 .fileSize(fileSize)
                 .build();
@@ -79,7 +79,7 @@ public class AdminMapper {
 
         return AdminResponseDTO.AdminPhraseDetail.builder()
                 .title(phrase.getTitle())
-                .imageUrl(imageUrl)
+                .url(imageUrl)
                 .content(phrase.getContent())
                 .build();
     }
@@ -93,7 +93,7 @@ public class AdminMapper {
                 .fileName(request.getFileName())
                 .imageRatio(request.getImageRatio())
                 .fileSize(request.getFileSize())
-                .url(request.getImageUrl())
+                .url(request.getUrl())
                 .build();
     }
 
@@ -103,7 +103,7 @@ public class AdminMapper {
                 .updatedAt(updatedPhrase.getUpdatedAt())
                 .createdAt(updatedPhrase.getCreatedAt())
                 .title(updatedPhrase.getTitle())
-                .imageUrl(updatedPhrase.getPhraseImage().getUrl())
+                .url(updatedPhrase.getPhraseImage().getUrl())
                 .content(updatedPhrase.getContent())
                 .build();
     }
