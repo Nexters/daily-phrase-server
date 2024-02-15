@@ -175,8 +175,6 @@ public class AdminFacade {
     @Transactional
     public AdminResponseDTO.DeletePhrase deletePhrase(final Long id) {
 
-        phraseQueryService.findById(id); // PhraseId Notfound 예외처리용
-
         favoriteCommandService.deleteByPhraseId(id);
         likeCommandService.deleteByPhraseId(id);
         phraseImageCommandService.deleteByPhraseId(id);
