@@ -25,7 +25,6 @@ public class PhraseApi {
     private final PhraseFacade phraseFacade;
 
     @Operation(summary = "02-01 Phrase📄 글귀 목록 조회 Made By 성훈", description = "글귀 목록 조회 API입니다.")
-    @CrossOrigin(allowCredentials = "false", allowedHeaders = "*", origins = "*", maxAge = 6000, methods = RequestMethod.GET)
     @ApiErrorCodeExample(value = {GlobalErrorCode.class})
     @GetMapping
     public CommonResponse<PhraseResponseDTO.PhraseList> getPhraseList(
@@ -39,7 +38,6 @@ public class PhraseApi {
     }
 
     @Operation(summary = "02-02 Phrase📄 글귀 상세 조회 Made By 성훈", description = "글귀 상세 조회 API입니다.")
-    @CrossOrigin(allowCredentials = "false", allowedHeaders = "*", origins = "*", maxAge = 6000, methods = RequestMethod.GET)
     @ApiErrorCodeExample(value = {PhraseErrorCode.class, GlobalErrorCode.class})
     @GetMapping("/{id}")
     public CommonResponse<PhraseResponseDTO.PhraseDetail> getPhraseDetail(
