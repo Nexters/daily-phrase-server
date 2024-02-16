@@ -55,7 +55,7 @@ public class AdminResponseDTO {
     @AllArgsConstructor
     public static class UploadImageFile {
         private String fileName;
-        private String url;
+        private String imageUrl;
         private Long fileSize;
     }
 
@@ -65,7 +65,7 @@ public class AdminResponseDTO {
     @AllArgsConstructor
     public static class AdminPhraseDetail {
         private String title;
-        private String url;
+        private String imageUrl;
         private String content;
     }
 
@@ -78,7 +78,7 @@ public class AdminResponseDTO {
         private LocalDateTime updatedAt;
         private LocalDateTime createdAt;
         private String title;
-        private String url;
+        private String imageUrl;
         private String content;
     }
 
@@ -91,7 +91,8 @@ public class AdminResponseDTO {
         private String title;
         private String content;
         private String filename;
-        private String url;
+        private String imageUrl;
+        private String imageRatio;
         private LocalDateTime createdAt;
         private int viewCount;
         private int likeCount;

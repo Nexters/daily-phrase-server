@@ -37,7 +37,7 @@ public class AdminRequestDTO {
 
         private String title;
         private String content;
-        private String url;
+        private String imageUrl;
         private String imageRatio;
         private String fileName;
         private Long fileSize;
@@ -52,7 +52,7 @@ public class AdminRequestDTO {
         private String content;
         //        @Builder.Default private List<AdminRequestDTO.ImageListItem> images = new
         // ArrayList<>(); //이미지 다건일때
-        private String url;
+        private String imageUrl;
         private String imageRatio;
         private String fileName;
         private Long fileSize;
