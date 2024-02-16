@@ -28,6 +28,10 @@ public class LikeCommandService {
         likeRepository.delete(like);
     }
 
+    public void deleteByPhraseId(final Long id) {
+        likeRepository.deleteByPhraseId(id);
+    }
+
     public void deleteAllByIdInBatch(List<Long> likeIds) {
         likeRepository.deleteAllByIdInBatch(likeIds);
     }

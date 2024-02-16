@@ -112,6 +112,7 @@ public class AdminResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class DeletePhrase {
+        private Long phraseId;
         private LocalDateTime deletedAt;
     }
 }
