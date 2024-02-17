@@ -44,7 +44,7 @@ public class AdminMapper {
 
     public PhraseImage toPhraseImage(AdminRequestDTO.AddPhrase request) {
         return PhraseImage.builder()
-                .url(request.getUrl())
+                .url(request.getImageUrl())
                 .imageRatio(request.getImageRatio())
                 .fileName(request.getFileName())
                 .fileSize(request.getFileSize())
@@ -67,7 +67,7 @@ public class AdminMapper {
     public AdminResponseDTO.UploadImageFile toUploadImageFile(
             String url, Long fileSize, String fileName) {
         return AdminResponseDTO.UploadImageFile.builder()
-                .url(url)
+                .imageUrl(url)
                 .fileName(fileName)
                 .fileSize(fileSize)
                 .build();
@@ -79,7 +79,7 @@ public class AdminMapper {
 
         return AdminResponseDTO.AdminPhraseDetail.builder()
                 .title(phrase.getTitle())
-                .url(imageUrl)
+                .imageUrl(imageUrl)
                 .content(phrase.getContent())
                 .build();
     }
@@ -93,7 +93,7 @@ public class AdminMapper {
                 .fileName(request.getFileName())
                 .imageRatio(request.getImageRatio())
                 .fileSize(request.getFileSize())
-                .url(request.getUrl())
+                .url(request.getImageUrl())
                 .build();
     }
 
@@ -103,13 +103,16 @@ public class AdminMapper {
                 .updatedAt(updatedPhrase.getUpdatedAt())
                 .createdAt(updatedPhrase.getCreatedAt())
                 .title(updatedPhrase.getTitle())
-                .url(updatedPhrase.getPhraseImage().getUrl())
+                .imageUrl(updatedPhrase.getPhraseImage().getUrl())
                 .content(updatedPhrase.getContent())
                 .build();
     }
 
-    public AdminResponseDTO.DeletePhrase toDeletePhrase() {
-        return AdminResponseDTO.DeletePhrase.builder().deletedAt(LocalDateTime.now()).build();
+    public AdminResponseDTO.DeletePhrase toDeletePhrase(Long id) {
+        return AdminResponseDTO.DeletePhrase.builder()
+                .phraseId(id)
+                .deletedAt(LocalDateTime.now())
+                .build();
     }
 
     public AdminResponseDTO.LoginAdmin toLogin(

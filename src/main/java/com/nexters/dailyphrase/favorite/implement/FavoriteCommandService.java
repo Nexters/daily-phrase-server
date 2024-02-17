@@ -28,6 +28,10 @@ public class FavoriteCommandService {
         favoriteRepository.delete(favorite);
     }
 
+    public void deleteByPhraseId(final Long id) {
+        favoriteRepository.deleteByPhraseId(id);
+    }
+
     public void deleteAllByIdInBatch(List<Long> favoriteIds) {
         favoriteRepository.deleteAllByIdInBatch(favoriteIds);
     }
