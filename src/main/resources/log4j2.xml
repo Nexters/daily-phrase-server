@@ -13,7 +13,10 @@
             <AppenderRef ref="ConsoleLog" />
             <AppenderRef ref="FileLog" />
         </Root>
-        <Logger name="com.nexters.dailyphrase.admin" level="debug">
+        <Logger name="com.nexters.dailyphrase.admin.presentation" level="DEBUG">
+            <AppenderRef ref="ConsoleLog" />
+        </Logger>
+        <Logger name="org.springframework" level="debug">
             <AppenderRef ref="ConsoleLog" />
         </Logger>
     </Loggers>
