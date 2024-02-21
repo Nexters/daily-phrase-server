@@ -86,7 +86,7 @@ public class AdminFacade {
     //    }
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
-    @Value("https://kr.object.ncloudstorage.com")
+    @Value("${cloud.aws.s3.endpoint}")
     private String endpoint;
 
     @Transactional
