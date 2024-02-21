@@ -26,7 +26,7 @@ public class AdminResponseDTO {
     //    @AllArgsConstructor
     //    public static class ImageListItem {
     //        private String fileName;
-    //        private String imageUrl;
+    //        private String url;
     //        private Long fileSize;
     //    }
 
@@ -38,10 +38,6 @@ public class AdminResponseDTO {
 
         private Long id;
         private LocalDateTime createdAt;
-        //        private String imageRatio; 목록 조회할때 나오면 될듯
-        //        private String imageUrl;
-        //        private String uuid;
-
     }
 
     // 이미지 다건일 떄
@@ -69,7 +65,7 @@ public class AdminResponseDTO {
     @AllArgsConstructor
     public static class AdminPhraseDetail {
         private String title;
-        private String imageUrl; // 수정필요
+        private String imageUrl;
         private String content;
     }
 
@@ -82,7 +78,7 @@ public class AdminResponseDTO {
         private LocalDateTime updatedAt;
         private LocalDateTime createdAt;
         private String title;
-        private String imageUrl; // 수정필요
+        private String imageUrl;
         private String content;
     }
 
@@ -94,7 +90,9 @@ public class AdminResponseDTO {
         private Long phraseId;
         private String title;
         private String content;
-        private String filename; // 수정필요
+        private String filename;
+        private String imageUrl;
+        private String imageRatio;
         private LocalDateTime createdAt;
         private int viewCount;
         private int likeCount;
@@ -114,6 +112,7 @@ public class AdminResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class DeletePhrase {
+        private Long phraseId;
         private LocalDateTime deletedAt;
     }
 }

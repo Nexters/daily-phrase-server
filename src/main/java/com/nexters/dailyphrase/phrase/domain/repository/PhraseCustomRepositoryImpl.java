@@ -102,6 +102,8 @@ public class PhraseCustomRepositoryImpl implements PhraseCustomRepository {
                                         qPhrase.title,
                                         qPhrase.content,
                                         qPhraseImage.fileName.coalesce(""),
+                                        qPhraseImage.url.coalesce(""),
+                                        qPhraseImage.imageRatio.coalesce(""),
                                         qPhrase.createdAt,
                                         qPhrase.viewCount,
                                         qLike.count().intValue()))

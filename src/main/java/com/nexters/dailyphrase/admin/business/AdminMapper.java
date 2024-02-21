@@ -108,8 +108,11 @@ public class AdminMapper {
                 .build();
     }
 
-    public AdminResponseDTO.DeletePhrase toDeletePhrase() {
-        return AdminResponseDTO.DeletePhrase.builder().deletedAt(LocalDateTime.now()).build();
+    public AdminResponseDTO.DeletePhrase toDeletePhrase(Long id) {
+        return AdminResponseDTO.DeletePhrase.builder()
+                .phraseId(id)
+                .deletedAt(LocalDateTime.now())
+                .build();
     }
 
     public AdminResponseDTO.LoginAdmin toLogin(
