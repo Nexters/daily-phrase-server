@@ -86,6 +86,8 @@ public class AdminFacade {
     //    }
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
+    @Value("https://kr.object.ncloudstorage.com")
+    private String endpoint;
 
     @Transactional
     public AdminResponseDTO.UploadImageFile uploadImageFile(final MultipartFile image)
@@ -108,7 +110,7 @@ public class AdminFacade {
                             .withCannedAcl(CannedAccessControlList.PublicRead));
         }
 
-        String storeFileUrl = amazonS3Client.getUrl(bucket, key).toString();
+        String storeFileUrl = endpoint+"/"+ bucket + "/" + key;
 
         return adminMapper.toUploadImageFile(storeFileUrl, image.getSize(), originalFilename);
     }
