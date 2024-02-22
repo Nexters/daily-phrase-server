@@ -163,6 +163,8 @@ public class AdminFacade {
         PhraseImage updatedPhraseImage = updatedPhrase.getPhraseImage();
         updatedPhraseImage.setImageRatio(requestedPhraseImage.getImageRatio());
         updatedPhraseImage.setFileName(requestedPhraseImage.getFileName());
+        updatedPhraseImage.setImageUrl(requestedPhraseImage.getUrl());
+        updatedPhraseImage.setFileSize(requestedPhraseImage.getFileSize());
 
         return adminMapper.toModifyPhrase(updatedPhrase);
     }

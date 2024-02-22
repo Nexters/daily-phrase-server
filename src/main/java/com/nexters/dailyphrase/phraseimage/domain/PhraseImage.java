@@ -51,4 +51,12 @@ public class PhraseImage extends BaseDateTimeEntity {
     public void setImageRatio(String imageRatio) {
         this.imageRatio = imageRatio;
     }
+
+    public void setImageUrl(String imageUrl) {
+        this.url = imageUrl;
+    }
+
+    public void setFileSize(long filesize) {
+        this.fileSize = filesize;
+    }
 }
