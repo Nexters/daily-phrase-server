@@ -13,6 +13,10 @@ public interface PhraseRepository extends JpaRepository<Phrase, Long>, PhraseCus
     @Query("select p from Phrase p left join fetch p.phraseImage where p.id = :phraseId")
     Optional<Phrase> findById(Long phraseId);
 
+    @Query(
+            "select p from Phrase p left join fetch p.phraseImage where p.id = :phraseId and p.isReserved = false")
+    Optional<Phrase> findPublishPhraseById(Long phraseId);
+
     @Modifying
     @Query("update Phrase p set p.viewCount = p.viewCount + 1 where p.id = :phraseId")
     void updateViewCountById(Long phraseId);

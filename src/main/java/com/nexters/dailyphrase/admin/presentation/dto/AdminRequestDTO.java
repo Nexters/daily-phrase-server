@@ -1,5 +1,8 @@
 package com.nexters.dailyphrase.admin.presentation.dto;
 
+import java.time.LocalDate;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -41,6 +44,12 @@ public class AdminRequestDTO {
         private String imageRatio;
         private String fileName;
         private Long fileSize;
+
+        @Schema(example = "false")
+        @Builder.Default
+        private Boolean isReserved = Boolean.FALSE;
+
+        private LocalDate publishDate;
     }
 
     @Builder
@@ -56,6 +65,8 @@ public class AdminRequestDTO {
         private String imageRatio;
         private String fileName;
         private Long fileSize;
+        private Boolean isReserved;
+        private LocalDate publishDate;
     }
 
     @Builder

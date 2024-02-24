@@ -162,6 +162,8 @@ public class AdminFacade {
         Phrase updatedPhrase = phraseQueryService.findById(id);
         updatedPhrase.setTitle(requestedPhrase.getTitle());
         updatedPhrase.setContent(requestedPhrase.getContent());
+        updatedPhrase.setIsReserved(requestedPhrase.isReserved());
+        updatedPhrase.setPublishDate(requestedPhrase.getPublishDate());
 
         PhraseImage updatedPhraseImage = updatedPhrase.getPhraseImage();
         updatedPhraseImage.setImageRatio(requestedPhraseImage.getImageRatio());

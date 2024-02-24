@@ -31,7 +31,7 @@ public class Phrase extends BaseDateTimeEntity {
 
     @Builder.Default private boolean isReserved = false;
 
-    private LocalDate reservedAt;
+    private LocalDate publishDate;
 
     public void setPhraseImage(PhraseImage phraseImage) {
         this.phraseImage = phraseImage;
@@ -60,5 +60,13 @@ public class Phrase extends BaseDateTimeEntity {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public void setIsReserved(boolean isReserved) {
+        this.isReserved = isReserved;
+    }
+
+    public void setPublishDate(LocalDate publishDate) {
+        this.publishDate = publishDate;
     }
 }

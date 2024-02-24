@@ -35,7 +35,7 @@ public class QPhrase extends EntityPathBase<Phrase> {
 
     public final com.nexters.dailyphrase.phraseimage.domain.QPhraseImage phraseImage;
 
-    public final DatePath<java.time.LocalDate> reservedAt = createDate("reservedAt", java.time.LocalDate.class);
+    public final DatePath<java.time.LocalDate> publishDate = createDate("publishDate", java.time.LocalDate.class);
 
     public final StringPath title = createString("title");
 
