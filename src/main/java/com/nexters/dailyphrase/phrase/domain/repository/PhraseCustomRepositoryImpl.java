@@ -107,7 +107,9 @@ public class PhraseCustomRepositoryImpl implements PhraseCustomRepository {
                                         qPhraseImage.imageRatio.coalesce(""),
                                         qPhrase.createdAt,
                                         qPhrase.viewCount,
-                                        qLike.count().intValue()))
+                                        qLike.count().intValue(),
+                                        qPhrase.isReserved,
+                                        qPhrase.publishDate))
                         .from(qPhrase)
                         .leftJoin(qPhrase.phraseImage, qPhraseImage)
                         .leftJoin(qLike)

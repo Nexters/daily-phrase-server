@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.admin.presentation.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +97,8 @@ public class AdminResponseDTO {
         private LocalDateTime createdAt;
         private int viewCount;
         private int likeCount;
+        private Boolean isReserved;
+        private LocalDate publishDate;
     }
 
     @Builder
