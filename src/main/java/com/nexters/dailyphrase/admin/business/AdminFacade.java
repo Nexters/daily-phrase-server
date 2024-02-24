@@ -86,6 +86,7 @@ public class AdminFacade {
     //    }
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
+
     @Value("${cloud.aws.s3.endpoint}")
     private String endpoint;
 
@@ -110,7 +111,7 @@ public class AdminFacade {
                             .withCannedAcl(CannedAccessControlList.PublicRead));
         }
 
-        String storeFileUrl = endpoint+"/"+ bucket + "/" + key;
+        String storeFileUrl = endpoint + "/" + bucket + "/" + key;
 
         return adminMapper.toUploadImageFile(storeFileUrl, image.getSize(), originalFilename);
     }

@@ -19,7 +19,13 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/admin")
 public class AdminApi {
     private final AdminFacade adminFacade;
-    @CrossOrigin(allowCredentials = "false", allowedHeaders = "*", origins = "*", maxAge = 6000, methods = RequestMethod.POST)
+
+    @CrossOrigin(
+            allowCredentials = "false",
+            allowedHeaders = "*",
+            origins = "*",
+            maxAge = 6000,
+            methods = RequestMethod.POST)
     @Operation(summary = "05-07 Admin👷🏻 관리자 로그인 Made By 채은", description = "관리자 로그인 API입니다.")
     @PostMapping("/login")
     public CommonResponse<AdminResponseDTO.LoginAdmin> loginAdmin(
@@ -64,7 +70,7 @@ public class AdminApi {
     //            description = "관리자 이미지 파일 업로드 API입니다.")
     //    @PostMapping("/phrases/upload")
     //    @ResponseStatus(HttpStatus.CREATED)
-    //    public CommonResponse<AdminResponseDTO.UploadImageFiles> uploadImageFiles(
+    //    public CommonResponse<AdminResponseDTO.UploadImageFiles> uploadImageFiles(a
     //            @RequestParam final List<MultipartFile> images) throws Exception {
     //        return CommonResponse.onSuccess(adminFacade.uploadImageFiles(images));
     //    }

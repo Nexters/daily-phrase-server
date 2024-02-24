@@ -1,5 +1,7 @@
 package com.nexters.dailyphrase.phrase.domain;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 
 import com.nexters.dailyphrase.common.domain.BaseDateTimeEntity;
@@ -26,6 +28,10 @@ public class Phrase extends BaseDateTimeEntity {
 
     @OneToOne(mappedBy = "phrase", cascade = CascadeType.REMOVE)
     private PhraseImage phraseImage;
+
+    @Builder.Default private boolean isReserved = false;
+
+    private LocalDate reservedAt;
 
     public void setPhraseImage(PhraseImage phraseImage) {
         this.phraseImage = phraseImage;
