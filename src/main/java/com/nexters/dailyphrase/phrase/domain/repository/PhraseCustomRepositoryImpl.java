@@ -72,6 +72,7 @@ public class PhraseCustomRepositoryImpl implements PhraseCustomRepository {
                         .leftJoin(qPhrase.phraseImage, qPhraseImage)
                         .leftJoin(qLike)
                         .on(qLike.phrase.eq(qPhrase))
+                        .where(qPhrase.isReserved.eq(false))
                         .groupBy(qPhrase.id)
                         .orderBy(qPhrase.createdAt.desc())
                         .offset(offset)
