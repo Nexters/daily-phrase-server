@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.phrase.domain.repository;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,9 @@ public interface PhraseRepository extends JpaRepository<Phrase, Long>, PhraseCus
     @Modifying
     @Query("update Phrase p set p.viewCount = p.viewCount + 1 where p.id = :phraseId")
     void updateViewCountById(Long phraseId);
+
+    @Modifying
+    @Query(
+            "update Phrase p set p.isReserved = false where p.isReserved = true and p.publishDate = :publishDate")
+    void updateByIsPublishDate(LocalDate publishDate);
 }
