@@ -19,6 +19,12 @@ public class PhraseQueryService {
         return phraseRepository.findById(id).orElseThrow(() -> PhraseNotFoundException.EXCEPTION);
     }
 
+    public Phrase findPublishPhraseById(final Long id) {
+        return phraseRepository
+                .findPublishPhraseById(id)
+                .orElseThrow(() -> PhraseNotFoundException.EXCEPTION);
+    }
+
     public PhraseResponseDTO.PhraseList findPhraseListDTO(final int page, final int size) {
         return phraseRepository.findPhraseListDTO(page, size);
     }

@@ -72,6 +72,7 @@ public class PhraseCustomRepositoryImpl implements PhraseCustomRepository {
                         .leftJoin(qPhrase.phraseImage, qPhraseImage)
                         .leftJoin(qLike)
                         .on(qLike.phrase.eq(qPhrase))
+                        .where(qPhrase.isReserved.eq(false))
                         .groupBy(qPhrase.id)
                         .orderBy(qPhrase.createdAt.desc())
                         .offset(offset)
@@ -106,7 +107,9 @@ public class PhraseCustomRepositoryImpl implements PhraseCustomRepository {
                                         qPhraseImage.imageRatio.coalesce(""),
                                         qPhrase.createdAt,
                                         qPhrase.viewCount,
-                                        qLike.count().intValue()))
+                                        qLike.count().intValue(),
+                                        qPhrase.isReserved,
+                                        qPhrase.publishDate))
                         .from(qPhrase)
                         .leftJoin(qPhrase.phraseImage, qPhraseImage)
                         .leftJoin(qLike)

@@ -15,7 +15,12 @@ import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
 public class AdminMapper {
 
     public Phrase toPhrase(AdminRequestDTO.AddPhrase request) {
-        return Phrase.builder().title(request.getTitle()).content(request.getContent()).build();
+        return Phrase.builder()
+                .title(request.getTitle())
+                .content(request.getContent())
+                .isReserved(request.getIsReserved())
+                .publishDate(request.getPublishDate())
+                .build();
     }
 
     // 이미지 다건일때
@@ -85,7 +90,12 @@ public class AdminMapper {
     }
 
     public Phrase toPhrase(AdminRequestDTO.ModifyPhrase request) {
-        return Phrase.builder().title(request.getTitle()).content(request.getContent()).build();
+        return Phrase.builder()
+                .title(request.getTitle())
+                .content(request.getContent())
+                .isReserved(request.getIsReserved())
+                .publishDate(request.getPublishDate())
+                .build();
     }
 
     public PhraseImage toPhraseImage(AdminRequestDTO.ModifyPhrase request) {

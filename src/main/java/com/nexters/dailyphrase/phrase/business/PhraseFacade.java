@@ -26,7 +26,7 @@ public class PhraseFacade {
     @Transactional
     public PhraseResponseDTO.PhraseDetail getPhraseDetail(final Long id) {
         phraseCommandService.increaseViewCountById(id);
-        Phrase phrase = phraseQueryService.findById(id);
+        Phrase phrase = phraseQueryService.findPublishPhraseById(id);
         int likeCount = likeQueryService.countByPhraseId(id);
         Long memberId = memberUtils.getCurrentMemberId();
         boolean isLike = likeQueryService.existsByMemberIdAndPhraseId(memberId, id);
