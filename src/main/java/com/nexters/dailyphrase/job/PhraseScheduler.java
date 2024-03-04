@@ -16,7 +16,7 @@ public class PhraseScheduler {
 
     private final PhraseRepository phraseRepository;
 
-    @Scheduled(cron = "0 0 8 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     @Transactional
     public void publishScheduledPhrases() {
         phraseRepository.updateByIsPublishDate(LocalDate.now());
