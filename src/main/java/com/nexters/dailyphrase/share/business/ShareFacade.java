@@ -1,13 +1,15 @@
 package com.nexters.dailyphrase.share.business;
 
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.nexters.dailyphrase.share.domain.Share;
 import com.nexters.dailyphrase.share.implement.ShareCommandService;
 import com.nexters.dailyphrase.share.implement.ShareQueryService;
 import com.nexters.dailyphrase.share.presentation.dto.ShareRequestDTO;
 import com.nexters.dailyphrase.share.presentation.dto.ShareResponseDTO;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor

@@ -1,9 +1,11 @@
 package com.nexters.dailyphrase.share.implement;
 
+import org.springframework.stereotype.Service;
+
 import com.nexters.dailyphrase.share.domain.Share;
 import com.nexters.dailyphrase.share.domain.repository.ShareRepository;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
