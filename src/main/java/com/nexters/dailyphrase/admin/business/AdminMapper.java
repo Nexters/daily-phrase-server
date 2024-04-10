@@ -69,15 +69,6 @@ public class AdminMapper {
     //        return AdminResponseDTO.UploadImageFiles.builder().images(imageList).build();
     //    }
 
-
-    public AdminResponseDTO.UploadNotification toNotification(Phrase savedPhrase) {
-        return AdminResponseDTO.UploadNotification.builder()
-                        .title("매일 글귀가 도착했어요☘️")
-                        .body(savedPhrase.getTitle())
-                        .data(savedPhrase.getId().toString())
-                        .build();
-    }
-
     public AdminResponseDTO.UploadImageFile toUploadImageFile(
             String url, Long fileSize, String fileName) {
         return AdminResponseDTO.UploadImageFile.builder()

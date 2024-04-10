@@ -60,18 +60,6 @@ public class AdminResponseDTO {
         private Long fileSize;
     }
 
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class UploadNotification {
-        //private Long targetUserid;
-        private String title;
-        private String body;
-        private String data;
-
-    }
-
     @Builder
     @Getter
     @NoArgsConstructor

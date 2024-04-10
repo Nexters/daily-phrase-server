@@ -1,12 +1,11 @@
 package com.nexters.dailyphrase.admin.business;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.nexters.dailyphrase.config.NotificationConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -27,6 +26,7 @@ import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.favorite.implement.FavoriteCommandService;
 import com.nexters.dailyphrase.like.implement.LikeCommandService;
+import com.nexters.dailyphrase.notification.SendNotification;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phrase.implement.PhraseCommandService;
 import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
@@ -48,7 +48,8 @@ public class AdminFacade {
     private final JwtTokenService jwtTokenService;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final AmazonS3Client amazonS3Client;
-    private final NotificationConfig notificationConfig;
+
+    private final SendNotification sendNotification;
 
     @Transactional
     public AdminResponseDTO.LoginAdmin loginAdmin(final AdminRequestDTO.LoginAdmin request) {
@@ -137,9 +138,11 @@ public class AdminFacade {
     //        return adminMapper.toAddPhrase(savedPhrase);
     //    }
 
-    private LocalDate lastAlarmDate=null;
+    private LocalDate lastAlarmDate = null;
+
     @Transactional
-    public AdminResponseDTO.AddPhrase addPhrase(final AdminRequestDTO.AddPhrase request) throws FirebaseMessagingException {
+    public AdminResponseDTO.AddPhrase addPhrase(final AdminRequestDTO.AddPhrase request)
+            throws IOException {
 
         final LocalDate currentDate = LocalDate.now();
         final Phrase phrase = adminMapper.toPhrase(request);
@@ -149,11 +152,12 @@ public class AdminFacade {
         phraseImage.setPhrase(savedPhrase);
         phraseImageCommandService.create(phraseImage);
 
-        if (lastAlarmDate == null || !lastAlarmDate.equals(currentDate)) //알림은 하루에 한번만 전송
+        if (lastAlarmDate == null || !lastAlarmDate.equals(currentDate)) // 알림은 하루에 한번만 전송
         {
-            //푸시 전송 method
-            notificationConfig.pushAlarm(adminMapper.toNotification(savedPhrase));
-            lastAlarmDate= currentDate;
+            final String alarmBody = savedPhrase.getTitle();
+            final String alarmPhraseId = savedPhrase.getId().toString();
+            sendNotification.sendMessageTo(alarmBody, alarmPhraseId);
+            lastAlarmDate = currentDate;
         }
 
         return adminMapper.toAddPhrase(savedPhrase);
