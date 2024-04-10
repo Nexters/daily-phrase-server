@@ -1,9 +1,12 @@
 package com.nexters.dailyphrase.admin.business;
 
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.nexters.dailyphrase.config.NotificationConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -45,6 +48,7 @@ public class AdminFacade {
     private final JwtTokenService jwtTokenService;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final AmazonS3Client amazonS3Client;
+    private final NotificationConfig notificationConfig;
 
     @Transactional
     public AdminResponseDTO.LoginAdmin loginAdmin(final AdminRequestDTO.LoginAdmin request) {
@@ -133,15 +137,24 @@ public class AdminFacade {
     //        return adminMapper.toAddPhrase(savedPhrase);
     //    }
 
+    private LocalDate lastAlarmDate=null;
     @Transactional
-    public AdminResponseDTO.AddPhrase addPhrase(final AdminRequestDTO.AddPhrase request) {
+    public AdminResponseDTO.AddPhrase addPhrase(final AdminRequestDTO.AddPhrase request) throws FirebaseMessagingException {
 
+        final LocalDate currentDate = LocalDate.now();
         final Phrase phrase = adminMapper.toPhrase(request);
         final PhraseImage phraseImage = adminMapper.toPhraseImage(request);
 
         Phrase savedPhrase = phraseCommandService.create(phrase);
         phraseImage.setPhrase(savedPhrase);
         phraseImageCommandService.create(phraseImage);
+
+        if (lastAlarmDate == null || !lastAlarmDate.equals(currentDate)) //알림은 하루에 한번만 전송
+        {
+            //푸시 전송 method
+            notificationConfig.pushAlarm(adminMapper.toNotification(savedPhrase));
+            lastAlarmDate= currentDate;
+        }
 
         return adminMapper.toAddPhrase(savedPhrase);
     }

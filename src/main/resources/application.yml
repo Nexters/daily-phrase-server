@@ -106,3 +106,8 @@ spring:
 #        format_sql: true
 #        use_sql_comments: true
         default_batch_fetch_size: 1000
+---
+project:
+  properties:
+    firebase-create-scoped: "https://www.googleapis.com/auth/firebase.messaging"
+    firebase-topic: "test"
