@@ -107,10 +107,9 @@ spring:
 #        use_sql_comments: true
         default_batch_fetch_size: 1000
 ---
-
 fcm:
   key:
-   path: firebase/daily-phrase-android-firebase-adminsdk-letn6-99995c786c.json
+   path: firebase/firebase-adminsdk.json
    scope: https://www.googleapis.com/auth/cloud-platform
   api:
     url: https://fcm.googleapis.com/v1/projects/${fcm-project-id}/messages:send
