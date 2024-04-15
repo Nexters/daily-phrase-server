@@ -26,7 +26,8 @@ public class GlobalWebConfig implements WebMvcConfigurer {
                         "http://localhost:8080",
                         "https://daily-phrase-web-web-kappa.vercel.app",
                         "http://www.daily-phrase.com",
-                        "http://admin.daily-phrase.com")
+                        "http://admin.daily-phrase.com",
+                        "https://admin.daily-phrase.com")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true)
