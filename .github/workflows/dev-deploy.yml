@@ -27,6 +27,17 @@ jobs:
           mkdir -p ./src/main/resources/
           echo "${{ secrets.APPLICATION_YML }}" > ./src/main/resources/application.yml
 
+      - name: Create firebase directory
+        run: mkdir -p ./src/main/resources/firebase/
+
+      - name: create-json
+        id: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "firebase-adminsdk.json"
+          json: ${{ secrets.SECRET_JSON }}
+          dir: "./src/main/resources/firebase/"
+
       - name: Grant execute permission for Gradlew
         run: chmod +x ./gradlew
 
@@ -42,13 +53,6 @@ jobs:
       - name: Push Docker image to NCP Container Registry
         run: docker push ${{ secrets.NCP_REGISTRY_URL }}/${{ secrets.NCP_PROJECT_NAME }}:${{ github.sha }}
 
-      - name: create-json
-        id: create-json
-        uses: jsdaniell/create-json@1.1.2
-        with:
-          name: "firebase-adminsdk.json"
-          json: ${{ secrets.SECRET_JSON }}
-          dir: "src/main/resources/firebase/"
 
       - name: Deploy to NCP Server
         uses: appleboy/ssh-action@master
