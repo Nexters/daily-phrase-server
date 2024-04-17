@@ -11,8 +11,8 @@ import com.nexters.dailyphrase.common.enums.SocialType;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.favorite.domain.Favorite;
 import com.nexters.dailyphrase.like.domain.Like;
-import com.nexters.dailyphrase.like.implement.LikeCommandService;
-import com.nexters.dailyphrase.like.implement.LikeQueryService;
+import com.nexters.dailyphrase.like.implement.LikeCommandAdapter;
+import com.nexters.dailyphrase.like.implement.LikeQueryAdapter;
 import com.nexters.dailyphrase.member.domain.Member;
 import com.nexters.dailyphrase.member.implement.MemberCommandService;
 import com.nexters.dailyphrase.member.implement.MemberQueryService;
@@ -28,8 +28,8 @@ import lombok.RequiredArgsConstructor;
 public class MemberFacade {
     private final MemberQueryService memberQueryService;
     private final MemberCommandService memberCommandService;
-    private final LikeQueryService likeQueryService;
-    private final LikeCommandService likeCommandService;
+    private final LikeQueryAdapter likeQueryAdapter;
+    private final LikeCommandAdapter likeCommandAdapter;
     private final FavoriteQueryAdapter favoriteQueryAdapter;
     private final FavoriteCommandAdapter favoriteCommandAdapter;
     private final SocialLoginServiceFactory socialLoginServiceFactory;
@@ -52,8 +52,8 @@ public class MemberFacade {
     @Transactional
     public MemberResponseDTO.QuitMember quit(Long id) {
         Member member = memberQueryService.findById(id);
-        List<Long> likeIds = likeQueryService.findByMemberId(id).stream().map(Like::getId).toList();
-        likeCommandService.deleteAllByIdInBatch(likeIds);
+        List<Long> likeIds = likeQueryAdapter.findByMemberId(id).stream().map(Like::getId).toList();
+        likeCommandAdapter.deleteAllByIdInBatch(likeIds);
         List<Long> favoriteIds =
                 favoriteQueryAdapter.findByMemberId(id).stream().map(Favorite::getId).toList();
         favoriteCommandAdapter.deleteAllByIdInBatch(favoriteIds);

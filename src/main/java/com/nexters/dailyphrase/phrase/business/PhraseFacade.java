@@ -1,11 +1,11 @@
 package com.nexters.dailyphrase.phrase.business;
 
 import com.nexters.dailyphrase.favorite.implement.FavoriteQueryAdapter;
+import com.nexters.dailyphrase.like.implement.LikeQueryAdapter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nexters.dailyphrase.common.utils.MemberUtils;
-import com.nexters.dailyphrase.like.implement.LikeQueryService;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phrase.implement.PhraseCommandService;
 import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class PhraseFacade {
     private final PhraseQueryService phraseQueryService;
     private final PhraseCommandService phraseCommandService;
-    private final LikeQueryService likeQueryService;
+    private final LikeQueryAdapter likeQueryAdapter;
     private final FavoriteQueryAdapter favoriteQueryAdapter;
     private final PhraseMapper phraseMapper;
     private final MemberUtils memberUtils;
@@ -27,9 +27,9 @@ public class PhraseFacade {
     public PhraseResponseDTO.PhraseDetail getPhraseDetail(final Long id) {
         phraseCommandService.increaseViewCountById(id);
         Phrase phrase = phraseQueryService.findPublishPhraseById(id);
-        int likeCount = likeQueryService.countByPhraseId(id);
+        int likeCount = likeQueryAdapter.countByPhraseId(id);
         Long memberId = memberUtils.getCurrentMemberId();
-        boolean isLike = likeQueryService.existsByMemberIdAndPhraseId(memberId, id);
+        boolean isLike = likeQueryAdapter.existsByMemberIdAndPhraseId(memberId, id);
         boolean isFavorite = favoriteQueryAdapter.existsByMemberIdAndPhraseId(memberId, id);
         return phraseMapper.toPhraseDetail(phrase, likeCount, isLike, isFavorite);
     }

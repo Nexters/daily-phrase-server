@@ -2,6 +2,7 @@ package com.nexters.dailyphrase.like.implement;
 
 import java.util.List;
 
+import com.nexters.dailyphrase.common.annotation.Adapter;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,9 @@ import com.nexters.dailyphrase.like.exception.DuplicateLikeException;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Adapter
 @RequiredArgsConstructor
-public class LikeCommandService {
+public class LikeCommandAdapter {
     private final LikeRepository likeRepository;
 
     public Like add(Like like) {

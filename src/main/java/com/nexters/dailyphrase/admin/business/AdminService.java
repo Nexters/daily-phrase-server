@@ -7,6 +7,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.nexters.dailyphrase.admin.implement.AdminQueryAdapter;
+import com.nexters.dailyphrase.like.implement.LikeCommandAdapter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -25,7 +26,6 @@ import com.nexters.dailyphrase.admin.presentation.dto.AdminRequestDTO;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.favorite.implement.FavoriteCommandAdapter;
-import com.nexters.dailyphrase.like.implement.LikeCommandService;
 import com.nexters.dailyphrase.notification.SendNotification;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phrase.implement.PhraseCommandService;
@@ -41,7 +41,7 @@ public class AdminService {
     private final PhraseCommandService phraseCommandService;
     private final PhraseQueryService phraseQueryService;
     private final FavoriteCommandAdapter favoriteCommandAdapter;
-    private final LikeCommandService likeCommandService;
+    private final LikeCommandAdapter likeCommandAdapter;
     private final AdminQueryAdapter adminQueryAdapter;
     private final PhraseImageCommandService phraseImageCommandService;
     private final AdminMapper adminMapper;
@@ -200,7 +200,7 @@ public class AdminService {
     public AdminResponseDTO.DeletePhrase deletePhrase(final Long id) {
 
         favoriteCommandAdapter.deleteByPhraseId(id);
-        likeCommandService.deleteByPhraseId(id);
+        likeCommandAdapter.deleteByPhraseId(id);
         phraseImageCommandService.deleteByPhraseId(id);
         phraseCommandService.deleteById(id);
 
