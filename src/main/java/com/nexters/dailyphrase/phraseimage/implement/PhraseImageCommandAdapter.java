@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.phraseimage.implement;
 
+import com.nexters.dailyphrase.common.annotation.Adapter;
 import org.springframework.stereotype.Service;
 
 import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
@@ -7,9 +8,9 @@ import com.nexters.dailyphrase.phraseimage.domain.repository.PhraseImageReposito
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Adapter
 @RequiredArgsConstructor
-public class PhraseImageCommandService {
+public class PhraseImageCommandAdapter {
     private final PhraseImageRepository phraseImageRepository;
 
     public void create(final PhraseImage phraseImage) {

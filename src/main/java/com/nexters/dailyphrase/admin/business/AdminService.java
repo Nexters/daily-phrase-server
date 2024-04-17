@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import com.nexters.dailyphrase.admin.implement.AdminQueryAdapter;
 import com.nexters.dailyphrase.like.implement.LikeCommandAdapter;
 import com.nexters.dailyphrase.phrase.implement.PhraseQueryAdapter;
+import com.nexters.dailyphrase.phraseimage.implement.PhraseImageCommandAdapter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -31,7 +32,6 @@ import com.nexters.dailyphrase.notification.SendNotification;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phrase.implement.PhraseCommandAdapter;
 import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
-import com.nexters.dailyphrase.phraseimage.implement.PhraseImageCommandService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -43,7 +43,7 @@ public class AdminService {
     private final FavoriteCommandAdapter favoriteCommandAdapter;
     private final LikeCommandAdapter likeCommandAdapter;
     private final AdminQueryAdapter adminQueryAdapter;
-    private final PhraseImageCommandService phraseImageCommandService;
+    private final PhraseImageCommandAdapter phraseImageCommandAdapter;
     private final AdminMapper adminMapper;
     private final JwtTokenService jwtTokenService;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -150,7 +150,7 @@ public class AdminService {
 
         Phrase savedPhrase = phraseCommandAdapter.create(phrase);
         phraseImage.setPhrase(savedPhrase);
-        phraseImageCommandService.create(phraseImage);
+        phraseImageCommandAdapter.create(phraseImage);
 
         if (lastAlarmDate == null || !lastAlarmDate.equals(currentDate)) // 알림은 하루에 한번만 전송
         {
@@ -201,7 +201,7 @@ public class AdminService {
 
         favoriteCommandAdapter.deleteByPhraseId(id);
         likeCommandAdapter.deleteByPhraseId(id);
-        phraseImageCommandService.deleteByPhraseId(id);
+        phraseImageCommandAdapter.deleteByPhraseId(id);
         phraseCommandAdapter.deleteById(id);
 
         return adminMapper.toDeletePhrase(id);
