@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.phrase.implement;
 
+import com.nexters.dailyphrase.common.annotation.Adapter;
 import org.springframework.stereotype.Service;
 
 import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
@@ -10,9 +11,9 @@ import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Adapter
 @RequiredArgsConstructor
-public class PhraseQueryService {
+public class PhraseQueryAdapter {
     private final PhraseRepository phraseRepository;
 
     public Phrase findById(final Long id) {

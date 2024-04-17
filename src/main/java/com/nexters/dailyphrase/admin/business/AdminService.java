@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import com.nexters.dailyphrase.admin.implement.AdminQueryAdapter;
 import com.nexters.dailyphrase.like.implement.LikeCommandAdapter;
+import com.nexters.dailyphrase.phrase.implement.PhraseQueryAdapter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -28,8 +29,7 @@ import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.favorite.implement.FavoriteCommandAdapter;
 import com.nexters.dailyphrase.notification.SendNotification;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
-import com.nexters.dailyphrase.phrase.implement.PhraseCommandService;
-import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
+import com.nexters.dailyphrase.phrase.implement.PhraseCommandAdapter;
 import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
 import com.nexters.dailyphrase.phraseimage.implement.PhraseImageCommandService;
 
@@ -38,8 +38,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AdminService {
-    private final PhraseCommandService phraseCommandService;
-    private final PhraseQueryService phraseQueryService;
+    private final PhraseCommandAdapter phraseCommandAdapter;
+    private final PhraseQueryAdapter phraseQueryAdapter;
     private final FavoriteCommandAdapter favoriteCommandAdapter;
     private final LikeCommandAdapter likeCommandAdapter;
     private final AdminQueryAdapter adminQueryAdapter;
@@ -148,7 +148,7 @@ public class AdminService {
         final Phrase phrase = adminMapper.toPhrase(request);
         final PhraseImage phraseImage = adminMapper.toPhraseImage(request);
 
-        Phrase savedPhrase = phraseCommandService.create(phrase);
+        Phrase savedPhrase = phraseCommandAdapter.create(phrase);
         phraseImage.setPhrase(savedPhrase);
         phraseImageCommandService.create(phraseImage);
 
@@ -165,7 +165,7 @@ public class AdminService {
 
     @Transactional(readOnly = true)
     public AdminResponseDTO.AdminPhraseDetail getAdminPhraseDetail(final Long id) {
-        Phrase phrase = phraseQueryService.findById(id);
+        Phrase phrase = phraseQueryAdapter.findById(id);
         return adminMapper.toAdminPhraseDetail(phrase);
     }
 
@@ -176,7 +176,7 @@ public class AdminService {
         final Phrase requestedPhrase = adminMapper.toPhrase(request);
         final PhraseImage requestedPhraseImage = adminMapper.toPhraseImage(request);
 
-        Phrase updatedPhrase = phraseQueryService.findById(id);
+        Phrase updatedPhrase = phraseQueryAdapter.findById(id);
         updatedPhrase.setTitle(requestedPhrase.getTitle());
         updatedPhrase.setContent(requestedPhrase.getContent());
         updatedPhrase.setIsReserved(requestedPhrase.isReserved());
@@ -193,7 +193,7 @@ public class AdminService {
 
     @Transactional(readOnly = true)
     public AdminResponseDTO.AdminPhraseList getAdminPhraseList() {
-        return phraseQueryService.findAdminPhraseListDTO();
+        return phraseQueryAdapter.findAdminPhraseListDTO();
     }
 
     @Transactional
@@ -202,7 +202,7 @@ public class AdminService {
         favoriteCommandAdapter.deleteByPhraseId(id);
         likeCommandAdapter.deleteByPhraseId(id);
         phraseImageCommandService.deleteByPhraseId(id);
-        phraseCommandService.deleteById(id);
+        phraseCommandAdapter.deleteById(id);
 
         return adminMapper.toDeletePhrase(id);
     }

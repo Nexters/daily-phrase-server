@@ -1,6 +1,7 @@
 package com.nexters.dailyphrase.favorite.business;
 
 import com.nexters.dailyphrase.favorite.implement.FavoriteCommandAdapter;
+import com.nexters.dailyphrase.phrase.implement.PhraseQueryAdapter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,7 +12,6 @@ import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteResponseDTO;
 import com.nexters.dailyphrase.member.domain.Member;
 import com.nexters.dailyphrase.member.implement.MemberQueryAdapter;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
-import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,13 +20,13 @@ import lombok.RequiredArgsConstructor;
 public class FavoriteService {
     private final FavoriteQueryAdapter favoriteQueryAdapter;
     private final FavoriteCommandAdapter favoriteCommandAdapter;
-    private final PhraseQueryService phraseQueryService;
+    private final PhraseQueryAdapter phraseQueryAdapter;
     private final MemberQueryAdapter memberQueryAdapter;
     private final FavoriteMapper favoriteMapper;
 
     @Transactional
     public FavoriteResponseDTO.AddFavorite addFavorite(FavoriteRequestDTO.AddFavorite request) {
-        Phrase phrase = phraseQueryService.findById(request.getPhraseId());
+        Phrase phrase = phraseQueryAdapter.findById(request.getPhraseId());
         Member member = memberQueryAdapter.findById(request.getMemberId());
         Favorite favorite = favoriteMapper.toFavorite(phrase, member);
         Favorite savedFavorite = favoriteCommandAdapter.add(favorite);

@@ -2,22 +2,22 @@ package com.nexters.dailyphrase.phrase.business;
 
 import com.nexters.dailyphrase.favorite.implement.FavoriteQueryAdapter;
 import com.nexters.dailyphrase.like.implement.LikeQueryAdapter;
-import org.springframework.stereotype.Component;
+import com.nexters.dailyphrase.phrase.implement.PhraseQueryAdapter;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nexters.dailyphrase.common.utils.MemberUtils;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
-import com.nexters.dailyphrase.phrase.implement.PhraseCommandService;
-import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
+import com.nexters.dailyphrase.phrase.implement.PhraseCommandAdapter;
 import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Service
 @RequiredArgsConstructor
-public class PhraseFacade {
-    private final PhraseQueryService phraseQueryService;
-    private final PhraseCommandService phraseCommandService;
+public class PhraseService {
+    private final PhraseQueryAdapter phraseQueryAdapter;
+    private final PhraseCommandAdapter phraseCommandAdapter;
     private final LikeQueryAdapter likeQueryAdapter;
     private final FavoriteQueryAdapter favoriteQueryAdapter;
     private final PhraseMapper phraseMapper;
@@ -25,8 +25,8 @@ public class PhraseFacade {
 
     @Transactional
     public PhraseResponseDTO.PhraseDetail getPhraseDetail(final Long id) {
-        phraseCommandService.increaseViewCountById(id);
-        Phrase phrase = phraseQueryService.findPublishPhraseById(id);
+        phraseCommandAdapter.increaseViewCountById(id);
+        Phrase phrase = phraseQueryAdapter.findPublishPhraseById(id);
         int likeCount = likeQueryAdapter.countByPhraseId(id);
         Long memberId = memberUtils.getCurrentMemberId();
         boolean isLike = likeQueryAdapter.existsByMemberIdAndPhraseId(memberId, id);
@@ -36,6 +36,6 @@ public class PhraseFacade {
 
     @Transactional(readOnly = true)
     public PhraseResponseDTO.PhraseList getPhraseList(final int page, final int size) {
-        return phraseQueryService.findPhraseListDTO(page, size);
+        return phraseQueryAdapter.findPhraseListDTO(page, size);
     }
 }
