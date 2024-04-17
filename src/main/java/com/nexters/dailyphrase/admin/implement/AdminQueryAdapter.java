@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.admin.implement;
 
+import com.nexters.dailyphrase.common.annotation.Adapter;
 import org.springframework.stereotype.Service;
 
 import com.nexters.dailyphrase.admin.domain.Admin;
@@ -8,9 +9,9 @@ import com.nexters.dailyphrase.admin.exception.AdminNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Adapter
 @RequiredArgsConstructor
-public class AdminQueryService {
+public class AdminQueryAdapter {
     private final AdminRepository adminRepository;
 
     public Admin findByLoginId(String userId) {

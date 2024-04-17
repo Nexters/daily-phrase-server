@@ -3,6 +3,7 @@ package com.nexters.dailyphrase.admin.business;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import com.nexters.dailyphrase.common.annotation.Mapper;
 import org.springframework.stereotype.Component;
 
 import com.nexters.dailyphrase.admin.domain.Admin;
@@ -11,7 +12,7 @@ import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
 
-@Component
+@Mapper
 public class AdminMapper {
 
     public Phrase toPhrase(AdminRequestDTO.AddPhrase request) {

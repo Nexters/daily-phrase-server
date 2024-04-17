@@ -6,12 +6,13 @@ import java.time.LocalDate;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.nexters.dailyphrase.admin.implement.AdminQueryAdapter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +21,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.nexters.dailyphrase.admin.domain.Admin;
-import com.nexters.dailyphrase.admin.implement.AdminQueryService;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminRequestDTO;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
@@ -35,14 +35,14 @@ import com.nexters.dailyphrase.phraseimage.implement.PhraseImageCommandService;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Service
 @RequiredArgsConstructor
-public class AdminFacade {
+public class AdminService {
     private final PhraseCommandService phraseCommandService;
     private final PhraseQueryService phraseQueryService;
     private final FavoriteCommandService favoriteCommandService;
     private final LikeCommandService likeCommandService;
-    private final AdminQueryService adminQueryService;
+    private final AdminQueryAdapter adminQueryAdapter;
     private final PhraseImageCommandService phraseImageCommandService;
     private final AdminMapper adminMapper;
     private final JwtTokenService jwtTokenService;
@@ -57,7 +57,7 @@ public class AdminFacade {
         String username = request.getUserId();
         String password = request.getPassword();
 
-        adminQueryService.findByLoginId(username); // UserId Notfound 예외처리용
+        adminQueryAdapter.findByLoginId(username); // UserId Notfound 예외처리용
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
@@ -71,7 +71,7 @@ public class AdminFacade {
                         .collect(Collectors.joining(",")); // role_admin
         String authenticatedUserId = authentication.getName(); //  UserId
 
-        Admin admin = adminQueryService.findByLoginId(authenticatedUserId); // id
+        Admin admin = adminQueryAdapter.findByLoginId(authenticatedUserId); // id
         String accessToken = jwtTokenService.generateAccessToken(admin.getId(), role);
         String refreshToken = jwtTokenService.generateRefreshToken(admin.getId());
 
