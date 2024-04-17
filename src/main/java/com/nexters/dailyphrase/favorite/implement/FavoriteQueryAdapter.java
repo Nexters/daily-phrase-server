@@ -2,6 +2,7 @@ package com.nexters.dailyphrase.favorite.implement;
 
 import java.util.List;
 
+import com.nexters.dailyphrase.common.annotation.Adapter;
 import org.springframework.stereotype.Service;
 
 import com.nexters.dailyphrase.favorite.domain.Favorite;
@@ -11,9 +12,9 @@ import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteResponseDTO;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Adapter
 @RequiredArgsConstructor
-public class FavoriteQueryService {
+public class FavoriteQueryAdapter {
     private final FavoriteRepository favoriteRepository;
 
     public Favorite findByMemberIdAndPhraseId(final Long memberId, final Long phraseId) {

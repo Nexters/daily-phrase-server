@@ -6,7 +6,7 @@ import com.nexters.dailyphrase.common.annotation.ApiErrorCodeExample;
 import com.nexters.dailyphrase.common.exception.AuthErrorCode;
 import com.nexters.dailyphrase.common.exception.GlobalErrorCode;
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
-import com.nexters.dailyphrase.favorite.business.FavoriteFacade;
+import com.nexters.dailyphrase.favorite.business.FavoriteService;
 import com.nexters.dailyphrase.favorite.exception.FavoriteErrorCode;
 import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteRequestDTO;
 import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteResponseDTO;
@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/favorites")
 public class FavoriteApi {
-    private final FavoriteFacade favoriteFacade;
+    private final FavoriteService favoriteService;
 
     @Operation(
             summary = "04-03 Favorite⭐ 글귀 즐겨찾기 저장 Made By 성훈",
@@ -30,7 +30,7 @@ public class FavoriteApi {
     @PostMapping
     public CommonResponse<FavoriteResponseDTO.AddFavorite> addFavorite(
             @RequestBody final FavoriteRequestDTO.AddFavorite request) {
-        return CommonResponse.onSuccess(favoriteFacade.addFavorite(request));
+        return CommonResponse.onSuccess(favoriteService.addFavorite(request));
     }
 
     @Operation(
@@ -41,7 +41,7 @@ public class FavoriteApi {
     @GetMapping("/members/{id}")
     public CommonResponse<FavoriteResponseDTO.FavoriteList> getFavoriteList(
             @PathVariable final Long id) {
-        return CommonResponse.onSuccess(favoriteFacade.getFavoriteList(id));
+        return CommonResponse.onSuccess(favoriteService.getFavoriteList(id));
     }
 
     @Operation(
@@ -52,6 +52,6 @@ public class FavoriteApi {
     @DeleteMapping("/members/{memberId}/phrases/{phraseId}")
     public CommonResponse<FavoriteResponseDTO.RemoveFavorite> removeFavorite(
             @PathVariable final Long memberId, @PathVariable final Long phraseId) {
-        return CommonResponse.onSuccess(favoriteFacade.removeLike(memberId, phraseId));
+        return CommonResponse.onSuccess(favoriteService.removeLike(memberId, phraseId));
     }
 }

@@ -1,11 +1,11 @@
 package com.nexters.dailyphrase.favorite.business;
 
-import org.springframework.stereotype.Component;
+import com.nexters.dailyphrase.favorite.implement.FavoriteCommandAdapter;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nexters.dailyphrase.favorite.domain.Favorite;
-import com.nexters.dailyphrase.favorite.implement.FavoriteCommandService;
-import com.nexters.dailyphrase.favorite.implement.FavoriteQueryService;
+import com.nexters.dailyphrase.favorite.implement.FavoriteQueryAdapter;
 import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteRequestDTO;
 import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteResponseDTO;
 import com.nexters.dailyphrase.member.domain.Member;
@@ -15,11 +15,11 @@ import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Service
 @RequiredArgsConstructor
-public class FavoriteFacade {
-    private final FavoriteQueryService favoriteQueryService;
-    private final FavoriteCommandService favoriteCommandService;
+public class FavoriteService {
+    private final FavoriteQueryAdapter favoriteQueryAdapter;
+    private final FavoriteCommandAdapter favoriteCommandAdapter;
     private final PhraseQueryService phraseQueryService;
     private final MemberQueryService memberQueryService;
     private final FavoriteMapper favoriteMapper;
@@ -29,19 +29,19 @@ public class FavoriteFacade {
         Phrase phrase = phraseQueryService.findById(request.getPhraseId());
         Member member = memberQueryService.findById(request.getMemberId());
         Favorite favorite = favoriteMapper.toFavorite(phrase, member);
-        Favorite savedFavorite = favoriteCommandService.add(favorite);
+        Favorite savedFavorite = favoriteCommandAdapter.add(favorite);
         return favoriteMapper.toAddFavorite(savedFavorite);
     }
 
     @Transactional
     public FavoriteResponseDTO.RemoveFavorite removeLike(Long memberId, Long phraseId) {
-        Favorite favorite = favoriteQueryService.findByMemberIdAndPhraseId(memberId, phraseId);
-        favoriteCommandService.remove(favorite);
+        Favorite favorite = favoriteQueryAdapter.findByMemberIdAndPhraseId(memberId, phraseId);
+        favoriteCommandAdapter.remove(favorite);
         return favoriteMapper.toRemoveFavorite(memberId, phraseId);
     }
 
     @Transactional(readOnly = true)
     public FavoriteResponseDTO.FavoriteList getFavoriteList(Long memberId) {
-        return favoriteQueryService.findFavoriteListDTO(memberId);
+        return favoriteQueryAdapter.findFavoriteListDTO(memberId);
     }
 }

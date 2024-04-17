@@ -24,7 +24,7 @@ import com.nexters.dailyphrase.admin.domain.Admin;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminRequestDTO;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
-import com.nexters.dailyphrase.favorite.implement.FavoriteCommandService;
+import com.nexters.dailyphrase.favorite.implement.FavoriteCommandAdapter;
 import com.nexters.dailyphrase.like.implement.LikeCommandService;
 import com.nexters.dailyphrase.notification.SendNotification;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
@@ -40,7 +40,7 @@ import lombok.RequiredArgsConstructor;
 public class AdminService {
     private final PhraseCommandService phraseCommandService;
     private final PhraseQueryService phraseQueryService;
-    private final FavoriteCommandService favoriteCommandService;
+    private final FavoriteCommandAdapter favoriteCommandAdapter;
     private final LikeCommandService likeCommandService;
     private final AdminQueryAdapter adminQueryAdapter;
     private final PhraseImageCommandService phraseImageCommandService;
@@ -199,7 +199,7 @@ public class AdminService {
     @Transactional
     public AdminResponseDTO.DeletePhrase deletePhrase(final Long id) {
 
-        favoriteCommandService.deleteByPhraseId(id);
+        favoriteCommandAdapter.deleteByPhraseId(id);
         likeCommandService.deleteByPhraseId(id);
         phraseImageCommandService.deleteByPhraseId(id);
         phraseCommandService.deleteById(id);
