@@ -9,7 +9,7 @@ import com.nexters.dailyphrase.favorite.implement.FavoriteQueryAdapter;
 import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteRequestDTO;
 import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteResponseDTO;
 import com.nexters.dailyphrase.member.domain.Member;
-import com.nexters.dailyphrase.member.implement.MemberQueryService;
+import com.nexters.dailyphrase.member.implement.MemberQueryAdapter;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
 
@@ -21,13 +21,13 @@ public class FavoriteService {
     private final FavoriteQueryAdapter favoriteQueryAdapter;
     private final FavoriteCommandAdapter favoriteCommandAdapter;
     private final PhraseQueryService phraseQueryService;
-    private final MemberQueryService memberQueryService;
+    private final MemberQueryAdapter memberQueryAdapter;
     private final FavoriteMapper favoriteMapper;
 
     @Transactional
     public FavoriteResponseDTO.AddFavorite addFavorite(FavoriteRequestDTO.AddFavorite request) {
         Phrase phrase = phraseQueryService.findById(request.getPhraseId());
-        Member member = memberQueryService.findById(request.getMemberId());
+        Member member = memberQueryAdapter.findById(request.getMemberId());
         Favorite favorite = favoriteMapper.toFavorite(phrase, member);
         Favorite savedFavorite = favoriteCommandAdapter.add(favorite);
         return favoriteMapper.toAddFavorite(savedFavorite);

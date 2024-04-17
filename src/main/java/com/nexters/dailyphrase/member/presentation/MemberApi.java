@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.member.presentation;
 
+import com.nexters.dailyphrase.member.business.MemberService;
 import org.springframework.web.bind.annotation.*;
 
 import com.nexters.dailyphrase.common.annotation.ApiErrorCodeExample;
@@ -8,7 +9,6 @@ import com.nexters.dailyphrase.common.exception.AuthErrorCode;
 import com.nexters.dailyphrase.common.exception.FeignErrorCode;
 import com.nexters.dailyphrase.common.exception.GlobalErrorCode;
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
-import com.nexters.dailyphrase.member.business.MemberFacade;
 import com.nexters.dailyphrase.member.exception.MemberErrorCode;
 import com.nexters.dailyphrase.member.presentation.dto.MemberRequestDTO;
 import com.nexters.dailyphrase.member.presentation.dto.MemberResponseDTO;
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/members")
 public class MemberApi {
-    private final MemberFacade memberFacade;
+    private final MemberService memberService;
 
     @Operation(
             summary = "01-02 Member\uD83D\uDC64 회원 상세정보 조회 Made By 성훈",
@@ -32,7 +32,7 @@ public class MemberApi {
     @GetMapping("/{id}")
     public CommonResponse<MemberResponseDTO.MemberDetail> getMemberDetail(
             @PathVariable final Long id) {
-        return CommonResponse.onSuccess(memberFacade.getMemberDetail(id));
+        return CommonResponse.onSuccess(memberService.getMemberDetail(id));
     }
 
     @Operation(
@@ -49,7 +49,7 @@ public class MemberApi {
     public CommonResponse<MemberResponseDTO.LoginMember> login(
             @PathVariable final SocialType socialType,
             @RequestBody final MemberRequestDTO.LoginMember request) {
-        return CommonResponse.onSuccess(memberFacade.login(socialType, request));
+        return CommonResponse.onSuccess(memberService.login(socialType, request));
     }
 
     @Operation(summary = "01-01 Member\uD83D\uDC64 회원 탈퇴 Made By 성훈", description = "회원 탈퇴 API입니다.")
@@ -57,6 +57,6 @@ public class MemberApi {
     @ApiErrorCodeExample(
             value = {MemberErrorCode.class, AuthErrorCode.class, GlobalErrorCode.class})
     public CommonResponse<MemberResponseDTO.QuitMember> quit(@PathVariable final Long id) {
-        return CommonResponse.onSuccess(memberFacade.quit(id));
+        return CommonResponse.onSuccess(memberService.quit(id));
     }
 }

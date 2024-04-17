@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.nexters.dailyphrase.favorite.implement.FavoriteCommandAdapter;
 import com.nexters.dailyphrase.favorite.implement.FavoriteQueryAdapter;
-import org.springframework.stereotype.Component;
+import com.nexters.dailyphrase.member.implement.MemberCommandAdapter;
+import com.nexters.dailyphrase.member.implement.MemberQueryAdapter;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nexters.dailyphrase.common.enums.SocialType;
@@ -14,8 +16,6 @@ import com.nexters.dailyphrase.like.domain.Like;
 import com.nexters.dailyphrase.like.implement.LikeCommandAdapter;
 import com.nexters.dailyphrase.like.implement.LikeQueryAdapter;
 import com.nexters.dailyphrase.member.domain.Member;
-import com.nexters.dailyphrase.member.implement.MemberCommandService;
-import com.nexters.dailyphrase.member.implement.MemberQueryService;
 import com.nexters.dailyphrase.member.implement.SocialLoginService;
 import com.nexters.dailyphrase.member.implement.factory.SocialLoginServiceFactory;
 import com.nexters.dailyphrase.member.presentation.dto.MemberRequestDTO;
@@ -23,11 +23,11 @@ import com.nexters.dailyphrase.member.presentation.dto.MemberResponseDTO;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Service
 @RequiredArgsConstructor
-public class MemberFacade {
-    private final MemberQueryService memberQueryService;
-    private final MemberCommandService memberCommandService;
+public class MemberService {
+    private final MemberQueryAdapter memberQueryAdapter;
+    private final MemberCommandAdapter memberCommandAdapter;
     private final LikeQueryAdapter likeQueryAdapter;
     private final LikeCommandAdapter likeCommandAdapter;
     private final FavoriteQueryAdapter favoriteQueryAdapter;
@@ -51,19 +51,19 @@ public class MemberFacade {
 
     @Transactional
     public MemberResponseDTO.QuitMember quit(Long id) {
-        Member member = memberQueryService.findById(id);
+        Member member = memberQueryAdapter.findById(id);
         List<Long> likeIds = likeQueryAdapter.findByMemberId(id).stream().map(Like::getId).toList();
         likeCommandAdapter.deleteAllByIdInBatch(likeIds);
         List<Long> favoriteIds =
                 favoriteQueryAdapter.findByMemberId(id).stream().map(Favorite::getId).toList();
         favoriteCommandAdapter.deleteAllByIdInBatch(favoriteIds);
-        memberCommandService.delete(member);
+        memberCommandAdapter.delete(member);
         return memberMapper.toQuitMember();
     }
 
     @Transactional(readOnly = true)
     public MemberResponseDTO.MemberDetail getMemberDetail(Long id) {
-        Member member = memberQueryService.findById(id);
+        Member member = memberQueryAdapter.findById(id);
         return memberMapper.toMemberDetail(member);
     }
 }
