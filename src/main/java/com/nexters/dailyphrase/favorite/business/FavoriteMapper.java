@@ -3,8 +3,6 @@ package com.nexters.dailyphrase.favorite.business;
 import java.time.LocalDateTime;
 
 import com.nexters.dailyphrase.common.annotation.Mapper;
-import org.springframework.stereotype.Component;
-
 import com.nexters.dailyphrase.favorite.domain.Favorite;
 import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteResponseDTO;
 import com.nexters.dailyphrase.member.domain.Member;

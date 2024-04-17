@@ -2,10 +2,9 @@ package com.nexters.dailyphrase.favorite.implement;
 
 import java.util.List;
 
-import com.nexters.dailyphrase.common.annotation.Adapter;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
 
+import com.nexters.dailyphrase.common.annotation.Adapter;
 import com.nexters.dailyphrase.favorite.domain.Favorite;
 import com.nexters.dailyphrase.favorite.domain.repository.FavoriteRepository;
 import com.nexters.dailyphrase.favorite.exception.DuplicateFavoriteException;

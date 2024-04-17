@@ -3,8 +3,6 @@ package com.nexters.dailyphrase.like.implement;
 import java.util.List;
 
 import com.nexters.dailyphrase.common.annotation.Adapter;
-import org.springframework.stereotype.Service;
-
 import com.nexters.dailyphrase.like.domain.Like;
 import com.nexters.dailyphrase.like.domain.repository.LikeRepository;
 import com.nexters.dailyphrase.like.exception.LikeNotFoundException;

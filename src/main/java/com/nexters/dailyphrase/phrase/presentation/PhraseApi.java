@@ -1,6 +1,5 @@
 package com.nexters.dailyphrase.phrase.presentation;
 
-import com.nexters.dailyphrase.phrase.business.PhraseService;
 import jakarta.validation.constraints.Min;
 
 import org.springframework.validation.annotation.Validated;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.nexters.dailyphrase.common.annotation.ApiErrorCodeExample;
 import com.nexters.dailyphrase.common.exception.GlobalErrorCode;
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
+import com.nexters.dailyphrase.phrase.business.PhraseService;
 import com.nexters.dailyphrase.phrase.exception.PhraseErrorCode;
 import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
 

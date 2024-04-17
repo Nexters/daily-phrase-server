@@ -1,8 +1,6 @@
 package com.nexters.dailyphrase.phraseimage.implement;
 
 import com.nexters.dailyphrase.common.annotation.Adapter;
-import org.springframework.stereotype.Service;
-
 import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
 import com.nexters.dailyphrase.phraseimage.domain.repository.PhraseImageRepository;
 

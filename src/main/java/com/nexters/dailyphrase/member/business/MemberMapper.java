@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import com.nexters.dailyphrase.common.annotation.Mapper;
-
 import com.nexters.dailyphrase.member.domain.Member;
 import com.nexters.dailyphrase.member.presentation.dto.MemberResponseDTO;
 

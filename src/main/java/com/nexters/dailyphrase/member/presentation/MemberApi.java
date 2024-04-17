@@ -1,6 +1,5 @@
 package com.nexters.dailyphrase.member.presentation;
 
-import com.nexters.dailyphrase.member.business.MemberService;
 import org.springframework.web.bind.annotation.*;
 
 import com.nexters.dailyphrase.common.annotation.ApiErrorCodeExample;
@@ -9,6 +8,7 @@ import com.nexters.dailyphrase.common.exception.AuthErrorCode;
 import com.nexters.dailyphrase.common.exception.FeignErrorCode;
 import com.nexters.dailyphrase.common.exception.GlobalErrorCode;
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
+import com.nexters.dailyphrase.member.business.MemberService;
 import com.nexters.dailyphrase.member.exception.MemberErrorCode;
 import com.nexters.dailyphrase.member.presentation.dto.MemberRequestDTO;
 import com.nexters.dailyphrase.member.presentation.dto.MemberResponseDTO;

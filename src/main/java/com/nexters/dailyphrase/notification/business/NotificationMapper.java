@@ -1,11 +1,10 @@
 package com.nexters.dailyphrase.notification.business;
 
-import com.nexters.dailyphrase.common.annotation.Mapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nexters.dailyphrase.common.annotation.Mapper;
 import com.nexters.dailyphrase.notification.presentation.dto.NotificationRequestDTO;
 
 import lombok.RequiredArgsConstructor;

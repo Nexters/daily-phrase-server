@@ -1,17 +1,17 @@
 package com.nexters.dailyphrase.favorite.business;
 
-import com.nexters.dailyphrase.favorite.implement.FavoriteCommandAdapter;
-import com.nexters.dailyphrase.phrase.implement.PhraseQueryAdapter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nexters.dailyphrase.favorite.domain.Favorite;
+import com.nexters.dailyphrase.favorite.implement.FavoriteCommandAdapter;
 import com.nexters.dailyphrase.favorite.implement.FavoriteQueryAdapter;
 import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteRequestDTO;
 import com.nexters.dailyphrase.favorite.presentation.dto.FavoriteResponseDTO;
 import com.nexters.dailyphrase.member.domain.Member;
 import com.nexters.dailyphrase.member.implement.MemberQueryAdapter;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
+import com.nexters.dailyphrase.phrase.implement.PhraseQueryAdapter;
 
 import lombok.RequiredArgsConstructor;
 

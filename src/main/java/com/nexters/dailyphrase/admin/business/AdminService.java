@@ -6,10 +6,6 @@ import java.time.LocalDate;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.nexters.dailyphrase.admin.implement.AdminQueryAdapter;
-import com.nexters.dailyphrase.like.implement.LikeCommandAdapter;
-import com.nexters.dailyphrase.phrase.implement.PhraseQueryAdapter;
-import com.nexters.dailyphrase.phraseimage.implement.PhraseImageCommandAdapter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,14 +20,18 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.nexters.dailyphrase.admin.domain.Admin;
+import com.nexters.dailyphrase.admin.implement.AdminQueryAdapter;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminRequestDTO;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.favorite.implement.FavoriteCommandAdapter;
+import com.nexters.dailyphrase.like.implement.LikeCommandAdapter;
 import com.nexters.dailyphrase.notification.SendNotification;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phrase.implement.PhraseCommandAdapter;
+import com.nexters.dailyphrase.phrase.implement.PhraseQueryAdapter;
 import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
+import com.nexters.dailyphrase.phraseimage.implement.PhraseImageCommandAdapter;
 
 import lombok.RequiredArgsConstructor;
 

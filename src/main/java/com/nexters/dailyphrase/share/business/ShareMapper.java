@@ -1,8 +1,6 @@
 package com.nexters.dailyphrase.share.business;
 
 import com.nexters.dailyphrase.common.annotation.Mapper;
-import org.springframework.stereotype.Component;
-
 import com.nexters.dailyphrase.share.domain.Share;
 import com.nexters.dailyphrase.share.presentation.dto.ShareResponseDTO;
 

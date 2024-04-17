@@ -1,14 +1,14 @@
 package com.nexters.dailyphrase.phrase.business;
 
-import com.nexters.dailyphrase.favorite.implement.FavoriteQueryAdapter;
-import com.nexters.dailyphrase.like.implement.LikeQueryAdapter;
-import com.nexters.dailyphrase.phrase.implement.PhraseQueryAdapter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nexters.dailyphrase.common.utils.MemberUtils;
+import com.nexters.dailyphrase.favorite.implement.FavoriteQueryAdapter;
+import com.nexters.dailyphrase.like.implement.LikeQueryAdapter;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phrase.implement.PhraseCommandAdapter;
+import com.nexters.dailyphrase.phrase.implement.PhraseQueryAdapter;
 import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
 
 import lombok.RequiredArgsConstructor;

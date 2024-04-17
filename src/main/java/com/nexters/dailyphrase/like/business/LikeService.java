@@ -1,15 +1,15 @@
 package com.nexters.dailyphrase.like.business;
 
-import com.nexters.dailyphrase.like.implement.LikeQueryAdapter;
-import com.nexters.dailyphrase.member.implement.MemberQueryAdapter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nexters.dailyphrase.like.domain.Like;
 import com.nexters.dailyphrase.like.implement.LikeCommandAdapter;
+import com.nexters.dailyphrase.like.implement.LikeQueryAdapter;
 import com.nexters.dailyphrase.like.presentation.dto.LikeRequestDTO;
 import com.nexters.dailyphrase.like.presentation.dto.LikeResponseDTO;
 import com.nexters.dailyphrase.member.domain.Member;
+import com.nexters.dailyphrase.member.implement.MemberQueryAdapter;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phrase.implement.PhraseQueryAdapter;
 

@@ -1,11 +1,9 @@
 package com.nexters.dailyphrase.admin.implement;
 
-import com.nexters.dailyphrase.common.annotation.Adapter;
-import org.springframework.stereotype.Service;
-
 import com.nexters.dailyphrase.admin.domain.Admin;
 import com.nexters.dailyphrase.admin.domain.repository.AdminRepository;
 import com.nexters.dailyphrase.admin.exception.AdminNotFoundException;
+import com.nexters.dailyphrase.common.annotation.Adapter;
 
 import lombok.RequiredArgsConstructor;
 
