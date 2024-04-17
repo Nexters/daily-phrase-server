@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
-import com.nexters.dailyphrase.share.business.ShareFacade;
+import com.nexters.dailyphrase.share.business.ShareService;
 import com.nexters.dailyphrase.share.presentation.dto.ShareRequestDTO;
 import com.nexters.dailyphrase.share.presentation.dto.ShareResponseDTO;
 
@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ShareApi {
 
-    private final ShareFacade shareFacade;
+    private final ShareService shareService;
 
     @Operation(
             summary = "06-01 Share️🌐 글귀 공유하기 유저 데이터 기록 Made By 성훈",
@@ -28,6 +28,6 @@ public class ShareApi {
     @PostMapping
     public CommonResponse<ShareResponseDTO.AddShare> addShare(
             @RequestBody final ShareRequestDTO.AddShare request) {
-        return CommonResponse.onSuccess(shareFacade.addShare(request));
+        return CommonResponse.onSuccess(shareService.addShare(request));
     }
 }
