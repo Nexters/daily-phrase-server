@@ -3,17 +3,17 @@ package com.nexters.dailyphrase.favorite.implement;
 import java.util.List;
 
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
 
+import com.nexters.dailyphrase.common.annotation.Adapter;
 import com.nexters.dailyphrase.favorite.domain.Favorite;
 import com.nexters.dailyphrase.favorite.domain.repository.FavoriteRepository;
 import com.nexters.dailyphrase.favorite.exception.DuplicateFavoriteException;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Adapter
 @RequiredArgsConstructor
-public class FavoriteCommandService {
+public class FavoriteCommandAdapter {
     private final FavoriteRepository favoriteRepository;
 
     public Favorite add(Favorite favorite) {

@@ -2,13 +2,12 @@ package com.nexters.dailyphrase.phrase.business;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Component;
-
+import com.nexters.dailyphrase.common.annotation.Mapper;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
 import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
 
-@Component
+@Mapper
 public class PhraseMapper {
 
     public PhraseResponseDTO.PhraseDetail toPhraseDetail(

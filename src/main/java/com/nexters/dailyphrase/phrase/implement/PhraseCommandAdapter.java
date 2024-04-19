@@ -1,15 +1,14 @@
 package com.nexters.dailyphrase.phrase.implement;
 
-import org.springframework.stereotype.Service;
-
+import com.nexters.dailyphrase.common.annotation.Adapter;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 import com.nexters.dailyphrase.phrase.domain.repository.PhraseRepository;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Adapter
 @RequiredArgsConstructor
-public class PhraseCommandService {
+public class PhraseCommandAdapter {
     private final PhraseRepository phraseRepository;
 
     public void increaseViewCountById(final Long phraseId) {

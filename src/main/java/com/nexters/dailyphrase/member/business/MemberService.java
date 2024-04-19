@@ -2,20 +2,20 @@ package com.nexters.dailyphrase.member.business;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nexters.dailyphrase.common.enums.SocialType;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.favorite.domain.Favorite;
-import com.nexters.dailyphrase.favorite.implement.FavoriteCommandService;
-import com.nexters.dailyphrase.favorite.implement.FavoriteQueryService;
+import com.nexters.dailyphrase.favorite.implement.FavoriteCommandAdapter;
+import com.nexters.dailyphrase.favorite.implement.FavoriteQueryAdapter;
 import com.nexters.dailyphrase.like.domain.Like;
-import com.nexters.dailyphrase.like.implement.LikeCommandService;
-import com.nexters.dailyphrase.like.implement.LikeQueryService;
+import com.nexters.dailyphrase.like.implement.LikeCommandAdapter;
+import com.nexters.dailyphrase.like.implement.LikeQueryAdapter;
 import com.nexters.dailyphrase.member.domain.Member;
-import com.nexters.dailyphrase.member.implement.MemberCommandService;
-import com.nexters.dailyphrase.member.implement.MemberQueryService;
+import com.nexters.dailyphrase.member.implement.MemberCommandAdapter;
+import com.nexters.dailyphrase.member.implement.MemberQueryAdapter;
 import com.nexters.dailyphrase.member.implement.SocialLoginService;
 import com.nexters.dailyphrase.member.implement.factory.SocialLoginServiceFactory;
 import com.nexters.dailyphrase.member.presentation.dto.MemberRequestDTO;
@@ -23,15 +23,15 @@ import com.nexters.dailyphrase.member.presentation.dto.MemberResponseDTO;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Service
 @RequiredArgsConstructor
-public class MemberFacade {
-    private final MemberQueryService memberQueryService;
-    private final MemberCommandService memberCommandService;
-    private final LikeQueryService likeQueryService;
-    private final LikeCommandService likeCommandService;
-    private final FavoriteQueryService favoriteQueryService;
-    private final FavoriteCommandService favoriteCommandService;
+public class MemberService {
+    private final MemberQueryAdapter memberQueryAdapter;
+    private final MemberCommandAdapter memberCommandAdapter;
+    private final LikeQueryAdapter likeQueryAdapter;
+    private final LikeCommandAdapter likeCommandAdapter;
+    private final FavoriteQueryAdapter favoriteQueryAdapter;
+    private final FavoriteCommandAdapter favoriteCommandAdapter;
     private final SocialLoginServiceFactory socialLoginServiceFactory;
     private final JwtTokenService jwtTokenService;
     private final MemberMapper memberMapper;
@@ -51,19 +51,19 @@ public class MemberFacade {
 
     @Transactional
     public MemberResponseDTO.QuitMember quit(Long id) {
-        Member member = memberQueryService.findById(id);
-        List<Long> likeIds = likeQueryService.findByMemberId(id).stream().map(Like::getId).toList();
-        likeCommandService.deleteAllByIdInBatch(likeIds);
+        Member member = memberQueryAdapter.findById(id);
+        List<Long> likeIds = likeQueryAdapter.findByMemberId(id).stream().map(Like::getId).toList();
+        likeCommandAdapter.deleteAllByIdInBatch(likeIds);
         List<Long> favoriteIds =
-                favoriteQueryService.findByMemberId(id).stream().map(Favorite::getId).toList();
-        favoriteCommandService.deleteAllByIdInBatch(favoriteIds);
-        memberCommandService.delete(member);
+                favoriteQueryAdapter.findByMemberId(id).stream().map(Favorite::getId).toList();
+        favoriteCommandAdapter.deleteAllByIdInBatch(favoriteIds);
+        memberCommandAdapter.delete(member);
         return memberMapper.toQuitMember();
     }
 
     @Transactional(readOnly = true)
     public MemberResponseDTO.MemberDetail getMemberDetail(Long id) {
-        Member member = memberQueryService.findById(id);
+        Member member = memberQueryAdapter.findById(id);
         return memberMapper.toMemberDetail(member);
     }
 }

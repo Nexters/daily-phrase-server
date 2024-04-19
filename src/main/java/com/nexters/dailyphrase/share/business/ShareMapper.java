@@ -1,11 +1,10 @@
 package com.nexters.dailyphrase.share.business;
 
-import org.springframework.stereotype.Component;
-
+import com.nexters.dailyphrase.common.annotation.Mapper;
 import com.nexters.dailyphrase.share.domain.Share;
 import com.nexters.dailyphrase.share.presentation.dto.ShareResponseDTO;
 
-@Component
+@Mapper
 public class ShareMapper {
 
     public Share toShare(Long phraseId, Long memberId) {

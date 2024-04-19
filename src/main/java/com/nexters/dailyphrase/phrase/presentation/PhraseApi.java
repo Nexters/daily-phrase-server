@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.nexters.dailyphrase.common.annotation.ApiErrorCodeExample;
 import com.nexters.dailyphrase.common.exception.GlobalErrorCode;
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
-import com.nexters.dailyphrase.phrase.business.PhraseFacade;
+import com.nexters.dailyphrase.phrase.business.PhraseService;
 import com.nexters.dailyphrase.phrase.exception.PhraseErrorCode;
 import com.nexters.dailyphrase.phrase.presentation.dto.PhraseResponseDTO;
 
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/phrases")
 public class PhraseApi {
-    private final PhraseFacade phraseFacade;
+    private final PhraseService phraseService;
 
     @Operation(summary = "02-01 Phrase📄 글귀 목록 조회 Made By 성훈", description = "글귀 목록 조회 API입니다.")
     @ApiErrorCodeExample(value = {GlobalErrorCode.class})
@@ -34,7 +34,7 @@ public class PhraseApi {
             @RequestParam(required = false, defaultValue = "10")
                     @Min(value = 1, message = "size는 1 이상이어야 합니다.")
                     final int size) {
-        return CommonResponse.onSuccess(phraseFacade.getPhraseList(page, size));
+        return CommonResponse.onSuccess(phraseService.getPhraseList(page, size));
     }
 
     @Operation(summary = "02-02 Phrase📄 글귀 상세 조회 Made By 성훈", description = "글귀 상세 조회 API입니다.")
@@ -42,6 +42,6 @@ public class PhraseApi {
     @GetMapping("/{id}")
     public CommonResponse<PhraseResponseDTO.PhraseDetail> getPhraseDetail(
             @PathVariable final Long id) {
-        return CommonResponse.onSuccess(phraseFacade.getPhraseDetail(id));
+        return CommonResponse.onSuccess(phraseService.getPhraseDetail(id));
     }
 }

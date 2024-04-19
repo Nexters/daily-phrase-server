@@ -1,9 +1,9 @@
 package com.nexters.dailyphrase.admin.implement;
 
-import org.springframework.stereotype.Service;
+import com.nexters.dailyphrase.common.annotation.Adapter;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Adapter
 @RequiredArgsConstructor
-public class AdminCommandService {}
+public class AdminCommandAdapter {}

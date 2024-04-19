@@ -11,7 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,30 +20,30 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.nexters.dailyphrase.admin.domain.Admin;
-import com.nexters.dailyphrase.admin.implement.AdminQueryService;
+import com.nexters.dailyphrase.admin.implement.AdminQueryAdapter;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminRequestDTO;
 import com.nexters.dailyphrase.admin.presentation.dto.AdminResponseDTO;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
-import com.nexters.dailyphrase.favorite.implement.FavoriteCommandService;
-import com.nexters.dailyphrase.like.implement.LikeCommandService;
+import com.nexters.dailyphrase.favorite.implement.FavoriteCommandAdapter;
+import com.nexters.dailyphrase.like.implement.LikeCommandAdapter;
 import com.nexters.dailyphrase.notification.SendNotification;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
-import com.nexters.dailyphrase.phrase.implement.PhraseCommandService;
-import com.nexters.dailyphrase.phrase.implement.PhraseQueryService;
+import com.nexters.dailyphrase.phrase.implement.PhraseCommandAdapter;
+import com.nexters.dailyphrase.phrase.implement.PhraseQueryAdapter;
 import com.nexters.dailyphrase.phraseimage.domain.PhraseImage;
-import com.nexters.dailyphrase.phraseimage.implement.PhraseImageCommandService;
+import com.nexters.dailyphrase.phraseimage.implement.PhraseImageCommandAdapter;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Service
 @RequiredArgsConstructor
-public class AdminFacade {
-    private final PhraseCommandService phraseCommandService;
-    private final PhraseQueryService phraseQueryService;
-    private final FavoriteCommandService favoriteCommandService;
-    private final LikeCommandService likeCommandService;
-    private final AdminQueryService adminQueryService;
-    private final PhraseImageCommandService phraseImageCommandService;
+public class AdminService {
+    private final PhraseCommandAdapter phraseCommandAdapter;
+    private final PhraseQueryAdapter phraseQueryAdapter;
+    private final FavoriteCommandAdapter favoriteCommandAdapter;
+    private final LikeCommandAdapter likeCommandAdapter;
+    private final AdminQueryAdapter adminQueryAdapter;
+    private final PhraseImageCommandAdapter phraseImageCommandAdapter;
     private final AdminMapper adminMapper;
     private final JwtTokenService jwtTokenService;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -57,7 +57,7 @@ public class AdminFacade {
         String username = request.getUserId();
         String password = request.getPassword();
 
-        adminQueryService.findByLoginId(username); // UserId Notfound 예외처리용
+        adminQueryAdapter.findByLoginId(username); // UserId Notfound 예외처리용
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
@@ -71,7 +71,7 @@ public class AdminFacade {
                         .collect(Collectors.joining(",")); // role_admin
         String authenticatedUserId = authentication.getName(); //  UserId
 
-        Admin admin = adminQueryService.findByLoginId(authenticatedUserId); // id
+        Admin admin = adminQueryAdapter.findByLoginId(authenticatedUserId); // id
         String accessToken = jwtTokenService.generateAccessToken(admin.getId(), role);
         String refreshToken = jwtTokenService.generateRefreshToken(admin.getId());
 
@@ -148,9 +148,9 @@ public class AdminFacade {
         final Phrase phrase = adminMapper.toPhrase(request);
         final PhraseImage phraseImage = adminMapper.toPhraseImage(request);
 
-        Phrase savedPhrase = phraseCommandService.create(phrase);
+        Phrase savedPhrase = phraseCommandAdapter.create(phrase);
         phraseImage.setPhrase(savedPhrase);
-        phraseImageCommandService.create(phraseImage);
+        phraseImageCommandAdapter.create(phraseImage);
 
         if (lastAlarmDate == null || !lastAlarmDate.equals(currentDate)) // 알림은 하루에 한번만 전송
         {
@@ -165,7 +165,7 @@ public class AdminFacade {
 
     @Transactional(readOnly = true)
     public AdminResponseDTO.AdminPhraseDetail getAdminPhraseDetail(final Long id) {
-        Phrase phrase = phraseQueryService.findById(id);
+        Phrase phrase = phraseQueryAdapter.findById(id);
         return adminMapper.toAdminPhraseDetail(phrase);
     }
 
@@ -176,7 +176,7 @@ public class AdminFacade {
         final Phrase requestedPhrase = adminMapper.toPhrase(request);
         final PhraseImage requestedPhraseImage = adminMapper.toPhraseImage(request);
 
-        Phrase updatedPhrase = phraseQueryService.findById(id);
+        Phrase updatedPhrase = phraseQueryAdapter.findById(id);
         updatedPhrase.setTitle(requestedPhrase.getTitle());
         updatedPhrase.setContent(requestedPhrase.getContent());
         updatedPhrase.setIsReserved(requestedPhrase.isReserved());
@@ -193,16 +193,16 @@ public class AdminFacade {
 
     @Transactional(readOnly = true)
     public AdminResponseDTO.AdminPhraseList getAdminPhraseList() {
-        return phraseQueryService.findAdminPhraseListDTO();
+        return phraseQueryAdapter.findAdminPhraseListDTO();
     }
 
     @Transactional
     public AdminResponseDTO.DeletePhrase deletePhrase(final Long id) {
 
-        favoriteCommandService.deleteByPhraseId(id);
-        likeCommandService.deleteByPhraseId(id);
-        phraseImageCommandService.deleteByPhraseId(id);
-        phraseCommandService.deleteById(id);
+        favoriteCommandAdapter.deleteByPhraseId(id);
+        likeCommandAdapter.deleteByPhraseId(id);
+        phraseImageCommandAdapter.deleteByPhraseId(id);
+        phraseCommandAdapter.deleteById(id);
 
         return adminMapper.toDeletePhrase(id);
     }

@@ -3,20 +3,12 @@ package com.nexters.dailyphrase.member.business;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.springframework.stereotype.Component;
-
+import com.nexters.dailyphrase.common.annotation.Mapper;
 import com.nexters.dailyphrase.member.domain.Member;
-import com.nexters.dailyphrase.member.domain.repository.MemberRepository;
 import com.nexters.dailyphrase.member.presentation.dto.MemberResponseDTO;
 
-@Component
+@Mapper
 public class MemberMapper {
-
-    private final MemberRepository memberRepository;
-
-    public MemberMapper(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
 
     public MemberResponseDTO.LoginMember toLoginMember(
             Member member, String accessToken, String refreshToken) {

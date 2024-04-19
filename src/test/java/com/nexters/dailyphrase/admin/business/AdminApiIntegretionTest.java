@@ -39,7 +39,7 @@ class AdminApiIntegrationTest {
 
     @Autowired private PhraseRepository phraseRepository;
     @Autowired private AdminRepository adminRepository;
-    @Autowired private AdminFacade adminFacade;
+    @Autowired private AdminService adminService;
     @Autowired private WebApplicationContext webApplicationContext;
     @Autowired private PasswordEncoder passwordEncoder;
 
@@ -83,7 +83,7 @@ class AdminApiIntegrationTest {
 
         // when
         AdminResponseDTO.AdminPhraseDetail adminPhraseDetail =
-                adminFacade.getAdminPhraseDetail(phraseId);
+                adminService.getAdminPhraseDetail(phraseId);
         Optional<Phrase> findItem = phraseRepository.findById(phraseId);
 
         // then

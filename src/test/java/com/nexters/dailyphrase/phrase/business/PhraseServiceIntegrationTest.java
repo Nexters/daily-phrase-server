@@ -20,9 +20,9 @@ import com.nexters.dailyphrase.phraseimage.domain.repository.PhraseImageReposito
 
 @SpringBootTest
 @ActiveProfiles("test")
-class PhraseFacadeIntegrationTest {
+class PhraseServiceIntegrationTest {
 
-    @Autowired private PhraseFacade phraseFacade;
+    @Autowired private PhraseService phraseService;
     @Autowired private PhraseRepository phraseRepository;
     @Autowired private PhraseImageRepository phraseImageRepository;
 
@@ -45,7 +45,7 @@ class PhraseFacadeIntegrationTest {
         phraseImageRepository.save(phraseImage);
 
         // when
-        PhraseResponseDTO.PhraseDetail phraseDetail = phraseFacade.getPhraseDetail(phraseId);
+        PhraseResponseDTO.PhraseDetail phraseDetail = phraseService.getPhraseDetail(phraseId);
 
         // then
         assertEquals(title, phraseDetail.getTitle());
@@ -70,7 +70,7 @@ class PhraseFacadeIntegrationTest {
             executorService.execute(
                     () -> {
                         try {
-                            phraseFacade.getPhraseDetail(phraseId);
+                            phraseService.getPhraseDetail(phraseId);
                         } finally {
                             latch.countDown();
                         }

@@ -2,14 +2,13 @@ package com.nexters.dailyphrase.like.business;
 
 import java.time.LocalDateTime;
 
-import org.springframework.stereotype.Component;
-
+import com.nexters.dailyphrase.common.annotation.Mapper;
 import com.nexters.dailyphrase.like.domain.Like;
 import com.nexters.dailyphrase.like.presentation.dto.LikeResponseDTO;
 import com.nexters.dailyphrase.member.domain.Member;
 import com.nexters.dailyphrase.phrase.domain.Phrase;
 
-@Component
+@Mapper
 public class LikeMapper {
 
     public Like toLike(Phrase phrase, Member member) {
