@@ -41,7 +41,9 @@ public class PhraseApi {
     @ApiErrorCodeExample(value = {PhraseErrorCode.class, GlobalErrorCode.class})
     @GetMapping("/{id}")
     public CommonResponse<PhraseResponseDTO.PhraseDetail> getPhraseDetail(
-            @PathVariable final Long id) {
-        return CommonResponse.onSuccess(phraseService.getPhraseDetail(id));
+            @PathVariable final Long id,
+            @RequestHeader(value = "User-Agent", required = false, defaultValue = "Unknown")
+                    final String userAgent) {
+        return CommonResponse.onSuccess(phraseService.getPhraseDetail(id, userAgent));
     }
 }
