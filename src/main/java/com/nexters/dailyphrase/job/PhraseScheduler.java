@@ -28,7 +28,7 @@ public class PhraseScheduler {
         LocalDate currentDate = LocalDate.now();
         phraseRepository.updateByIsPublishDate(currentDate);
 
-        List<Phrase> todayPhrase = phraseRepository.findPhraseByPublishDate(currentDate);
+        List<Phrase> todayPhrase = phraseRepository.findByPublishDate(currentDate);
         if (!todayPhrase.isEmpty()) //오늘 예약된 글이 있을때만 알림 전송
         {
             Phrase NotificationPhrase =todayPhrase.get(0); // 오늘 업로드예정 글 중 1건만 전송
