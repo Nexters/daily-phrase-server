@@ -26,8 +26,8 @@ public class PhraseReadActionProcessor {
     public void processReadAction(final Long id, final Long memberId, final String userAgent) {
         try {
             phraseCommandAdapter.increaseViewCountById(id);
-            ReadHistory readHistory = readHistoryMapper.toReadHistory(memberId, id, userAgent);
-            readHistoryCommandAdapter.save(readHistory);
+//            ReadHistory readHistory = readHistoryMapper.toReadHistory(memberId, id, userAgent);
+//            readHistoryCommandAdapter.save(readHistory);
         } catch (Exception e) {
             logger.error("PhraseService) 조회수 증가 & 정보 기록 중 에러가 발생했습니다.");
         }
