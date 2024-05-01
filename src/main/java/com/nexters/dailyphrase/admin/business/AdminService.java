@@ -152,7 +152,8 @@ public class AdminService {
         phraseImage.setPhrase(savedPhrase);
         phraseImageCommandAdapter.create(phraseImage);
 
-        if ((lastAlarmDate == null || !lastAlarmDate.equals(currentDate))&& savedPhrase.getPublishDate() == null ) // 알림은 하루에 한번만 전송, 예약되지 않은 글만 실행
+        if ((lastAlarmDate == null || !lastAlarmDate.equals(currentDate))
+                && savedPhrase.getPublishDate() == null) // 알림은 하루에 한번만 전송, 예약되지 않은 글만 실행
         {
             final String alarmBody = savedPhrase.getTitle();
             final String alarmPhraseId = savedPhrase.getId().toString();
