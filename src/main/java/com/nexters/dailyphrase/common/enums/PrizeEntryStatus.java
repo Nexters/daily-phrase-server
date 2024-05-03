@@ -5,11 +5,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum PrizeEventStatus {
-    ACTIVE("진행중"),
-    PENDING("대기"),
-    CLOSED("종료");
+public enum PrizeEntryStatus {
+    ENTERED("응모됨"),
+    WINNING("당첨"),
+    MISSED("미당첨");
 
     private final String description;
 }
-S

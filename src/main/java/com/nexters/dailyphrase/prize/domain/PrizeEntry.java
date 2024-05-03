@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.prize.domain;
 
+import com.nexters.dailyphrase.common.enums.PrizeEntryStatus;
 import jakarta.persistence.*;
 
 import com.nexters.dailyphrase.common.domain.BaseDateTimeEntity;
@@ -21,4 +22,7 @@ public class PrizeEntry extends BaseDateTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gift_id", nullable = false)
     private Prize gift;
+
+    @Enumerated(EnumType.STRING)
+    private PrizeEntryStatus status;
 }

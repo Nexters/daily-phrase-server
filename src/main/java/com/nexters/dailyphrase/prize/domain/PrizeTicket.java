@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.prize.domain;
 
+import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
 import jakarta.persistence.*;
 
 import com.nexters.dailyphrase.common.domain.BaseDateTimeEntity;
@@ -18,6 +19,6 @@ public class PrizeTicket extends BaseDateTimeEntity {
 
     private Long memberId;
 
-    @Column(nullable = false)
-    private int count;
+    @Enumerated(EnumType.STRING)
+    private PrizeTicketStatus status;
 }
