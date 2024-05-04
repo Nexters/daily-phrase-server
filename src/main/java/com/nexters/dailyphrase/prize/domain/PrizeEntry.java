@@ -1,9 +1,9 @@
 package com.nexters.dailyphrase.prize.domain;
 
-import com.nexters.dailyphrase.common.enums.PrizeEntryStatus;
 import jakarta.persistence.*;
 
 import com.nexters.dailyphrase.common.domain.BaseDateTimeEntity;
+import com.nexters.dailyphrase.common.enums.PrizeEntryStatus;
 
 import lombok.*;
 

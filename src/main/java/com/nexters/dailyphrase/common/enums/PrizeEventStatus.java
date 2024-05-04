@@ -12,4 +12,3 @@ public enum PrizeEventStatus {
 
     private final String description;
 }
-S

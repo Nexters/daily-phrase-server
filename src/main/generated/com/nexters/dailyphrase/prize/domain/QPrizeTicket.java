@@ -21,14 +21,14 @@ public class QPrizeTicket extends EntityPathBase<PrizeTicket> {
 
     public final com.nexters.dailyphrase.common.domain.QBaseDateTimeEntity _super = new com.nexters.dailyphrase.common.domain.QBaseDateTimeEntity(this);
 
-    public final NumberPath<Integer> count = createNumber("count", Integer.class);
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final NumberPath<Long> memberId = createNumber("memberId", Long.class);
+
+    public final EnumPath<com.nexters.dailyphrase.common.enums.PrizeTicketStatus> status = createEnum("status", com.nexters.dailyphrase.common.enums.PrizeTicketStatus.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
