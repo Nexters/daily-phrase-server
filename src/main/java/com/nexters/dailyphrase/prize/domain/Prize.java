@@ -16,10 +16,6 @@ public class Prize extends BaseDateTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id", nullable = false)
-    private PrizeEvent event;
-
     @Column(nullable = false)
     private String name;
 
