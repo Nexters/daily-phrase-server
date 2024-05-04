@@ -27,11 +27,15 @@ public class QPrizeEntry extends EntityPathBase<PrizeEntry> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
+    public final QPrizeEvent event;
+
     public final QPrize gift;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final NumberPath<Long> memberId = createNumber("memberId", Long.class);
+
+    public final EnumPath<com.nexters.dailyphrase.common.enums.PrizeEntryStatus> status = createEnum("status", com.nexters.dailyphrase.common.enums.PrizeEntryStatus.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
@@ -54,7 +58,8 @@ public class QPrizeEntry extends EntityPathBase<PrizeEntry> {
 
     public QPrizeEntry(Class<? extends PrizeEntry> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.gift = inits.isInitialized("gift") ? new QPrize(forProperty("gift"), inits.get("gift")) : null;
+        this.event = inits.isInitialized("event") ? new QPrizeEvent(forProperty("event")) : null;
+        this.gift = inits.isInitialized("gift") ? new QPrize(forProperty("gift")) : null;
     }
 
 }

@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -18,16 +17,12 @@ public class QPrize extends EntityPathBase<Prize> {
 
     private static final long serialVersionUID = 1783440584L;
 
-    private static final PathInits INITS = PathInits.DIRECT2;
-
     public static final QPrize prize = new QPrize("prize");
 
     public final com.nexters.dailyphrase.common.domain.QBaseDateTimeEntity _super = new com.nexters.dailyphrase.common.domain.QBaseDateTimeEntity(this);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
-
-    public final QPrizeEvent event;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
@@ -41,24 +36,15 @@ public class QPrize extends EntityPathBase<Prize> {
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QPrize(String variable) {
-        this(Prize.class, forVariable(variable), INITS);
+        super(Prize.class, forVariable(variable));
     }
 
     public QPrize(Path<? extends Prize> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QPrize(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QPrize(PathMetadata metadata, PathInits inits) {
-        this(Prize.class, metadata, inits);
-    }
-
-    public QPrize(Class<? extends Prize> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.event = inits.isInitialized("event") ? new QPrizeEvent(forProperty("event")) : null;
+        super(Prize.class, metadata);
     }
 
 }
