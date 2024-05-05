@@ -27,8 +27,6 @@ public class QPrizeEntry extends EntityPathBase<PrizeEntry> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final QPrizeEvent event;
-
     public final QPrize gift;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
@@ -58,8 +56,7 @@ public class QPrizeEntry extends EntityPathBase<PrizeEntry> {
 
     public QPrizeEntry(Class<? extends PrizeEntry> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.event = inits.isInitialized("event") ? new QPrizeEvent(forProperty("event")) : null;
-        this.gift = inits.isInitialized("gift") ? new QPrize(forProperty("gift")) : null;
+        this.gift = inits.isInitialized("gift") ? new QPrize(forProperty("gift"), inits.get("gift")) : null;
     }
 
 }
