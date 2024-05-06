@@ -19,11 +19,13 @@ public class PrizeEvent extends BaseDateTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private LocalDateTime start;
+    private String name;
 
     @Column(nullable = false)
-    private LocalDateTime end;
+    private LocalDateTime startAt;
+
+    @Column(nullable = false)
+    private LocalDateTime endAt;
 
     @Enumerated(EnumType.STRING)
     private PrizeEventStatus status;
