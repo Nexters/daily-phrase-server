@@ -10,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.nexters.dailyphrase.phrase.domain.Phrase;
@@ -34,7 +33,6 @@ class PhraseServiceIntegrationTest {
     final String uuid = "550e8400-e29b-41d4-a716-446655440000";
 
     @Test
-    @WithMockUser(username = "1")
     @DisplayName("글귀 상세조회 로직을 테스트합니다.")
     void 글귀_상세조회() {
         // given
