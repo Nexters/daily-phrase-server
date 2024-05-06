@@ -44,6 +44,7 @@ public class SecurityConfig {
         "/",
         "/swagger-ui/**",
         "/api/v1/phrases/**",
+        "/api/v1/events/{eventId}/prizes",
         "/api/v1/members/login/{socialType}",
         "/api/admin/login",
         "/api-docs/**"

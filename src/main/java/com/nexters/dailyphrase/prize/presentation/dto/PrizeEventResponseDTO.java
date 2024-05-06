@@ -18,8 +18,8 @@ public class PrizeEventResponseDTO {
         private String name;
         private String imageUrl;
         private int requiredTicketCount; // 필요한 응모권 개수
-        private int totalEntryCount; // 전체 응모수
-        @Builder.Default private int myEntryCount = 0; // 내 응모수
+        private long totalEntryCount; // 전체 응모수
+        @Builder.Default private long myEntryCount = 0; // 내 응모수
     }
 
     @Builder

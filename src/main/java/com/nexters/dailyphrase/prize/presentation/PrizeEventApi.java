@@ -1,6 +1,5 @@
 package com.nexters.dailyphrase.prize.presentation;
 
-import com.nexters.dailyphrase.prize.business.PrizeEventService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
+import com.nexters.dailyphrase.prize.business.PrizeEventService;
 import com.nexters.dailyphrase.prize.presentation.dto.PrizeEventResponseDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
