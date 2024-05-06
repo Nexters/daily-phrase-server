@@ -24,11 +24,13 @@ public class QPrizeEvent extends EntityPathBase<PrizeEvent> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final DateTimePath<java.time.LocalDateTime> end = createDateTime("end", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> endAt = createDateTime("endAt", java.time.LocalDateTime.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final DateTimePath<java.time.LocalDateTime> start = createDateTime("start", java.time.LocalDateTime.class);
+    public final StringPath name = createString("name");
+
+    public final DateTimePath<java.time.LocalDateTime> startAt = createDateTime("startAt", java.time.LocalDateTime.class);
 
     public final EnumPath<com.nexters.dailyphrase.common.enums.PrizeEventStatus> status = createEnum("status", com.nexters.dailyphrase.common.enums.PrizeEventStatus.class);
 

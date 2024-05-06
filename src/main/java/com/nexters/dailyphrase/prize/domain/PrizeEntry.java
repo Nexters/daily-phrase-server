@@ -23,10 +23,6 @@ public class PrizeEntry extends BaseDateTimeEntity {
     @JoinColumn(name = "gift_id", nullable = false)
     private Prize gift;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id", nullable = false)
-    private PrizeEvent event;
-
     @Enumerated(EnumType.STRING)
     private PrizeEntryStatus status;
 }

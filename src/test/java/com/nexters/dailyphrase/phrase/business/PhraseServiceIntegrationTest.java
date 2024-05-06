@@ -45,7 +45,8 @@ class PhraseServiceIntegrationTest {
         phraseImageRepository.save(phraseImage);
 
         // when
-        PhraseResponseDTO.PhraseDetail phraseDetail = phraseService.getPhraseDetail(phraseId);
+        PhraseResponseDTO.PhraseDetail phraseDetail =
+                phraseService.getPhraseDetail(phraseId, "Unknown");
 
         // then
         assertEquals(title, phraseDetail.getTitle());
@@ -70,7 +71,7 @@ class PhraseServiceIntegrationTest {
             executorService.execute(
                     () -> {
                         try {
-                            phraseService.getPhraseDetail(phraseId);
+                            phraseService.getPhraseDetail(phraseId, "Unknown");
                         } finally {
                             latch.countDown();
                         }
