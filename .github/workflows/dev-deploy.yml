@@ -30,8 +30,7 @@ jobs:
       - name: Create firebase directory
         run: mkdir -p ./src/main/resources/firebase/
 
-      - name: create-json
-        id: create-json
+      - name: Create JSON
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "firebase-adminsdk.json"
@@ -44,25 +43,39 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build -x test -Pprofile=dev
 
-      - name: Log in to NCP Container Registry
-        run: docker login -u ${{ secrets.NCP_USERNAME }} -p ${{ secrets.NCP_PASSWORD }} ${{ secrets.NCP_REGISTRY_URL }}
+      - name: Install AWS CLI
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
+
+      - name: Configure AWS CLI
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region ${{ secrets.AWS_REGION }}
+
+      - name: Log in to AWS ECR
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ECR_REPOSITORY_URL }}
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.NCP_REGISTRY_URL }}/${{ secrets.NCP_PROJECT_NAME }}:${{ github.sha }} .
+        run: |
+          docker build -t ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }} .
 
-      - name: Push Docker image to NCP Container Registry
-        run: docker push ${{ secrets.NCP_REGISTRY_URL }}/${{ secrets.NCP_PROJECT_NAME }}:${{ github.sha }}
+      - name: Push Docker image to ECR
+        run: |
+          docker push ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
 
-
-      - name: Deploy to NCP Server
+      - name: Deploy to EC2 instance
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.NCP_SERVER_HOST }}
-          username: ${{ secrets.NCP_SERVER_USERNAME }}
-          password: ${{ secrets.NCP_SERVER_SSH_PASSWORD }}
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            docker pull ${{ secrets.NCP_REGISTRY_URL }}/${{ secrets.NCP_PROJECT_NAME }}:${{ github.sha }}
+            docker pull ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
             docker stop dailyphrase-dev-api || true
             docker rm dailyphrase-dev-api || true
-            docker run -d --name dailyphrase-dev-api -p 80:8080 ${{ secrets.NCP_REGISTRY_URL }}/${{ secrets.NCP_PROJECT_NAME }}:${{ github.sha }}
+            docker run -d --name dailyphrase-dev-api -p 80:8080 ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
