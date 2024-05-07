@@ -75,6 +75,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ECR_REPOSITORY_URL }}
             docker pull ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
             docker stop dailyphrase-dev-api || true
             docker rm dailyphrase-dev-api || true
