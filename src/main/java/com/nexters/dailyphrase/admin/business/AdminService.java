@@ -92,8 +92,8 @@ public class AdminService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Value("${cloud.aws.s3.endpoint}")
-    private String endpoint;
+    @Value("${cloud.aws.region.static}")
+    private String region;
 
     @Transactional
     public AdminResponseDTO.UploadImageFile uploadImageFile(final MultipartFile image)
@@ -116,7 +116,7 @@ public class AdminService {
                             .withCannedAcl(CannedAccessControlList.PublicRead));
         }
 
-        String storeFileUrl = endpoint + "/" + bucket + "/" + key;
+        String storeFileUrl = "https://s3." + region + ".amazonaws.com/" + bucket + "/" + key;
 
         return adminMapper.toUploadImageFile(storeFileUrl, image.getSize(), originalFilename);
     }
@@ -163,6 +163,7 @@ public class AdminService {
 
         return adminMapper.toAddPhrase(savedPhrase);
     }
+
 
     @Transactional(readOnly = true)
     public AdminResponseDTO.AdminPhraseDetail getAdminPhraseDetail(final Long id) {
