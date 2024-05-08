@@ -33,7 +33,6 @@ cloud:
     region:
       static: ap-northeast-2
     s3:
-      endpoint: https://kr.object.ncloudstorage.com
       bucket: dailyphrase.bucket
     credentials:
       access-key: ${ACCESS_KEY}
