@@ -67,6 +67,10 @@ jobs:
         run: |
           docker push ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
 
+      - name: Log in to AWS ECR (before deployment)
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ECR_REPOSITORY_URL }}
+
       - name: Deploy to EC2 instance
         uses: appleboy/ssh-action@master
         with:
