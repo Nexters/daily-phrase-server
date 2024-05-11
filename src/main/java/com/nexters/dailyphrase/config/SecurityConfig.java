@@ -46,6 +46,7 @@ public class SecurityConfig {
         "/api/v1/phrases/**",
         "/api/v1/events/{eventId}/prizes",
         "/api/v1/members/login/{socialType}",
+        "/api/v1/modals",
         "/api/admin/login",
         "/api-docs/**"
     };
