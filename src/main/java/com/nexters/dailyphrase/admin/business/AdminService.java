@@ -164,7 +164,6 @@ public class AdminService {
         return adminMapper.toAddPhrase(savedPhrase);
     }
 
-
     @Transactional(readOnly = true)
     public AdminResponseDTO.AdminPhraseDetail getAdminPhraseDetail(final Long id) {
         Phrase phrase = phraseQueryAdapter.findById(id);
