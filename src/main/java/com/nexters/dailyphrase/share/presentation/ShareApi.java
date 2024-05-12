@@ -1,12 +1,11 @@
 package com.nexters.dailyphrase.share.presentation;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
 import com.nexters.dailyphrase.share.business.ShareService;
+import com.nexters.dailyphrase.share.presentation.dto.KakaolinkCallbackRequestDTO;
 import com.nexters.dailyphrase.share.presentation.dto.ShareRequestDTO;
 import com.nexters.dailyphrase.share.presentation.dto.ShareResponseDTO;
 
@@ -21,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class ShareApi {
 
     private final ShareService shareService;
+    private static final String VALID_API_KEY = "your_service_app_admin_key"; // 실제 어드민 키
 
     @Operation(
             summary = "06-01 Share️🌐 글귀 공유하기 유저 데이터 기록 Made By 성훈",
@@ -29,5 +29,14 @@ public class ShareApi {
     public CommonResponse<ShareResponseDTO.AddShare> addShare(
             @RequestBody final ShareRequestDTO.AddShare request) {
         return CommonResponse.onSuccess(shareService.addShare(request));
+    }
+
+    @PostMapping("/kakaolink/callback")
+    public ResponseEntity<String> handleKakaoLinkCallback(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestHeader("X-Kakao-Resource-ID") String kakaoResourceId,
+            @RequestHeader("User-Agent") String userAgent,
+            @RequestBody KakaolinkCallbackRequestDTO request) {
+        return ResponseEntity.ok("Received");
     }
 }
