@@ -23,4 +23,6 @@ public class DailyPhraseStatic {
     public static final int DUPLICATE = 409;
     public static final int TOO_MANY_REQUESTS = 429;
     public static final int INTERNAL_SERVER = 500;
+
+    public static final int MAX_EVENT_TICKETS_PER_DAY = 10;
 }
