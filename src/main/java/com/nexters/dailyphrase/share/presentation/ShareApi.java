@@ -19,8 +19,6 @@ public class ShareApi {
 
     private final ShareService shareService;
 
-    private static final String VALID_API_KEY = "your_service_app_admin_key"; // 실제 어드민 키
-
     @Operation(
             summary = "06-01 Share️🌐 글귀 공유하기 유저 데이터 기록 Made By 성훈",
             description = "글귀 공유하기 유저 데이터 기록 API입니다.")

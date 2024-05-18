@@ -5,6 +5,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
+import com.nexters.dailyphrase.common.validation.KakaoAppAdminKeyValidator;
 import com.nexters.dailyphrase.prize.business.PrizeEventService;
 import com.nexters.dailyphrase.prize.presentation.dto.PrizeEventResponseDTO;
 import com.nexters.dailyphrase.share.presentation.dto.KakaolinkCallbackRequestDTO;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class PrizeEventApi {
 
     private final PrizeEventService prizeEventService;
+    private final KakaoAppAdminKeyValidator kakaoAppAdminKeyValidator;
 
     @Operation(
             summary = "07-01 Event 🎁 특정 이벤트의 경품 목록 조회 Made By 성훈",
@@ -37,8 +39,8 @@ public class PrizeEventApi {
             @RequestHeader("X-Kakao-Resource-ID") String kakaoResourceId,
             @RequestHeader("User-Agent") String userAgent,
             @RequestBody KakaolinkCallbackRequestDTO request) {
-
-        prizeEventService.issuePrizeTicket(request);
+        if (kakaoAppAdminKeyValidator.isValid(authorizationHeader))
+            prizeEventService.issuePrizeTicket(request);
         return ResponseEntity.ok("Received");
     }
 }

@@ -45,7 +45,7 @@ public class PrizeEventService {
     }
 
     @Transactional
-    public void issuePrizeTicket(KakaolinkCallbackRequestDTO request) {
+    public void issuePrizeTicket(final KakaolinkCallbackRequestDTO request) {
         Long eventId = request.getEventId();
         String accessToken = request.getAccessToken();
         AccessTokenInfo accessTokenInfo = jwtTokenService.parseAccessToken(accessToken);
