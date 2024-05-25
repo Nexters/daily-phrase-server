@@ -19,6 +19,8 @@ public class PrizeTicket extends BaseDateTimeEntity {
 
     private Long memberId;
 
+    private Long eventId;
+
     @Enumerated(EnumType.STRING)
     private PrizeTicketStatus status;
 }

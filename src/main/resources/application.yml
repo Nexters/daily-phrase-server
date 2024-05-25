@@ -39,6 +39,8 @@ cloud:
       secret-key: ${SECRET_KEY}
     stack:
       auto: false
+kakao:
+  app-admin-key: ${KAKAO_APP_ADMIN_KEY}
 ---
 spring:
   config:
