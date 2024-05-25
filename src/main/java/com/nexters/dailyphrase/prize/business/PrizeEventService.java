@@ -5,6 +5,7 @@ import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.MAX_EVENT_
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.nexters.dailyphrase.common.enums.PrizeEventStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,7 @@ public class PrizeEventService {
         LocalDateTime start = prizeEvent.getStartAt();
         LocalDateTime end = prizeEvent.getEndAt();
         LocalDateTime now = LocalDateTime.now();
-        if (start.isBefore(now) && end.isAfter(now)) return true;
+        if (start.isBefore(now) && end.isAfter(now) && prizeEvent.getStatus() == PrizeEventStatus.ACTIVE) return true;
         return false;
     }
 
