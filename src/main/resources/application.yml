@@ -114,4 +114,4 @@ fcm:
    scope: https://www.googleapis.com/auth/cloud-platform
   api:
     url: https://fcm.googleapis.com/v1/projects/${fcm-project-id}/messages:send
-  topic: "test"
+  topic: "update_phrase"
