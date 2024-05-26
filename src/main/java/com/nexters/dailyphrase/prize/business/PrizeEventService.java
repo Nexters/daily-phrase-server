@@ -5,10 +5,10 @@ import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.MAX_EVENT_
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.nexters.dailyphrase.common.enums.PrizeEventStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nexters.dailyphrase.common.enums.PrizeEventStatus;
 import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.common.jwt.dto.AccessTokenInfo;
@@ -41,7 +41,9 @@ public class PrizeEventService {
         LocalDateTime start = prizeEvent.getStartAt();
         LocalDateTime end = prizeEvent.getEndAt();
         LocalDateTime now = LocalDateTime.now();
-        if (start.isBefore(now) && end.isAfter(now) && prizeEvent.getStatus() == PrizeEventStatus.ACTIVE) return true;
+        if (start.isBefore(now)
+                && end.isAfter(now)
+                && prizeEvent.getStatus() == PrizeEventStatus.ACTIVE) return true;
         return false;
     }
 

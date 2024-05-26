@@ -33,9 +33,13 @@ public class QPrize extends EntityPathBase<Prize> {
 
     public final StringPath imageUrl = createString("imageUrl");
 
+    public final StringPath manufacturer = createString("manufacturer");
+
     public final StringPath name = createString("name");
 
     public final NumberPath<Integer> requiredTicketCount = createNumber("requiredTicketCount", Integer.class);
+
+    public final StringPath shortName = createString("shortName");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
