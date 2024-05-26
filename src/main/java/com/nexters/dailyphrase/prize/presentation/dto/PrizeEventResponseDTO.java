@@ -16,6 +16,8 @@ public class PrizeEventResponseDTO {
         private Long prizeId;
         private Long eventId;
         private String name;
+        private String shortName;
+        private String manufacturer;
         private String imageUrl;
         private int requiredTicketCount; // 필요한 응모권 개수
         private long totalEntryCount; // 전체 응모수
