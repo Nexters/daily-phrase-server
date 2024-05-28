@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nexters.dailyphrase.common.consts.DailyPhraseStatic;
 import com.nexters.dailyphrase.common.enums.PrizeEventStatus;
 import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
@@ -49,7 +50,7 @@ public class PrizeEventService {
 
     @Transactional
     public void issuePrizeTicket(final KakaolinkCallbackRequestDTO request) {
-        Long eventId = request.getEventId();
+        final Long eventId = DailyPhraseStatic.CURRENT_ACTIVE_EVENT_ID;
         String accessToken = request.getAccessToken();
         AccessTokenInfo accessTokenInfo = jwtTokenService.parseAccessToken(accessToken);
         Long memberId = accessTokenInfo.getUserId();

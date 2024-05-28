@@ -13,6 +13,5 @@ public class KakaolinkCallbackRequestDTO {
     private String hashChatId;
     private Long templateId;
     private String accessToken; // 자체 토큰
-    private Long eventId = 1L;
     //    private Map<String, Object> serverCallbackArgs;
 }
