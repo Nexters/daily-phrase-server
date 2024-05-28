@@ -25,4 +25,5 @@ public class DailyPhraseStatic {
     public static final int INTERNAL_SERVER = 500;
 
     public static final int MAX_EVENT_TICKETS_PER_DAY = 10;
+    public static final Long CURRENT_ACTIVE_EVENT_ID = 1L;
 }

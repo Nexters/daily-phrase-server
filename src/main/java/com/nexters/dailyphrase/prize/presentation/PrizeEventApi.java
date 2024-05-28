@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import com.nexters.dailyphrase.common.consts.DailyPhraseStatic;
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
 import com.nexters.dailyphrase.common.validation.KakaoAppAdminKeyValidator;
 import com.nexters.dailyphrase.prize.business.PrizeEventService;
@@ -27,9 +28,9 @@ public class PrizeEventApi {
     @Operation(
             summary = "07-01 Event 🎁 특정 이벤트의 경품 목록 조회 Made By 성훈",
             description = "특정 이벤트의 경품 목록 조회 API입니다.")
-    @GetMapping("/{eventId}/prizes")
-    public CommonResponse<PrizeEventResponseDTO.PrizeList> getPrizeList(
-            @PathVariable final Long eventId) {
+    @GetMapping("/prizes")
+    public CommonResponse<PrizeEventResponseDTO.PrizeList> getPrizeList() {
+        final Long eventId = DailyPhraseStatic.CURRENT_ACTIVE_EVENT_ID;
         return CommonResponse.onSuccess(prizeEventService.getPrizeList(eventId));
     }
 
