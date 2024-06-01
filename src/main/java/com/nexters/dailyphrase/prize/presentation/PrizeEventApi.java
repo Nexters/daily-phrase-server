@@ -34,6 +34,12 @@ public class PrizeEventApi {
         return CommonResponse.onSuccess(prizeEventService.getPrizeList(eventId));
     }
 
+    @GetMapping("/prizes/{prizeId}/entry-result")
+    public CommonResponse<PrizeEventResponseDTO.PrizeEntryResult> getPrizeEntryResult(
+            @PathVariable final Long prizeId) {
+        return CommonResponse.onSuccess(prizeEventService.getPrizeEntryResult(prizeId));
+    }
+
     @PostMapping("/kakaolink/callback")
     public ResponseEntity<String> handleKakaoLinkCallback(
             @RequestHeader("Authorization") String authorizationHeader,

@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nexters.dailyphrase.common.consts.DailyPhraseStatic;
+import com.nexters.dailyphrase.common.enums.PrizeEntryStatus;
 import com.nexters.dailyphrase.common.enums.PrizeEventStatus;
 import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.common.jwt.dto.AccessTokenInfo;
+import com.nexters.dailyphrase.common.utils.MemberUtils;
 import com.nexters.dailyphrase.prize.domain.PrizeEvent;
 import com.nexters.dailyphrase.prize.domain.PrizeTicket;
 import com.nexters.dailyphrase.prize.implement.*;
@@ -29,12 +31,22 @@ public class PrizeEventService {
     private final PrizeCommandAdapter prizeCommandAdapter;
     private final PrizeTicketQueryAdapter prizeTicketQueryAdapter;
     private final PrizeTicketCommandAdapter prizeTicketCommandAdapter;
+    private final PrizeEntryQueryAdapter prizeEntryQueryAdapter;
     private final JwtTokenService jwtTokenService;
     private final PrizeEventMapper prizeEventMapper;
+    private final MemberUtils memberUtils;
 
     @Transactional(readOnly = true)
     public PrizeEventResponseDTO.PrizeList getPrizeList(final Long eventId) {
         return prizeQueryAdapter.findPrizeListDTO(eventId);
+    }
+
+    @Transactional(readOnly = true)
+    public PrizeEventResponseDTO.PrizeEntryResult getPrizeEntryResult(final Long prizeId) {
+        Long memberId = memberUtils.getCurrentMemberId();
+        // 특정 멤버가 특정 상품에 응모했는데 그 중 당첨 된 것이 있는지?
+        PrizeEntryStatus status = prizeEntryQueryAdapter.findWinningEntry(memberId, prizeId);
+        return prizeEventMapper.toPrizeEntryResult(memberId, prizeId, status);
     }
 
     private boolean isValidEvent(final Long eventId) {
