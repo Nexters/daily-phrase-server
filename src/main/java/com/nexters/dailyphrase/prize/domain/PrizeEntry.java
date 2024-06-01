@@ -20,8 +20,8 @@ public class PrizeEntry extends BaseDateTimeEntity {
     private Long memberId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gift_id", nullable = false)
-    private Prize gift;
+    @JoinColumn(name = "prize_id", nullable = false)
+    private Prize prize;
 
     @Enumerated(EnumType.STRING)
     private PrizeEntryStatus status;

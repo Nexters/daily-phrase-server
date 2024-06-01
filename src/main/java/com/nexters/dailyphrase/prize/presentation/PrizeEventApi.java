@@ -26,12 +26,21 @@ public class PrizeEventApi {
     private final KakaoAppAdminKeyValidator kakaoAppAdminKeyValidator;
 
     @Operation(
-            summary = "07-01 Event 🎁 특정 이벤트의 경품 목록 조회 Made By 성훈",
-            description = "특정 이벤트의 경품 목록 조회 API입니다.")
+            summary = "07-01 Event 🎁 경품 응모 이벤트의 경품 목록 조회 Made By 성훈",
+            description = "경품 응모 이벤트의 경품 목록 조회 API입니다.")
     @GetMapping("/prizes")
     public CommonResponse<PrizeEventResponseDTO.PrizeList> getPrizeList() {
         final Long eventId = DailyPhraseStatic.CURRENT_ACTIVE_EVENT_ID;
         return CommonResponse.onSuccess(prizeEventService.getPrizeList(eventId));
+    }
+
+    @Operation(
+            summary = "07-02 Event 🎁 경품 응모 이벤트의 경품 응모 결과 확인 Made By 성훈",
+            description = "경품 응모 이벤트의 경품 응모 결과 확인 API입니다.")
+    @GetMapping("/prizes/{prizeId}/entry-result")
+    public CommonResponse<PrizeEventResponseDTO.PrizeEntryResult> getPrizeEntryResult(
+            @PathVariable final Long prizeId) {
+        return CommonResponse.onSuccess(prizeEventService.getPrizeEntryResult(prizeId));
     }
 
     @PostMapping("/kakaolink/callback")

@@ -42,12 +42,12 @@ public class PrizeCustomRepositoryImpl implements PrizeCustomRepository {
                                         qPrize.requiredTicketCount,
                                         JPAExpressions.select(qPrizeEntry.id.count())
                                                 .from(qPrizeEntry)
-                                                .where(qPrizeEntry.gift.id.eq(qPrize.id)),
+                                                .where(qPrizeEntry.prize.id.eq(qPrize.id)),
                                         JPAExpressions.select(qPrizeEntry.id.count())
                                                 .from(qPrizeEntry)
                                                 .where(
                                                         qPrizeEntry
-                                                                .gift
+                                                                .prize
                                                                 .id
                                                                 .eq(qPrize.id)
                                                                 .and(
