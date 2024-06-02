@@ -26,6 +26,12 @@ public class Prize extends BaseDateTimeEntity {
     private String manufacturer;
 
     @Column(nullable = false)
+    private String welcomeImageUrl;
+
+    @Column(nullable = false)
+    private String bannerImageUrl;
+
+    @Column(nullable = false)
     private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
