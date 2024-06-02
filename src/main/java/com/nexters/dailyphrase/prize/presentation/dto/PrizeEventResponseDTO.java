@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.prize.presentation.dto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class PrizeEventResponseDTO {
     public static class PrizeList {
         private long total;
         @Builder.Default private List<PrizeListItem> prizeList = new ArrayList<>();
+        private LocalDateTime eventEndDateTime;
     }
 
     @Builder

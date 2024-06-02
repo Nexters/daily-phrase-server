@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.prize.domain.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.nexters.dailyphrase.common.utils.MemberUtils;
 import com.nexters.dailyphrase.prize.domain.QPrize;
 import com.nexters.dailyphrase.prize.domain.QPrizeEntry;
+import com.nexters.dailyphrase.prize.domain.QPrizeEvent;
 import com.nexters.dailyphrase.prize.presentation.dto.PrizeEventResponseDTO;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
@@ -25,6 +27,7 @@ public class PrizeCustomRepositoryImpl implements PrizeCustomRepository {
 
         QPrize qPrize = QPrize.prize;
         QPrizeEntry qPrizeEntry = QPrizeEntry.prizeEntry;
+        QPrizeEvent qPrizeEvent = QPrizeEvent.prizeEvent;
 
         Long memberId = memberUtils.getCurrentMemberId();
 
@@ -59,9 +62,17 @@ public class PrizeCustomRepositoryImpl implements PrizeCustomRepository {
                         .where(qPrize.event.id.eq(eventId))
                         .fetch();
 
+        LocalDateTime eventEndDateTime =
+                queryFactory
+                        .select(qPrizeEvent.endAt)
+                        .from(qPrizeEvent)
+                        .where(qPrizeEvent.id.eq(eventId))
+                        .fetchOne();
+
         return PrizeEventResponseDTO.PrizeList.builder()
                 .total(prizeListItems.size())
                 .prizeList(prizeListItems)
+                .eventEndDateTime(eventEndDateTime)
                 .build();
     }
 }
