@@ -24,6 +24,8 @@ public class QPrize extends EntityPathBase<Prize> {
 
     public final com.nexters.dailyphrase.common.domain.QBaseDateTimeEntity _super = new com.nexters.dailyphrase.common.domain.QBaseDateTimeEntity(this);
 
+    public final StringPath bannerImageUrl = createString("bannerImageUrl");
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
@@ -43,6 +45,8 @@ public class QPrize extends EntityPathBase<Prize> {
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
+
+    public final StringPath welcomeImageUrl = createString("welcomeImageUrl");
 
     public QPrize(String variable) {
         this(Prize.class, forVariable(variable), INITS);

@@ -38,6 +38,8 @@ public class PrizeCustomRepositoryImpl implements PrizeCustomRepository {
                                         qPrize.name,
                                         qPrize.shortName,
                                         qPrize.manufacturer,
+                                        qPrize.welcomeImageUrl,
+                                        qPrize.bannerImageUrl,
                                         qPrize.imageUrl,
                                         qPrize.requiredTicketCount,
                                         JPAExpressions.select(qPrizeEntry.id.count())
