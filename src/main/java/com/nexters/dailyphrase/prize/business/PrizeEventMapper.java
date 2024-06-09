@@ -27,4 +27,13 @@ public class PrizeEventMapper {
                 .messageDetail(status.getMessageDetail())
                 .build();
     }
+
+    public PrizeEventResponseDTO.EnterPhoneNumber toEnterPhoneNumber(
+            Long memberId, Long prizeId, String phoneNumber) {
+        return PrizeEventResponseDTO.EnterPhoneNumber.builder()
+                .memberId(memberId)
+                .prizeId(prizeId)
+                .phoneNumber(phoneNumber)
+                .build();
+    }
 }

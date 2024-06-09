@@ -19,10 +19,17 @@ public class PrizeEntry extends BaseDateTimeEntity {
 
     private Long memberId;
 
+    // 당첨자 휴대폰 번호
+    private String phoneNumber;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "prize_id", nullable = false)
     private Prize prize;
 
     @Enumerated(EnumType.STRING)
     private PrizeEntryStatus status;
+
+    public void setPhoneNumber(final String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }
