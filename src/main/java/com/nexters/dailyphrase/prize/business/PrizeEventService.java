@@ -4,6 +4,7 @@ import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.MAX_EVENT_
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +16,11 @@ import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.common.jwt.dto.AccessTokenInfo;
 import com.nexters.dailyphrase.common.utils.MemberUtils;
+import com.nexters.dailyphrase.prize.domain.PrizeEntry;
 import com.nexters.dailyphrase.prize.domain.PrizeEvent;
 import com.nexters.dailyphrase.prize.domain.PrizeTicket;
 import com.nexters.dailyphrase.prize.implement.*;
+import com.nexters.dailyphrase.prize.presentation.dto.PrizeEventRequestDTO;
 import com.nexters.dailyphrase.prize.presentation.dto.PrizeEventResponseDTO;
 import com.nexters.dailyphrase.share.presentation.dto.KakaolinkCallbackRequestDTO;
 
@@ -76,5 +79,17 @@ public class PrizeEventService {
         PrizeTicket prizeTicket =
                 prizeEventMapper.toPrizeTicket(memberId, PrizeTicketStatus.AVAILABLE, eventId);
         prizeTicketCommandAdapter.create(prizeTicket);
+    }
+
+    @Transactional
+    public PrizeEventResponseDTO.EnterPhoneNumber enterPhoneNumber(
+            final Long prizeId, final PrizeEventRequestDTO.EnterPhoneNumber request) {
+        Long memberId = memberUtils.getCurrentMemberId();
+        List<PrizeEntry> winningPrizeEntryList =
+                prizeEntryQueryAdapter.findWinningEntryList(
+                        memberId, prizeId, PrizeEntryStatus.WINNING);
+        winningPrizeEntryList.forEach(
+                prizeEntry -> prizeEntry.setPhoneNumber(request.getPhoneNumber()));
+        return prizeEventMapper.toEnterPhoneNumber(memberId, prizeId, request.getPhoneNumber());
     }
 }

@@ -8,6 +8,7 @@ import com.nexters.dailyphrase.common.consts.DailyPhraseStatic;
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
 import com.nexters.dailyphrase.common.validation.KakaoAppAdminKeyValidator;
 import com.nexters.dailyphrase.prize.business.PrizeEventService;
+import com.nexters.dailyphrase.prize.presentation.dto.PrizeEventRequestDTO;
 import com.nexters.dailyphrase.prize.presentation.dto.PrizeEventResponseDTO;
 import com.nexters.dailyphrase.share.presentation.dto.KakaolinkCallbackRequestDTO;
 
@@ -41,6 +42,16 @@ public class PrizeEventApi {
     public CommonResponse<PrizeEventResponseDTO.PrizeEntryResult> getPrizeEntryResult(
             @PathVariable final Long prizeId) {
         return CommonResponse.onSuccess(prizeEventService.getPrizeEntryResult(prizeId));
+    }
+
+    @Operation(
+            summary = "07-03 Event 🎁 경품 응모 이벤트의 당첨자 연락처 입력 Made By 성훈",
+            description = "경품 응모 이벤트의 당첨자 연락처 입력 API입니다.")
+    @PostMapping("/prizes/{prizeId}/phone-number")
+    public CommonResponse<PrizeEventResponseDTO.EnterPhoneNumber> enterPhoneNumber(
+            @PathVariable final Long prizeId,
+            @RequestBody PrizeEventRequestDTO.EnterPhoneNumber request) {
+        return CommonResponse.onSuccess(prizeEventService.enterPhoneNumber(prizeId, request));
     }
 
     @PostMapping("/kakaolink/callback")

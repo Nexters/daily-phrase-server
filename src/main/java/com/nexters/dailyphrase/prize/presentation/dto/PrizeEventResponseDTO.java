@@ -50,4 +50,14 @@ public class PrizeEventResponseDTO {
         private String messageTitle;
         private String messageDetail;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class EnterPhoneNumber {
+        private Long prizeId;
+        private Long memberId;
+        private String phoneNumber;
+    }
 }

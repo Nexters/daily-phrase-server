@@ -31,6 +31,8 @@ public class QPrizeEntry extends EntityPathBase<PrizeEntry> {
 
     public final NumberPath<Long> memberId = createNumber("memberId", Long.class);
 
+    public final StringPath phoneNumber = createString("phoneNumber");
+
     public final QPrize prize;
 
     public final EnumPath<com.nexters.dailyphrase.common.enums.PrizeEntryStatus> status = createEnum("status", com.nexters.dailyphrase.common.enums.PrizeEntryStatus.class);
