@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.nexters.dailyphrase.common.enums.PrizeEntryStatus;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -24,9 +25,20 @@ public class PrizeEventResponseDTO {
         private String welcomeImageUrl;
         private String bannerImageUrl;
         private String imageUrl;
-        private int requiredTicketCount; // 필요한 응모권 개수
-        private long totalEntryCount; // 전체 응모수
-        @Builder.Default private long myEntryCount = 0; // 내 응모수
+
+        @Schema(description = "필요한 응모권 개수")
+        private int requiredTicketCount;
+
+        @Schema(description = "해당 경품에 응모한 전체 참여자 수")
+        private long totalParticipantCount;
+
+        @Schema(description = "내 응모 횟수")
+        @Builder.Default
+        private long myEntryCount = 0;
+
+        @Schema(description = "내 응모권 수")
+        @Builder.Default
+        private long myTicketCount = 0;
     }
 
     @Builder

@@ -1,5 +1,7 @@
 package com.nexters.dailyphrase.prize.domain.repository;
 
+import static com.nexters.dailyphrase.common.enums.PrizeTicketStatus.AVAILABLE;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -9,9 +11,11 @@ import com.nexters.dailyphrase.common.utils.MemberUtils;
 import com.nexters.dailyphrase.prize.domain.QPrize;
 import com.nexters.dailyphrase.prize.domain.QPrizeEntry;
 import com.nexters.dailyphrase.prize.domain.QPrizeEvent;
+import com.nexters.dailyphrase.prize.domain.QPrizeTicket;
 import com.nexters.dailyphrase.prize.presentation.dto.PrizeEventResponseDTO;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -28,8 +32,33 @@ public class PrizeCustomRepositoryImpl implements PrizeCustomRepository {
         QPrize qPrize = QPrize.prize;
         QPrizeEntry qPrizeEntry = QPrizeEntry.prizeEntry;
         QPrizeEvent qPrizeEvent = QPrizeEvent.prizeEvent;
+        QPrizeTicket qPrizeTicket = QPrizeTicket.prizeTicket;
 
         Long memberId = memberUtils.getCurrentMemberId();
+
+        JPQLQuery<Long> totalParticipantCountQuery =
+                JPAExpressions.select(qPrizeEntry.memberId.countDistinct())
+                        .from(qPrizeEntry)
+                        .where(qPrizeEntry.prize.id.eq(qPrize.id));
+
+        JPQLQuery<Long> myEntryCountQuery =
+                JPAExpressions.select(qPrizeEntry.id.count())
+                        .from(qPrizeEntry)
+                        .where(
+                                qPrizeEntry
+                                        .prize
+                                        .id
+                                        .eq(qPrize.id)
+                                        .and(qPrizeEntry.memberId.eq(memberId)));
+
+        JPQLQuery<Long> myTicketCountQuery =
+                JPAExpressions.select(qPrizeTicket.memberId.count())
+                        .from(qPrizeTicket)
+                        .where(
+                                qPrizeTicket
+                                        .memberId
+                                        .eq(memberId)
+                                        .and(qPrizeTicket.status.eq(AVAILABLE)));
 
         List<PrizeEventResponseDTO.PrizeListItem> prizeListItems =
                 queryFactory
@@ -45,19 +74,9 @@ public class PrizeCustomRepositoryImpl implements PrizeCustomRepository {
                                         qPrize.bannerImageUrl,
                                         qPrize.imageUrl,
                                         qPrize.requiredTicketCount,
-                                        JPAExpressions.select(qPrizeEntry.id.count())
-                                                .from(qPrizeEntry)
-                                                .where(qPrizeEntry.prize.id.eq(qPrize.id)),
-                                        JPAExpressions.select(qPrizeEntry.id.count())
-                                                .from(qPrizeEntry)
-                                                .where(
-                                                        qPrizeEntry
-                                                                .prize
-                                                                .id
-                                                                .eq(qPrize.id)
-                                                                .and(
-                                                                        qPrizeEntry.memberId.eq(
-                                                                                memberId)))))
+                                        totalParticipantCountQuery,
+                                        myEntryCountQuery,
+                                        myTicketCountQuery))
                         .from(qPrize)
                         .where(qPrize.event.id.eq(eventId))
                         .fetch();
