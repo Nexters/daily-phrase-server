@@ -14,8 +14,10 @@ import com.nexters.dailyphrase.prize.domain.QPrizeEvent;
 import com.nexters.dailyphrase.prize.domain.QPrizeTicket;
 import com.nexters.dailyphrase.prize.presentation.dto.PrizeEventResponseDTO;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -36,10 +38,13 @@ public class PrizeCustomRepositoryImpl implements PrizeCustomRepository {
 
         Long memberId = memberUtils.getCurrentMemberId();
 
+        //        JPQLQuery<Long> totalParticipantCountQuery =
+        //                JPAExpressions.select(qPrizeEntry.memberId.countDistinct())
+        //                        .from(qPrizeEntry)
+        //                        .where(qPrizeEntry.prize.id.eq(qPrize.id));
+
         JPQLQuery<Long> totalParticipantCountQuery =
-                JPAExpressions.select(qPrizeEntry.memberId.countDistinct())
-                        .from(qPrizeEntry)
-                        .where(qPrizeEntry.prize.id.eq(qPrize.id));
+                new JPAQuery<Long>().select(Expressions.constant(414L));
 
         JPQLQuery<Long> myEntryCountQuery =
                 JPAExpressions.select(qPrizeEntry.id.count())
