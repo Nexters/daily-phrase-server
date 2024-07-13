@@ -1,5 +1,7 @@
 package com.nexters.dailyphrase.share.business;
 
+import java.time.LocalDate;
+
 import com.nexters.dailyphrase.common.annotation.Mapper;
 import com.nexters.dailyphrase.share.domain.Share;
 import com.nexters.dailyphrase.share.presentation.dto.ShareResponseDTO;
@@ -17,5 +19,9 @@ public class ShareMapper {
                 .memberId(savedShare.getMemberId())
                 .sharedAt(savedShare.getCreatedAt())
                 .build();
+    }
+
+    public ShareResponseDTO.MyShareCount toMyShareCount(Integer shareCount, LocalDate date) {
+        return ShareResponseDTO.MyShareCount.builder().shareCount(shareCount).date(date).build();
     }
 }

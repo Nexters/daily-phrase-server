@@ -1,5 +1,7 @@
 package com.nexters.dailyphrase.share.presentation;
 
+import java.time.LocalDate;
+
 import org.springframework.web.bind.annotation.*;
 
 import com.nexters.dailyphrase.common.presentation.CommonResponse;
@@ -26,5 +28,15 @@ public class ShareApi {
     public CommonResponse<ShareResponseDTO.AddShare> addShare(
             @RequestBody final ShareRequestDTO.AddShare request) {
         return CommonResponse.onSuccess(shareService.addShare(request));
+    }
+
+    @Operation(
+            summary = "06-02 Share️🌐 글귀 공유하기 내 공유하기 횟수 확인 Made By 성훈",
+            description = "글귀 공유하기 내 공유하기 횟수 확인 API입니다.")
+    @GetMapping("/me")
+    public CommonResponse<ShareResponseDTO.MyShareCount> me(
+            @RequestParam(required = false) LocalDate date) {
+        return CommonResponse.onSuccess(
+                shareService.getMyShareCount(date != null ? date : LocalDate.now()));
     }
 }
