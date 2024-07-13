@@ -24,6 +24,6 @@ public class ShareResponseDTO {
     @AllArgsConstructor
     public static class MyShareCount {
         private Integer shareCount;
-        private LocalDate date;
+        private LocalDate date = LocalDate.now();
     }
 }
