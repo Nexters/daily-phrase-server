@@ -13,6 +13,7 @@ import com.nexters.dailyphrase.prize.presentation.dto.PrizeEventResponseDTO;
 import com.nexters.dailyphrase.share.presentation.dto.KakaolinkCallbackRequestDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
@@ -54,11 +55,26 @@ public class PrizeEventApi {
         return CommonResponse.onSuccess(prizeEventService.enterPhoneNumber(prizeId, request));
     }
 
+    @Operation(
+            summary = "07-04 Event 🎁 경품 응모 이벤트의 응모권 발급용 카카오 콜백 Made By 성훈",
+            description = "경품 응모 이벤트의 응모권 발급용 카카오 콜백입니다. (직접 호출 X)")
     @PostMapping("/kakaolink/callback")
     public ResponseEntity<String> handleKakaoLinkCallback(
-            @RequestHeader("Authorization") String authorizationHeader,
-            @RequestHeader("X-Kakao-Resource-ID") String kakaoResourceId,
-            @RequestHeader("User-Agent") String userAgent,
+            @RequestHeader("Authorization")
+                    @Schema(
+                            description = "KakaoAK ${APP_ADMIN_KEY} 형태의 인증 헤더 (from Kakao Server)",
+                            example = "KakaoAK ${APP_ADMIN_KEY}")
+                    String authorizationHeader,
+            @RequestHeader("X-Kakao-Resource-ID")
+                    @Schema(
+                            description = "카카오톡 공유 알림(콜백)별 유니크 ID (from Kakao Server)",
+                            example = "Rvy1c2dkzBAZ5hGD3rqYbxvr")
+                    String kakaoResourceId,
+            @RequestHeader("User-Agent")
+                    @Schema(
+                            description = "카카오에서 보낸 요청임을 알리기 위한 문자열 (from Kakao Server)",
+                            example = "KakaoOpenAPI/1.0")
+                    String userAgent,
             @RequestBody KakaolinkCallbackRequestDTO request) {
         if (kakaoAppAdminKeyValidator.isValid(authorizationHeader))
             prizeEventService.issuePrizeTicket(request);
