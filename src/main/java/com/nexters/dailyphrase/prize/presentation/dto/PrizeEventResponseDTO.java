@@ -61,6 +61,7 @@ public class PrizeEventResponseDTO {
         private PrizeEntryStatus status;
         private String messageTitle;
         private String messageDetail;
+        private String phoneNumber;
     }
 
     @Builder
