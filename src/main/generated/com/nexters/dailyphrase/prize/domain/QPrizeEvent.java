@@ -37,6 +37,8 @@ public class QPrizeEvent extends EntityPathBase<PrizeEvent> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
+    public final DateTimePath<java.time.LocalDateTime> winnerAnnouncementAt = createDateTime("winnerAnnouncementAt", java.time.LocalDateTime.class);
+
     public QPrizeEvent(String variable) {
         super(PrizeEvent.class, forVariable(variable));
     }

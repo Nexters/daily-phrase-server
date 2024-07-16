@@ -40,6 +40,12 @@ public class PrizeEventService {
     private final MemberUtils memberUtils;
 
     @Transactional(readOnly = true)
+    public PrizeEventResponseDTO.PrizeEventInfo getPrizeEventInfo(final Long eventId) {
+        final PrizeEvent prizeEvent = prizeEventQueryAdapter.findById(eventId);
+        return prizeEventMapper.toPrizeEventInfo(prizeEvent);
+    }
+
+    @Transactional(readOnly = true)
     public PrizeEventResponseDTO.PrizeList getPrizeList(final Long eventId) {
         return prizeQueryAdapter.findPrizeListDTO(eventId);
     }

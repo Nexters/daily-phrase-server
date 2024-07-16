@@ -72,4 +72,17 @@ public class PrizeEventResponseDTO {
         private Long memberId;
         private String phoneNumber;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PrizeEventInfo {
+        private Long eventId;
+        private String name;
+        private LocalDateTime eventStartDateTime;
+        private LocalDateTime eventEndDateTime;
+        private LocalDateTime eventWinnerAnnouncementDateTime;
+        private String status;
+    }
 }
