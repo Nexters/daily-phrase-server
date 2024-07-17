@@ -35,8 +35,8 @@ public class PrizeEventMapper {
                 .prizeId(prizeId)
                 .memberId(memberId)
                 .status(status)
-                .messageTitle(status.getMessageTitle())
-                .messageDetail(status.getMessageDetail())
+                //                .messageTitle(status.getMessageTitle())
+                //                .messageDetail(status.getMessageDetail())
                 .phoneNumber(phoneNumber)
                 .build();
     }

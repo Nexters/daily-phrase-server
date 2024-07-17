@@ -59,8 +59,9 @@ public class PrizeEventResponseDTO {
         private Long prizeId;
         private Long memberId;
         private PrizeEntryStatus status;
-        private String messageTitle;
-        private String messageDetail;
+        //        NOTE - 모달 안내 문구는 클라이언트에서 처리 (문구 변경가능성 X)
+        //        private String messageTitle;
+        //        private String messageDetail;
         private String phoneNumber;
     }
 

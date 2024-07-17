@@ -75,6 +75,7 @@ class PrizeEventApiTest {
                         .name("Sample Event")
                         .startAt(LocalDateTime.now().minusDays(1))
                         .endAt(LocalDateTime.now().plusDays(1))
+                        .winnerAnnouncementAt(LocalDateTime.now().plusDays(2))
                         .status(PrizeEventStatus.ACTIVE)
                         .build();
         prizeEventRepository.save(prizeEvent); // 경품 이벤트 저장
@@ -91,6 +92,8 @@ class PrizeEventApiTest {
                                                 .name("Prize " + i)
                                                 .shortName("Short Prize" + i)
                                                 .imageUrl("http://example.com/prize" + i + ".jpg")
+                                                .bannerImageUrl("")
+                                                .welcomeImageUrl("")
                                                 .manufacturer("manufacturer" + i)
                                                 .requiredTicketCount(10 * i)
                                                 .build())
