@@ -27,6 +27,9 @@ public class PrizeEvent extends BaseDateTimeEntity {
     @Column(nullable = false)
     private LocalDateTime endAt;
 
+    @Column(nullable = false)
+    private LocalDateTime winnerAnnouncementAt;
+
     @Enumerated(EnumType.STRING)
     private PrizeEventStatus status;
 }

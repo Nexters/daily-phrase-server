@@ -40,6 +40,12 @@ public class PrizeEventService {
     private final MemberUtils memberUtils;
 
     @Transactional(readOnly = true)
+    public PrizeEventResponseDTO.PrizeEventInfo getPrizeEventInfo(final Long eventId) {
+        final PrizeEvent prizeEvent = prizeEventQueryAdapter.findById(eventId);
+        return prizeEventMapper.toPrizeEventInfo(prizeEvent);
+    }
+
+    @Transactional(readOnly = true)
     public PrizeEventResponseDTO.PrizeList getPrizeList(final Long eventId) {
         return prizeQueryAdapter.findPrizeListDTO(eventId);
     }
@@ -47,9 +53,12 @@ public class PrizeEventService {
     @Transactional(readOnly = true)
     public PrizeEventResponseDTO.PrizeEntryResult getPrizeEntryResult(final Long prizeId) {
         Long memberId = memberUtils.getCurrentMemberId();
-        // 특정 멤버가 특정 상품에 응모했는데 그 중 당첨 된 것이 있는지?
-        PrizeEntryStatus status = prizeEntryQueryAdapter.findWinningEntry(memberId, prizeId);
-        return prizeEventMapper.toPrizeEntryResult(memberId, prizeId, status);
+
+        List<PrizeEntry> winningPrizeEntryList =
+                prizeEntryQueryAdapter.findWinningEntryList(
+                        memberId, prizeId, PrizeEntryStatus.WINNING);
+
+        return prizeEventMapper.toPrizeEntryResult(memberId, prizeId, winningPrizeEntryList);
     }
 
     private boolean isValidEvent(final Long eventId) {
