@@ -87,4 +87,14 @@ public class PrizeEventResponseDTO {
         private LocalDateTime eventWinnerAnnouncementDateTime;
         private String status;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class EnterPrizeEvent {
+        private Long prizeId;
+        private Long memberId;
+        private PrizeEntryStatus status;
+    }
 }

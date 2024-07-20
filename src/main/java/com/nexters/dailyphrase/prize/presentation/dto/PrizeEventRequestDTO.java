@@ -11,4 +11,9 @@ public class PrizeEventRequestDTO {
     public static class EnterPhoneNumber {
         private String phoneNumber;
     }
+
+    @Getter
+    public static class EnterPrizeEvent {
+        private Long prizeId;
+    }
 }

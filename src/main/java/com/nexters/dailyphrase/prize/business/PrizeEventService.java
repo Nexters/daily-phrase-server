@@ -16,9 +16,11 @@ import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.common.jwt.dto.AccessTokenInfo;
 import com.nexters.dailyphrase.common.utils.MemberUtils;
+import com.nexters.dailyphrase.prize.domain.Prize;
 import com.nexters.dailyphrase.prize.domain.PrizeEntry;
 import com.nexters.dailyphrase.prize.domain.PrizeEvent;
 import com.nexters.dailyphrase.prize.domain.PrizeTicket;
+import com.nexters.dailyphrase.prize.exception.InsufficientTicketsException;
 import com.nexters.dailyphrase.prize.implement.*;
 import com.nexters.dailyphrase.prize.presentation.dto.PrizeEventRequestDTO;
 import com.nexters.dailyphrase.prize.presentation.dto.PrizeEventResponseDTO;
@@ -35,6 +37,7 @@ public class PrizeEventService {
     private final PrizeTicketQueryAdapter prizeTicketQueryAdapter;
     private final PrizeTicketCommandAdapter prizeTicketCommandAdapter;
     private final PrizeEntryQueryAdapter prizeEntryQueryAdapter;
+    private final PrizeEntryCommandAdapter prizeEntryCommandAdapter;
     private final JwtTokenService jwtTokenService;
     private final PrizeEventMapper prizeEventMapper;
     private final MemberUtils memberUtils;
@@ -100,5 +103,25 @@ public class PrizeEventService {
         winningPrizeEntryList.forEach(
                 prizeEntry -> prizeEntry.setPhoneNumber(request.getPhoneNumber()));
         return prizeEventMapper.toEnterPhoneNumber(memberId, prizeId, request.getPhoneNumber());
+    }
+
+    @Transactional
+    public PrizeEventResponseDTO.EnterPrizeEvent enterPrize(
+            final PrizeEventRequestDTO.EnterPrizeEvent request) {
+        Long memberId = memberUtils.getCurrentMemberId();
+        Prize prize = prizeQueryAdapter.findById(request.getPrizeId());
+        int requiredTicketCount = prize.getRequiredTicketCount();
+
+        List<PrizeTicket> prizeTicketList =
+                prizeTicketQueryAdapter.findPrizeTicketByMemberIdAndStatus(
+                        memberId, PrizeTicketStatus.AVAILABLE, requiredTicketCount);
+        if (prizeTicketList.size() < requiredTicketCount)
+            throw InsufficientTicketsException.EXCEPTION;
+
+        prizeTicketList.forEach(prizeTicket -> prizeTicket.setStatus(PrizeTicketStatus.USED));
+        PrizeEntry savedPrizeEntry =
+                prizeEntryCommandAdapter.add(prizeEventMapper.toPrizeEntry(memberId, prize));
+
+        return prizeEventMapper.toEnterPrizeEvent(savedPrizeEntry);
     }
 }

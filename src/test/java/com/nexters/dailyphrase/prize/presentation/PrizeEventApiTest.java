@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -18,10 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -54,7 +50,7 @@ class PrizeEventApiTest {
 
     private MockMvc mockMvc;
 
-    Long eventId = 1L;
+    Long eventId = 2L;
     int prizeCount = 5;
     private Member testMember;
     private List<Prize> prizes;
@@ -62,12 +58,6 @@ class PrizeEventApiTest {
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        Authentication authentication =
-                new UsernamePasswordAuthenticationToken("1", null, Collections.emptyList());
-        context.setAuthentication(authentication);
-        SecurityContextHolder.setContext(context);
 
         PrizeEvent prizeEvent =
                 PrizeEvent.builder()
@@ -88,6 +78,7 @@ class PrizeEventApiTest {
                         .mapToObj(
                                 i ->
                                         Prize.builder()
+                                                .id((long) i)
                                                 .event(prizeEvent)
                                                 .name("Prize " + i)
                                                 .shortName("Short Prize" + i)
@@ -103,6 +94,7 @@ class PrizeEventApiTest {
 
     @Test
     @DisplayName("경품 목록 조회 기능 테스트입니다.")
+    @WithMockUser(username = "1")
     void 경품_목록_조회_테스트() throws Exception {
         // 멤버가 일부 경품에 응모한 내역 생성
         PrizeEntry prizeEntry =
@@ -133,6 +125,7 @@ class PrizeEventApiTest {
 
     @Test
     @DisplayName("경품 응모 결과 확인 기능 테스트입니다. - 당첨")
+    @WithMockUser(username = "1")
     void 경품_응모_결과_확인_테스트_당첨() throws Exception {
         // given
         Prize prize = prizes.get(0);
@@ -159,6 +152,7 @@ class PrizeEventApiTest {
 
     @Test
     @DisplayName("경품 응모 결과 확인 기능 테스트입니다. - 미당첨")
+    @WithMockUser(username = "1")
     void 경품_응모_결과_확인_테스트_미당첨() throws Exception {
         // given
         Prize prize = prizes.get(0);
