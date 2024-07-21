@@ -33,6 +33,7 @@ public class MemberService {
     private final FavoriteQueryAdapter favoriteQueryAdapter;
     private final FavoriteCommandAdapter favoriteCommandAdapter;
     private final SocialLoginServiceFactory socialLoginServiceFactory;
+    private final MemberLoginActionProcessor memberLoginActionProcessor;
     private final JwtTokenService jwtTokenService;
     private final MemberMapper memberMapper;
 
@@ -46,6 +47,9 @@ public class MemberService {
                 jwtTokenService.generateAccessToken(member.getId(), member.getRole().name());
         // TODO - Refresh 토큰을 Jwt로 발급하지 않고, Redis를 사용하는 방식도 고려하기
         String refreshToken = jwtTokenService.generateRefreshToken(member.getId());
+
+        // NOTE - 회원가입 응모권 발급
+        memberLoginActionProcessor.processLoginAction(member.getId());
         return memberMapper.toLoginMember(member, accessToken, refreshToken);
     }
 

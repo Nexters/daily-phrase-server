@@ -30,6 +30,8 @@ public class QPrizeTicket extends EntityPathBase<PrizeTicket> {
 
     public final NumberPath<Long> memberId = createNumber("memberId", Long.class);
 
+    public final EnumPath<com.nexters.dailyphrase.common.enums.PrizeTicketSource> source = createEnum("source", com.nexters.dailyphrase.common.enums.PrizeTicketSource.class);
+
     public final EnumPath<com.nexters.dailyphrase.common.enums.PrizeTicketStatus> status = createEnum("status", com.nexters.dailyphrase.common.enums.PrizeTicketStatus.class);
 
     //inherited

@@ -1,9 +1,13 @@
 package com.nexters.dailyphrase.prize.business;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.nexters.dailyphrase.common.annotation.Mapper;
+import com.nexters.dailyphrase.common.consts.DailyPhraseStatic;
 import com.nexters.dailyphrase.common.enums.PrizeEntryStatus;
+import com.nexters.dailyphrase.common.enums.PrizeTicketSource;
 import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
 import com.nexters.dailyphrase.prize.domain.Prize;
 import com.nexters.dailyphrase.prize.domain.PrizeEntry;
@@ -14,11 +18,15 @@ import com.nexters.dailyphrase.prize.presentation.dto.PrizeEventResponseDTO;
 @Mapper
 public class PrizeEventMapper {
     public PrizeTicket toPrizeTicket(
-            Long memberId, PrizeTicketStatus prizeTicketStatus, Long eventId) {
+            Long memberId,
+            PrizeTicketStatus prizeTicketStatus,
+            Long eventId,
+            PrizeTicketSource source) {
         return PrizeTicket.builder()
                 .memberId(memberId)
                 .status(prizeTicketStatus)
                 .eventId(eventId)
+                .source(source)
                 .build();
     }
 
@@ -72,5 +80,19 @@ public class PrizeEventMapper {
                 .prizeId(prizeEntry.getPrize().getId())
                 .status(prizeEntry.getStatus())
                 .build();
+    }
+
+    public List<PrizeTicket> toPrizeTicketList(Long memberId, PrizeTicketSource prizeTicketSource) {
+        Long eventId = DailyPhraseStatic.CURRENT_ACTIVE_EVENT_ID;
+        int limit = DailyPhraseStatic.SIGN_UP_TICKET_COUNT;
+        return IntStream.range(0, limit)
+                .mapToObj(
+                        i ->
+                                toPrizeTicket(
+                                        memberId,
+                                        PrizeTicketStatus.AVAILABLE,
+                                        eventId,
+                                        prizeTicketSource))
+                .toList();
     }
 }

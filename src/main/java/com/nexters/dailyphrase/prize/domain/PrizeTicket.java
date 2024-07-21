@@ -3,6 +3,7 @@ package com.nexters.dailyphrase.prize.domain;
 import jakarta.persistence.*;
 
 import com.nexters.dailyphrase.common.domain.BaseDateTimeEntity;
+import com.nexters.dailyphrase.common.enums.PrizeTicketSource;
 import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
 
 import lombok.*;
@@ -23,6 +24,9 @@ public class PrizeTicket extends BaseDateTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private PrizeTicketStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private PrizeTicketSource source;
 
     public void setStatus(PrizeTicketStatus status) {
         this.status = status;
