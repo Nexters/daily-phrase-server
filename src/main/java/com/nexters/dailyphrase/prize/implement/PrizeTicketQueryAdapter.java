@@ -27,7 +27,6 @@ public class PrizeTicketQueryAdapter {
 
     public List<PrizeTicket> findPrizeTicketByMemberIdAndStatus(
             final Long memberId, final PrizeTicketStatus status, final int count) {
-        return prizeTicketRepository.findByMemberIdAndStatus(
-                memberId, status, count);
+        return prizeTicketRepository.findByMemberIdAndStatus(memberId, status, count);
     }
 }

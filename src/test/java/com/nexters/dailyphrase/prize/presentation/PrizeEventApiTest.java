@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -26,16 +27,21 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nexters.dailyphrase.common.enums.PrizeEntryStatus;
 import com.nexters.dailyphrase.common.enums.PrizeEventStatus;
+import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
 import com.nexters.dailyphrase.member.domain.Member;
 import com.nexters.dailyphrase.member.domain.repository.MemberRepository;
 import com.nexters.dailyphrase.prize.domain.Prize;
 import com.nexters.dailyphrase.prize.domain.PrizeEntry;
 import com.nexters.dailyphrase.prize.domain.PrizeEvent;
+import com.nexters.dailyphrase.prize.domain.PrizeTicket;
 import com.nexters.dailyphrase.prize.domain.repository.PrizeEntryRepository;
 import com.nexters.dailyphrase.prize.domain.repository.PrizeEventRepository;
 import com.nexters.dailyphrase.prize.domain.repository.PrizeRepository;
+import com.nexters.dailyphrase.prize.domain.repository.PrizeTicketRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -54,6 +60,7 @@ class PrizeEventApiTest {
     int prizeCount = 5;
     private Member testMember;
     private List<Prize> prizes;
+    @Autowired private PrizeTicketRepository prizeTicketRepository;
 
     @BeforeEach
     public void setup() {
@@ -86,7 +93,7 @@ class PrizeEventApiTest {
                                                 .bannerImageUrl("")
                                                 .welcomeImageUrl("")
                                                 .manufacturer("manufacturer" + i)
-                                                .requiredTicketCount(10 * i)
+                                                .requiredTicketCount(5)
                                                 .build())
                         .collect(Collectors.toList());
         prizeRepository.saveAll(prizes); // 경품들 저장
@@ -175,5 +182,70 @@ class PrizeEventApiTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result.status").value("MISSED"));
+    }
+
+    @Test
+    @DisplayName("경품 응모 기능 테스트입니다. - 응모권 부족 예외")
+    @WithMockUser(username = "1")
+    void 경품_응모_테스트_응모권_부족() throws Exception {
+        // given
+        Prize prize = prizes.get(0);
+        Long prizeId = prize.getId();
+
+        // when & then
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode jsonNode = objectMapper.createObjectNode();
+        jsonNode.put("prizeId", prizeId);
+        String jsonRequest = objectMapper.writeValueAsString(jsonNode);
+
+        MockHttpServletRequestBuilder request =
+                MockMvcRequestBuilders.post("/api/v1/events/enter")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest);
+
+        mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("PRIZE_TICKET_400_1"));
+    }
+
+    @Test
+    @DisplayName("경품 응모 기능 테스트입니다. - 응모 성공")
+    @WithMockUser(username = "1")
+    void 경품_응모_테스트_응모_성공() throws Exception {
+        // given
+        Prize prize = prizes.get(0);
+        Long prizeId = prize.getId();
+
+        List<PrizeTicket> prizeTicketList = new ArrayList<>();
+        for (int i = 1; i <= 5; i++) {
+            PrizeTicket prizeTicket =
+                    PrizeTicket.builder()
+                            .id(Long.valueOf(i))
+                            .eventId(1L)
+                            .status(PrizeTicketStatus.AVAILABLE)
+                            .memberId(1L)
+                            .build();
+            prizeTicketList.add(prizeTicket);
+        }
+        prizeTicketRepository.saveAll(prizeTicketList);
+
+        // when & then
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode jsonNode = objectMapper.createObjectNode();
+        jsonNode.put("prizeId", prizeId);
+        String jsonRequest = objectMapper.writeValueAsString(jsonNode);
+
+        MockHttpServletRequestBuilder request =
+                MockMvcRequestBuilders.post("/api/v1/events/enter")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest);
+
+        mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.prizeId").value(prizeId))
+                .andExpect(jsonPath("$.result.memberId").value(1L))
+                .andExpect(jsonPath("$.result.status").value(PrizeEntryStatus.ENTERED.toString()));
     }
 }
