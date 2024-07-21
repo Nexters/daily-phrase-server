@@ -23,4 +23,8 @@ public class PrizeTicket extends BaseDateTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private PrizeTicketStatus status;
+
+    public void setStatus(PrizeTicketStatus status) {
+        this.status = status;
+    }
 }

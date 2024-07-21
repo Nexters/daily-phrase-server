@@ -26,8 +26,9 @@ public class PrizeEntry extends BaseDateTimeEntity {
     @JoinColumn(name = "prize_id", nullable = false)
     private Prize prize;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private PrizeEntryStatus status;
+    private PrizeEntryStatus status = PrizeEntryStatus.ENTERED;
 
     public void setPhoneNumber(final String phoneNumber) {
         this.phoneNumber = phoneNumber;

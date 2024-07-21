@@ -1,5 +1,6 @@
 package com.nexters.dailyphrase.prize.exception;
 
+import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.BAD_REQUEST;
 import static com.nexters.dailyphrase.common.consts.DailyPhraseStatic.NOT_FOUND;
 
 import java.lang.reflect.Field;
@@ -15,7 +16,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum PrizeEventErrorCode implements BaseErrorCode {
-    PRIZE_EVENT_NOT_FOUND(NOT_FOUND, "PHRASE_EVENT_404_1", "존재하지 않는 이벤트입니다.");
+    PRIZE_EVENT_NOT_FOUND(NOT_FOUND, "PRIZE_EVENT_404_1", "존재하지 않는 이벤트입니다."),
+    PRIZE_NOT_FOUND(NOT_FOUND, "PRIZE_404_1", "존재하지 않는 경품입니다."),
+    INSUFFICIENT_TICKETS(BAD_REQUEST, "PRIZE_TICKET_400_1", "티켓이 부족합니다.");
 
     private final Integer status;
     private final String code;

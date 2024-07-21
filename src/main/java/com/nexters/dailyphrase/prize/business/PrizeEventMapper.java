@@ -5,6 +5,7 @@ import java.util.List;
 import com.nexters.dailyphrase.common.annotation.Mapper;
 import com.nexters.dailyphrase.common.enums.PrizeEntryStatus;
 import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
+import com.nexters.dailyphrase.prize.domain.Prize;
 import com.nexters.dailyphrase.prize.domain.PrizeEntry;
 import com.nexters.dailyphrase.prize.domain.PrizeEvent;
 import com.nexters.dailyphrase.prize.domain.PrizeTicket;
@@ -58,6 +59,18 @@ public class PrizeEventMapper {
                 .eventEndDateTime(prizeEvent.getEndAt())
                 .eventWinnerAnnouncementDateTime(prizeEvent.getWinnerAnnouncementAt())
                 .status(prizeEvent.getStatus().getDescription())
+                .build();
+    }
+
+    public PrizeEntry toPrizeEntry(Long memberId, Prize prize) {
+        return PrizeEntry.builder().memberId(memberId).prize(prize).build();
+    }
+
+    public PrizeEventResponseDTO.EnterPrizeEvent toEnterPrizeEvent(final PrizeEntry prizeEntry) {
+        return PrizeEventResponseDTO.EnterPrizeEvent.builder()
+                .memberId(prizeEntry.getMemberId())
+                .prizeId(prizeEntry.getPrize().getId())
+                .status(prizeEntry.getStatus())
                 .build();
     }
 }
