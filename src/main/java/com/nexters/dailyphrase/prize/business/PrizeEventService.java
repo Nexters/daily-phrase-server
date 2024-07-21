@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nexters.dailyphrase.common.consts.DailyPhraseStatic;
 import com.nexters.dailyphrase.common.enums.PrizeEntryStatus;
 import com.nexters.dailyphrase.common.enums.PrizeEventStatus;
+import com.nexters.dailyphrase.common.enums.PrizeTicketSource;
 import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.common.jwt.dto.AccessTokenInfo;
@@ -89,7 +90,8 @@ public class PrizeEventService {
         if (count >= MAX_EVENT_TICKETS_PER_DAY) return;
 
         PrizeTicket prizeTicket =
-                prizeEventMapper.toPrizeTicket(memberId, PrizeTicketStatus.AVAILABLE, eventId);
+                prizeEventMapper.toPrizeTicket(
+                        memberId, PrizeTicketStatus.AVAILABLE, eventId, PrizeTicketSource.SHARE);
         prizeTicketCommandAdapter.create(prizeTicket);
     }
 

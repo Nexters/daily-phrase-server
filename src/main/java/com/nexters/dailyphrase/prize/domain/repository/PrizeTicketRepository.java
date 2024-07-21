@@ -4,13 +4,16 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
+import com.nexters.dailyphrase.common.enums.PrizeTicketSource;
 import com.nexters.dailyphrase.prize.domain.PrizeTicket;
 
 public interface PrizeTicketRepository
         extends JpaRepository<PrizeTicket, Long>, PrizeTicketCustomRepository {
-    int countByMemberIdAndCreatedAtBetween(
-            Long memberId, LocalDateTime startDateTime, LocalDateTime endDateTime);
+    int countByMemberIdAndCreatedAtBetweenAndSource(
+            Long memberId,
+            LocalDateTime startDateTime,
+            LocalDateTime endDateTime,
+            PrizeTicketSource source);
 
-    int countByMemberIdAndStatus(Long memberId, PrizeTicketStatus status);
+    boolean existsByMemberIdAndSource(Long memberId, PrizeTicketSource source);
 }
