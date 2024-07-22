@@ -1,5 +1,7 @@
 package com.nexters.dailyphrase.prize.presentation;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,7 @@ public class PrizeEventApi {
 
     private final PrizeEventService prizeEventService;
     private final KakaoAppAdminKeyValidator kakaoAppAdminKeyValidator;
+    private final Logger logger = LogManager.getLogger(PrizeEventApi.class);
 
     @Operation(
             summary = "07-01 Event 🎁 경품 응모 이벤트의 이벤트 정보 조회 Made By 성훈",
@@ -94,6 +97,13 @@ public class PrizeEventApi {
                             example = "KakaoOpenAPI/1.0")
                     String userAgent,
             @RequestBody KakaolinkCallbackRequestDTO request) {
+        logger.info(
+                "Received callback with authorizationHeader: {}, kakaoResourceId: {}, userAgent: {}, request: {}",
+                authorizationHeader,
+                kakaoResourceId,
+                userAgent,
+                request);
+
         if (kakaoAppAdminKeyValidator.isValid(authorizationHeader))
             prizeEventService.issuePrizeTicket(request);
         return ResponseEntity.ok("Received");
