@@ -1,7 +1,6 @@
 package com.nexters.dailyphrase.prize.business;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.nexters.dailyphrase.common.annotation.Mapper;

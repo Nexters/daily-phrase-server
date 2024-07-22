@@ -4,10 +4,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class KakaolinkCallbackRequestDTO {
     // NOTE - https://developers.kakao.com/docs/latest/ko/message/callback#success-parameter
     @Schema(description = "카카오톡 공유 메시지가 전달된 채팅방의 타입 (from Kakao Server)")
