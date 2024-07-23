@@ -65,7 +65,7 @@ public class PrizeEventMapper {
                 .eventStartDateTime(prizeEvent.getStartAt())
                 .eventEndDateTime(prizeEvent.getEndAt())
                 .eventWinnerAnnouncementDateTime(prizeEvent.getWinnerAnnouncementAt())
-                .status(prizeEvent.getStatus().getDescription())
+                //                .status(prizeEvent.getStatus().getDescription())
                 .build();
     }
 

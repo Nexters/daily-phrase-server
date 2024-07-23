@@ -2,7 +2,6 @@ package com.nexters.dailyphrase.prize.domain.repository;
 
 import static com.nexters.dailyphrase.common.enums.PrizeTicketStatus.AVAILABLE;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -86,17 +85,9 @@ public class PrizeCustomRepositoryImpl implements PrizeCustomRepository {
                         .where(qPrize.event.id.eq(eventId))
                         .fetch();
 
-        LocalDateTime eventEndDateTime =
-                queryFactory
-                        .select(qPrizeEvent.endAt)
-                        .from(qPrizeEvent)
-                        .where(qPrizeEvent.id.eq(eventId))
-                        .fetchOne();
-
         return PrizeEventResponseDTO.PrizeList.builder()
                 .total(prizeListItems.size())
                 .prizeList(prizeListItems)
-                .eventEndDateTime(eventEndDateTime)
                 .build();
     }
 }
