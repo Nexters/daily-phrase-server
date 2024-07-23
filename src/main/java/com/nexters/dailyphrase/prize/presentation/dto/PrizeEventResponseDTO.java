@@ -48,7 +48,6 @@ public class PrizeEventResponseDTO {
     public static class PrizeList {
         private long total;
         @Builder.Default private List<PrizeListItem> prizeList = new ArrayList<>();
-        private LocalDateTime eventEndDateTime;
     }
 
     @Builder
@@ -85,7 +84,7 @@ public class PrizeEventResponseDTO {
         private LocalDateTime eventStartDateTime;
         private LocalDateTime eventEndDateTime;
         private LocalDateTime eventWinnerAnnouncementDateTime;
-        private String status;
+        //        private String status;
     }
 
     @Builder
