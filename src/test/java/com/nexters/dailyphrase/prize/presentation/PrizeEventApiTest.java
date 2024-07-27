@@ -34,14 +34,8 @@ import com.nexters.dailyphrase.common.enums.PrizeEventStatus;
 import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
 import com.nexters.dailyphrase.member.domain.Member;
 import com.nexters.dailyphrase.member.domain.repository.MemberRepository;
-import com.nexters.dailyphrase.prize.domain.Prize;
-import com.nexters.dailyphrase.prize.domain.PrizeEntry;
-import com.nexters.dailyphrase.prize.domain.PrizeEvent;
-import com.nexters.dailyphrase.prize.domain.PrizeTicket;
-import com.nexters.dailyphrase.prize.domain.repository.PrizeEntryRepository;
-import com.nexters.dailyphrase.prize.domain.repository.PrizeEventRepository;
-import com.nexters.dailyphrase.prize.domain.repository.PrizeRepository;
-import com.nexters.dailyphrase.prize.domain.repository.PrizeTicketRepository;
+import com.nexters.dailyphrase.prize.domain.*;
+import com.nexters.dailyphrase.prize.domain.repository.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -53,6 +47,7 @@ class PrizeEventApiTest {
     @Autowired private MemberRepository memberRepository;
     @Autowired private PrizeEntryRepository prizeEntryRepository;
     @Autowired private PrizeRepository prizeRepository;
+    @Autowired private PrizeEntryCheckRepository prizeEntryCheckRepository;
 
     private MockMvc mockMvc;
 
@@ -142,19 +137,27 @@ class PrizeEventApiTest {
                 PrizeEntry.builder()
                         .memberId(testMember.getId())
                         .prize(prize)
+                        .phoneNumber("010-1234-5678")
                         .status(PrizeEntryStatus.WINNING)
                         .build();
         prizeEntryRepository.save(prizeEntry);
 
+        PrizeEntryCheck prizeEntryCheck =
+                PrizeEntryCheck.builder().prizeId(prizeId).memberId(1L).build();
+        prizeEntryCheckRepository.save(prizeEntryCheck);
+
         // when & then
         MockHttpServletRequestBuilder request =
-                MockMvcRequestBuilders.get("/api/v1/events/prizes/{prizeId}/entry-result", prizeId)
+                MockMvcRequestBuilders.get("/api/v1/events/prizes")
                         .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(request)
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result.status").value("WINNING"));
+                .andExpect(
+                        jsonPath("$.result.prizeList[0].prizeEntryResult.status").value("WINNING"))
+                .andExpect(
+                        jsonPath("$.result.prizeList[0].prizeEntryResult.isChecked").value(true));
     }
 
     @Test
@@ -207,6 +210,32 @@ class PrizeEventApiTest {
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("PRIZE_TICKET_400_1"));
+    }
+
+    @Test
+    @DisplayName("경품 응모 결과 확인 처리 테스트입니다. - 응모 결과 확인 저장")
+    @WithMockUser(username = "1")
+    void 경품_응모_결과_확인_테스트() throws Exception {
+        // given
+        Prize prize = prizes.get(0);
+        Long prizeId = prize.getId();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode jsonNode = objectMapper.createObjectNode();
+        jsonNode.put("prizeId", prizeId);
+        String jsonRequest = objectMapper.writeValueAsString(jsonNode);
+
+        MockHttpServletRequestBuilder request =
+                MockMvcRequestBuilders.post("/api/v1/events/prizes/entry-result/check")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest);
+
+        // when & then
+        mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.prizeId").value(prizeId))
+                .andExpect(jsonPath("$.result.memberId").value(1L));
     }
 
     @Test

@@ -25,6 +25,7 @@ public class MemberLoginActionProcessor {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void processLoginAction(final Long memberId) {
         try {
+            // 회원가입 응모권 발급
             if (!prizeTicketQueryAdapter.existsByMemberIdAndSource(
                     memberId, PrizeTicketSource.SIGNUP))
                 prizeTicketCommandAdapter.createMultiple(

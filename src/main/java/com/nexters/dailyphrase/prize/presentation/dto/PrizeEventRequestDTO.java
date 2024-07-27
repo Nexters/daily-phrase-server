@@ -16,4 +16,9 @@ public class PrizeEventRequestDTO {
     public static class EnterPrizeEvent {
         private Long prizeId;
     }
+
+    @Getter
+    public static class CheckPrizeEntryResult {
+        private Long prizeId;
+    }
 }

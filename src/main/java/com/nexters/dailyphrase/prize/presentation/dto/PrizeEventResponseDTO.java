@@ -39,6 +39,8 @@ public class PrizeEventResponseDTO {
         @Schema(description = "내 응모권 수")
         @Builder.Default
         private long myTicketCount = 0;
+
+        private PrizeEntryResult prizeEntryResult;
     }
 
     @Builder
@@ -55,13 +57,15 @@ public class PrizeEventResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class PrizeEntryResult {
-        private Long prizeId;
-        private Long memberId;
+        @Schema(description = "당첨 여부")
         private PrizeEntryStatus status;
-        //        NOTE - 모달 안내 문구는 클라이언트에서 처리 (문구 변경가능성 X)
-        //        private String messageTitle;
-        //        private String messageDetail;
+
+        @Schema(description = "당첨자 휴대폰 번호")
         private String phoneNumber;
+
+        @Schema(description = "당첨 결과 확인 여부")
+        @Builder.Default
+        private Boolean isChecked = Boolean.FALSE;
     }
 
     @Builder
@@ -95,5 +99,14 @@ public class PrizeEventResponseDTO {
         private Long prizeId;
         private Long memberId;
         private PrizeEntryStatus status;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CheckPrizeEntryResult {
+        private Long prizeId;
+        private Long memberId;
     }
 }

@@ -8,10 +8,7 @@ import com.nexters.dailyphrase.common.consts.DailyPhraseStatic;
 import com.nexters.dailyphrase.common.enums.PrizeEntryStatus;
 import com.nexters.dailyphrase.common.enums.PrizeTicketSource;
 import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
-import com.nexters.dailyphrase.prize.domain.Prize;
-import com.nexters.dailyphrase.prize.domain.PrizeEntry;
-import com.nexters.dailyphrase.prize.domain.PrizeEvent;
-import com.nexters.dailyphrase.prize.domain.PrizeTicket;
+import com.nexters.dailyphrase.prize.domain.*;
 import com.nexters.dailyphrase.prize.presentation.dto.PrizeEventResponseDTO;
 
 @Mapper
@@ -40,8 +37,8 @@ public class PrizeEventMapper {
         }
 
         return PrizeEventResponseDTO.PrizeEntryResult.builder()
-                .prizeId(prizeId)
-                .memberId(memberId)
+                //                .prizeId(prizeId)
+                //                .memberId(memberId)
                 .status(status)
                 //                .messageTitle(status.getMessageTitle())
                 //                .messageDetail(status.getMessageDetail())
@@ -93,5 +90,17 @@ public class PrizeEventMapper {
                                         eventId,
                                         prizeTicketSource))
                 .toList();
+    }
+
+    public PrizeEntryCheck toPrizeEntryCheck(Long prizeId, Long memberId) {
+        return PrizeEntryCheck.builder().prizeId(prizeId).memberId(memberId).build();
+    }
+
+    public PrizeEventResponseDTO.CheckPrizeEntryResult toCheckPrizeEntryResult(
+            PrizeEntryCheck prizeEntryCheck) {
+        return PrizeEventResponseDTO.CheckPrizeEntryResult.builder()
+                .prizeId(prizeEntryCheck.getPrizeId())
+                .memberId(prizeEntryCheck.getMemberId())
+                .build();
     }
 }
