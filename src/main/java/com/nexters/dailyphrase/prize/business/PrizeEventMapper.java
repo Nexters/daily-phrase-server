@@ -37,8 +37,8 @@ public class PrizeEventMapper {
         }
 
         return PrizeEventResponseDTO.PrizeEntryResult.builder()
-                .prizeId(prizeId)
-                .memberId(memberId)
+                //                .prizeId(prizeId)
+                //                .memberId(memberId)
                 .status(status)
                 //                .messageTitle(status.getMessageTitle())
                 //                .messageDetail(status.getMessageDetail())
