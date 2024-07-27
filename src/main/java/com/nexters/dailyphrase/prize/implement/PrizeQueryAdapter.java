@@ -1,5 +1,7 @@
 package com.nexters.dailyphrase.prize.implement;
 
+import java.util.List;
+
 import com.nexters.dailyphrase.common.annotation.Adapter;
 import com.nexters.dailyphrase.prize.domain.Prize;
 import com.nexters.dailyphrase.prize.domain.repository.PrizeRepository;
@@ -21,5 +23,9 @@ public class PrizeQueryAdapter {
         return prizeRepository
                 .findById(prizeId)
                 .orElseThrow(() -> PrizeNotFoundException.EXCEPTION);
+    }
+
+    public List<Long> findAllIds() {
+        return prizeRepository.findAllIds();
     }
 }

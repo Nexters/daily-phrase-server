@@ -57,6 +57,7 @@ public class PrizeEventApi {
         return CommonResponse.onSuccess(prizeEventService.enterPrize(request));
     }
 
+    @Deprecated
     @Operation(
             summary = "07-04 Event 🎁 경품 응모 이벤트의 경품 응모 결과 확인 Made By 성훈",
             description = "경품 응모 이벤트의 경품 응모 결과 확인 API입니다.")
@@ -77,7 +78,16 @@ public class PrizeEventApi {
     }
 
     @Operation(
-            summary = "07-06 Event 🎁 경품 응모 이벤트의 응모권 발급용 카카오 콜백 Made By 성훈",
+            summary = "07-05 Event 🎁 경품 응모 이벤트의 경품 응모 결과 확인 처리 Made By 성훈",
+            description = "경품 응모 이벤트의 경품 응모 결과 확인 처리 API입니다.")
+    @PostMapping("/prizes/entry-result/check")
+    public CommonResponse<PrizeEventResponseDTO.CheckPrizeEntryResult> checkPrizeEntryResult(
+            @RequestBody PrizeEventRequestDTO.CheckPrizeEntryResult request) {
+        return CommonResponse.onSuccess(prizeEventService.checkPrizeEntryResult(request));
+    }
+
+    @Operation(
+            summary = "07-07 Event 🎁 경품 응모 이벤트의 응모권 발급용 카카오 콜백 Made By 성훈",
             description = "경품 응모 이벤트의 응모권 발급용 카카오 콜백입니다. (직접 호출 X)")
     @PostMapping("/kakaolink/callback")
     public ResponseEntity<String> handleKakaoLinkCallback(

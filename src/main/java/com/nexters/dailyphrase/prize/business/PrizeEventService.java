@@ -17,10 +17,7 @@ import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.common.jwt.dto.AccessTokenInfo;
 import com.nexters.dailyphrase.common.utils.MemberUtils;
-import com.nexters.dailyphrase.prize.domain.Prize;
-import com.nexters.dailyphrase.prize.domain.PrizeEntry;
-import com.nexters.dailyphrase.prize.domain.PrizeEvent;
-import com.nexters.dailyphrase.prize.domain.PrizeTicket;
+import com.nexters.dailyphrase.prize.domain.*;
 import com.nexters.dailyphrase.prize.exception.InsufficientTicketsException;
 import com.nexters.dailyphrase.prize.implement.*;
 import com.nexters.dailyphrase.prize.presentation.dto.PrizeEventRequestDTO;
@@ -39,6 +36,7 @@ public class PrizeEventService {
     private final PrizeTicketCommandAdapter prizeTicketCommandAdapter;
     private final PrizeEntryQueryAdapter prizeEntryQueryAdapter;
     private final PrizeEntryCommandAdapter prizeEntryCommandAdapter;
+    private final PrizeEntryCheckCommandAdapter prizeEntryCheckCommandAdapter;
     private final JwtTokenService jwtTokenService;
     private final PrizeEventMapper prizeEventMapper;
     private final MemberUtils memberUtils;
@@ -125,5 +123,16 @@ public class PrizeEventService {
                 prizeEntryCommandAdapter.add(prizeEventMapper.toPrizeEntry(memberId, prize));
 
         return prizeEventMapper.toEnterPrizeEvent(savedPrizeEntry);
+    }
+
+    @Transactional
+    public PrizeEventResponseDTO.CheckPrizeEntryResult checkPrizeEntryResult(
+            PrizeEventRequestDTO.CheckPrizeEntryResult request) {
+        Long prizeId = request.getPrizeId();
+        Long memberId = memberUtils.getCurrentMemberId();
+
+        PrizeEntryCheck prizeEntryCheck = prizeEventMapper.toPrizeEntryCheck(prizeId, memberId);
+        return prizeEventMapper.toCheckPrizeEntryResult(
+                prizeEntryCheckCommandAdapter.add(prizeEntryCheck));
     }
 }

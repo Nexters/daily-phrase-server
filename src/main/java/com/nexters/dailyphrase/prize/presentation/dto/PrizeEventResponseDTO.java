@@ -96,4 +96,13 @@ public class PrizeEventResponseDTO {
         private Long memberId;
         private PrizeEntryStatus status;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CheckPrizeEntryResult {
+        private Long prizeId;
+        private Long memberId;
+    }
 }
