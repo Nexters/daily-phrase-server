@@ -210,6 +210,32 @@ class PrizeEventApiTest {
     }
 
     @Test
+    @DisplayName("경품 응모 결과 확인 처리 테스트입니다. - 응모 결과 확인 저장")
+    @WithMockUser(username = "1")
+    void 경품_응모_결과_확인_테스트() throws Exception {
+        // given
+        Prize prize = prizes.get(0);
+        Long prizeId = prize.getId();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode jsonNode = objectMapper.createObjectNode();
+        jsonNode.put("prizeId", prizeId);
+        String jsonRequest = objectMapper.writeValueAsString(jsonNode);
+
+        MockHttpServletRequestBuilder request =
+                MockMvcRequestBuilders.post("/api/v1/events/prizes/entry-result/check")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest);
+
+        // when & then
+        mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.prizeId").value(prizeId))
+                .andExpect(jsonPath("$.result.memberId").value(1L));
+    }
+
+    @Test
     @DisplayName("경품 응모 기능 테스트입니다. - 응모 성공")
     @WithMockUser(username = "1")
     void 경품_응모_테스트_응모_성공() throws Exception {
