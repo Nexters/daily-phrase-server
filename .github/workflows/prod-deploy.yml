@@ -49,15 +49,14 @@ jobs:
           name: build-artifact
           path: build/libs/*.jar
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build-and-deploy
-    steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
           name: build-artifact
           path: .
+
+      - name: Copy Dockerfile
+        run: cp Dockerfile .
 
       - name: Install or Update AWS CLI
         run: |
