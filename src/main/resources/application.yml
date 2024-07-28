@@ -4,7 +4,7 @@ server:
     context-path: /
 spring:
   profiles:
-    active: dev
+    active: local
   servlet:
     multipart:
       maxFileSize: 10MB
@@ -64,15 +64,16 @@ spring:
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 1000
+
 ---
 spring:
   config:
     activate:
-      on-profile: dev
+      on-profile: prod
   datasource:
-    username: ${DEV_DB_USERNAME}
-    password: ${DEV_DB_PASSWORD}
-    url: ${DEV_DB_URL}
+    username: ${PROD_DB_USERNAME}
+    password: ${PROD_DB_PASSWORD}
+    url: ${PROD_DB_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
   sql:
     init:

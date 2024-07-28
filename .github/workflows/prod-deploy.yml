@@ -1,9 +1,9 @@
-name: Daily Phrase Dev API CI/CD
+name: Daily Phrase Prod API CI/CD
 
 on:
   pull_request:
     branches:
-      - develop
+      - main
     types:
       - closed
   workflow_dispatch:
@@ -41,7 +41,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build -x test -Pprofile=dev
+        run: ./gradlew build -x test -Pprofile=prod
 
       - name: Install or Update AWS CLI
         run: |
