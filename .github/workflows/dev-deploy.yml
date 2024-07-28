@@ -22,26 +22,23 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Create application.yml
-        run: |
-          mkdir -p ./src/main/resources/
-          echo "${{ secrets.APPLICATION_YML }}" > ./src/main/resources/application.yml
-
-      - name: Create firebase directory
-        run: mkdir -p ./src/main/resources/firebase/
-
-      - name: Create JSON
-        uses: jsdaniell/create-json@1.1.2
-        with:
-          name: "firebase-adminsdk.json"
-          json: ${{ secrets.SECRET_JSON }}
-          dir: "./src/main/resources/firebase/"
-
       - name: Grant execute permission for Gradlew
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
         run: ./gradlew build -x test -Pprofile=dev
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifact
+          path: build/libs/*.jar
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+          path: .
 
       - name: Install or Update AWS CLI
         run: |

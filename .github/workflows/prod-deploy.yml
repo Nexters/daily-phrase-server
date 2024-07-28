@@ -22,26 +22,23 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Create application.yml
-        run: |
-          mkdir -p ./src/main/resources/
-          echo "${{ secrets.APPLICATION_YML }}" > ./src/main/resources/application.yml
-
-      - name: Create firebase directory
-        run: mkdir -p ./src/main/resources/firebase/
-
-      - name: Create JSON
-        uses: jsdaniell/create-json@1.1.2
-        with:
-          name: "firebase-adminsdk.json"
-          json: ${{ secrets.SECRET_JSON }}
-          dir: "./src/main/resources/firebase/"
-
       - name: Grant execute permission for Gradlew
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
         run: ./gradlew build -x test -Pprofile=prod
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifact
+          path: build/libs/*.jar
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+          path: .
 
       - name: Install or Update AWS CLI
         run: |
@@ -81,8 +78,8 @@ jobs:
             docker pull ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
 
             # 기존 컨테이너 중지 및 제거
-            docker stop dailyphrase-dev-api || true
-            docker rm dailyphrase-dev-api || true
+            docker stop dailyphrase-prod-api || true
+            docker rm dailyphrase-prod-api || true
 
             # 새로운 Docker 컨테이너 실행
-            docker run -d --name dailyphrase-dev-api -p 80:8080 ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
+            docker run -d --name dailyphrase-prod-api -p 80:8080 ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
