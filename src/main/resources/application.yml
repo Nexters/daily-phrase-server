@@ -4,7 +4,7 @@ server:
     context-path: /
 spring:
   profiles:
-    active: dev
+    active: local
   servlet:
     multipart:
       maxFileSize: 10MB
@@ -64,6 +64,13 @@ spring:
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 1000
+fcm:
+  key:
+    path: firebase/firebase-adminsdk.json
+    scope: https://www.googleapis.com/auth/cloud-platform
+  api:
+    url: https://fcm.googleapis.com/v1/projects/${fcm-project-id}/messages:send
+  topic: "local"
 ---
 spring:
   config:
@@ -87,6 +94,43 @@ spring:
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 1000
+fcm:
+  key:
+    path: firebase/firebase-adminsdk.json
+    scope: https://www.googleapis.com/auth/cloud-platform
+  api:
+    url: https://fcm.googleapis.com/v1/projects/${fcm-project-id}/messages:send
+  topic: "test"
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    username: ${PROD_DB_USERNAME}
+    password: ${PROD_DB_PASSWORD}
+    url: ${PROD_DB_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: never
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        show_sql: true
+        format_sql: true
+        use_sql_comments: false
+        hbm2ddl:
+          auto: update
+        default_batch_fetch_size: 1000
+fcm:
+  key:
+    path: firebase/firebase-adminsdk.json
+    scope: https://www.googleapis.com/auth/cloud-platform
+  api:
+    url: https://fcm.googleapis.com/v1/projects/${fcm-project-id}/messages:send
+  topic: "update_phrase"
 ---
 spring:
   config:
@@ -107,11 +151,3 @@ spring:
 #        format_sql: true
 #        use_sql_comments: true
         default_batch_fetch_size: 1000
----
-fcm:
-  key:
-   path: firebase/firebase-adminsdk.json
-   scope: https://www.googleapis.com/auth/cloud-platform
-  api:
-    url: https://fcm.googleapis.com/v1/projects/${fcm-project-id}/messages:send
-  topic: "update_phrase"

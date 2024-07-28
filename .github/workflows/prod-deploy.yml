@@ -1,9 +1,9 @@
-name: Daily Phrase Dev API CI/CD
+name: Daily Phrase Prod API CI/CD
 
 on:
   pull_request:
     branches:
-      - develop
+      - main
     types:
       - closed
   workflow_dispatch:
@@ -41,7 +41,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build -x test -Pprofile=dev
+        run: ./gradlew build -x test -Pprofile=prod
 
       - name: Install or Update AWS CLI
         run: |
@@ -51,38 +51,38 @@ jobs:
 
       - name: Configure AWS CLI
         run: |
-          aws configure set aws_access_key_id ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set default.region ${{ secrets.AWS_REGION }}
 
       - name: Log in to AWS ECR
         run: |
-          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.DEV_AWS_ECR_REPOSITORY_URL }}
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ECR_REPOSITORY_URL }}
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DEV_AWS_ECR_REPOSITORY_URL }}:${{ github.sha }} .
+          docker build -t ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }} .
 
       - name: Push Docker image to ECR
         run: |
-          docker push ${{ secrets.DEV_AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
+          docker push ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
 
       - name: Deploy to EC2 instance
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.DEV_EC2_HOST }}
-          username: ${{ secrets.DEV_EC2_USERNAME }}
-          key: ${{ secrets.DEV_EC2_SSH_KEY }}
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.DEV_AWS_ECR_REPOSITORY_URL }}
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ECR_REPOSITORY_URL }}
             
             # Docker 이미지 pull
-            docker pull ${{ secrets.DEV_AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
+            docker pull ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
 
             # 기존 컨테이너 중지 및 제거
             docker stop dailyphrase-dev-api || true
             docker rm dailyphrase-dev-api || true
 
             # 새로운 Docker 컨테이너 실행
-            docker run -d --name dailyphrase-dev-api -p 80:8080 ${{ secrets.DEV_AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
+            docker run -d --name dailyphrase-dev-api -p 80:8080 ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
