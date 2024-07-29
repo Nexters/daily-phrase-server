@@ -57,7 +57,7 @@ jobs:
 
       - name: Prepare app.jar for Docker build
         run: |
-          cp build/libs/*.jar app.jar
+          mv build/libs/*.jar app.jar
 
       - name: Install or Update AWS CLI
         run: |
