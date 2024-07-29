@@ -57,7 +57,7 @@ jobs:
 
       - name: Docker 이미지 빌드를 위한 app.jar 준비
         run: |
-          cp build/libs/*.jar app.jar
+          mv build/libs/*.jar app.jar
 
       - name: AWS CLI 설치 또는 업데이트
         run: |
