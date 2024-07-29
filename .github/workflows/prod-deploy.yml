@@ -55,6 +55,10 @@ jobs:
           name: build-artifact
           path: .
 
+      - name: Prepare app.jar for Docker build
+        run: |
+          cp build/libs/*.jar app.jar
+
       - name: Install or Update AWS CLI
         run: |
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
