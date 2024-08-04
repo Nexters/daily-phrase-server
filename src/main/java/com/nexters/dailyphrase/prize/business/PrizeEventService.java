@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nexters.dailyphrase.common.consts.DailyPhraseStatic;
-import com.nexters.dailyphrase.common.enums.PrizeEntryStatus;
-import com.nexters.dailyphrase.common.enums.PrizeEventStatus;
-import com.nexters.dailyphrase.common.enums.PrizeTicketSource;
-import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
+import com.nexters.dailyphrase.common.enums.*;
 import com.nexters.dailyphrase.common.jwt.JwtTokenService;
 import com.nexters.dailyphrase.common.jwt.dto.AccessTokenInfo;
 import com.nexters.dailyphrase.common.utils.MemberUtils;
@@ -37,6 +34,8 @@ public class PrizeEventService {
     private final PrizeEntryQueryAdapter prizeEntryQueryAdapter;
     private final PrizeEntryCommandAdapter prizeEntryCommandAdapter;
     private final PrizeEntryCheckCommandAdapter prizeEntryCheckCommandAdapter;
+    private final PrizeTicketPopupCheckQueryAdapter prizeTicketPopupCheckQueryAdapter;
+    private final PrizeTicketPopupCheckCommandAdapter prizeTicketPopupCheckCommandAdapter;
     private final JwtTokenService jwtTokenService;
     private final PrizeEventMapper prizeEventMapper;
     private final MemberUtils memberUtils;
@@ -134,5 +133,28 @@ public class PrizeEventService {
         PrizeEntryCheck prizeEntryCheck = prizeEventMapper.toPrizeEntryCheck(prizeId, memberId);
         return prizeEventMapper.toCheckPrizeEntryResult(
                 prizeEntryCheckCommandAdapter.add(prizeEntryCheck));
+    }
+
+    @Transactional(readOnly = true)
+    public PrizeEventResponseDTO.MyInfo myInfo() {
+        Long memberId = memberUtils.getCurrentMemberId();
+        Boolean showGetTicketPopup = Boolean.FALSE;
+        // 회원가입 응모권을 획득한 기록이 있는 경우
+
+        boolean hasSignupTicket =
+                prizeTicketQueryAdapter.existsByMemberIdAndSource(
+                        memberId, PrizeTicketSource.SIGNUP);
+        boolean isFirstCheck =
+                !prizeTicketPopupCheckQueryAdapter.existsByMemberIdAndType(
+                        memberId, PrizeTicketPopupType.GET_BY_SIGNUP);
+
+        if (hasSignupTicket && isFirstCheck) {
+            showGetTicketPopup = Boolean.TRUE;
+            prizeTicketPopupCheckCommandAdapter.add(
+                    prizeEventMapper.toPrizeTicketPopupCheck(
+                            memberId, PrizeTicketPopupType.GET_BY_SIGNUP));
+        }
+
+        return prizeEventMapper.toMyInfo(memberId, showGetTicketPopup);
     }
 }

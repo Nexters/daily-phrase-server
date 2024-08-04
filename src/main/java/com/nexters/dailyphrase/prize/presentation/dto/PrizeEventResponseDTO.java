@@ -109,4 +109,13 @@ public class PrizeEventResponseDTO {
         private Long prizeId;
         private Long memberId;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MyInfo {
+        private Long memberId;
+        @Builder.Default private Boolean showGetTicketPopup = Boolean.FALSE;
+    }
 }

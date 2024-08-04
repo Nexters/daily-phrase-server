@@ -100,7 +100,7 @@ fcm:
     scope: https://www.googleapis.com/auth/cloud-platform
   api:
     url: https://fcm.googleapis.com/v1/projects/${fcm-project-id}/messages:send
-  topic: "test"
+  topic: "deprecated_topic"
 ---
 spring:
   config:
@@ -151,3 +151,10 @@ spring:
 #        format_sql: true
 #        use_sql_comments: true
         default_batch_fetch_size: 1000
+fcm:
+  key:
+    path: firebase/firebase-adminsdk.json
+    scope: https://www.googleapis.com/auth/cloud-platform
+  api:
+    url: https://fcm.googleapis.com/v1/projects/${fcm-project-id}/messages:send
+  topic: "test_topic"
