@@ -78,7 +78,7 @@ public class PrizeEventApi {
     }
 
     @Operation(
-            summary = "07-05 Event 🎁 경품 응모 이벤트의 경품 응모 결과 확인 처리 Made By 성훈",
+            summary = "07-06 Event 🎁 경품 응모 이벤트의 경품 응모 결과 확인 처리 Made By 성훈",
             description = "경품 응모 이벤트의 경품 응모 결과 확인 처리 API입니다.")
     @PostMapping("/prizes/entry-result/check")
     public CommonResponse<PrizeEventResponseDTO.CheckPrizeEntryResult> checkPrizeEntryResult(
@@ -87,7 +87,15 @@ public class PrizeEventApi {
     }
 
     @Operation(
-            summary = "07-07 Event 🎁 경품 응모 이벤트의 응모권 발급용 카카오 콜백 Made By 성훈",
+            summary = "07-07 Event 🎁 경품 응모 이벤트의 응모권 팝업 플래그 확인 Made By 성훈",
+            description = "경품 응모 이벤트의 응모권 팝업 플래그 확인 API입니다.")
+    @GetMapping("/tickets/me")
+    public CommonResponse<PrizeEventResponseDTO.MyInfo> myInfo() {
+        return CommonResponse.onSuccess(prizeEventService.myInfo());
+    }
+
+    @Operation(
+            summary = "07-08 Event 🎁 경품 응모 이벤트의 응모권 발급용 카카오 콜백 Made By 성훈",
             description = "경품 응모 이벤트의 응모권 발급용 카카오 콜백입니다. (직접 호출 X)")
     @PostMapping("/kakaolink/callback")
     public ResponseEntity<String> handleKakaoLinkCallback(

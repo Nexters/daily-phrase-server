@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 import com.nexters.dailyphrase.common.annotation.Mapper;
 import com.nexters.dailyphrase.common.consts.DailyPhraseStatic;
 import com.nexters.dailyphrase.common.enums.PrizeEntryStatus;
+import com.nexters.dailyphrase.common.enums.PrizeTicketPopupType;
 import com.nexters.dailyphrase.common.enums.PrizeTicketSource;
 import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
 import com.nexters.dailyphrase.prize.domain.*;
@@ -101,6 +102,17 @@ public class PrizeEventMapper {
         return PrizeEventResponseDTO.CheckPrizeEntryResult.builder()
                 .prizeId(prizeEntryCheck.getPrizeId())
                 .memberId(prizeEntryCheck.getMemberId())
+                .build();
+    }
+
+    public PrizeTicketPopupCheck toPrizeTicketPopupCheck(Long memberId, PrizeTicketPopupType type) {
+        return PrizeTicketPopupCheck.builder().memberId(memberId).type(type).build();
+    }
+
+    public PrizeEventResponseDTO.MyInfo toMyInfo(Long memberId, Boolean showGetTicketPopup) {
+        return PrizeEventResponseDTO.MyInfo.builder()
+                .memberId(memberId)
+                .showGetTicketPopup(showGetTicketPopup)
                 .build();
     }
 }

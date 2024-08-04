@@ -31,6 +31,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nexters.dailyphrase.common.enums.PrizeEntryStatus;
 import com.nexters.dailyphrase.common.enums.PrizeEventStatus;
+import com.nexters.dailyphrase.common.enums.PrizeTicketSource;
 import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
 import com.nexters.dailyphrase.member.domain.Member;
 import com.nexters.dailyphrase.member.domain.repository.MemberRepository;
@@ -276,5 +277,49 @@ class PrizeEventApiTest {
                 .andExpect(jsonPath("$.result.prizeId").value(prizeId))
                 .andExpect(jsonPath("$.result.memberId").value(1L))
                 .andExpect(jsonPath("$.result.status").value(PrizeEntryStatus.ENTERED.toString()));
+    }
+
+    @Test
+    @DisplayName("회원가입 티켓 획득 후 팝업 렌더링 플래그 확인 테스트입니다.")
+    @WithMockUser(username = "1")
+    void 회원가입_티켓_획득_후_팝업() throws Exception {
+        // given
+        prizeTicketRepository.save(
+                PrizeTicket.builder()
+                        .eventId(1L)
+                        .memberId(1L)
+                        .status(PrizeTicketStatus.AVAILABLE)
+                        .source(PrizeTicketSource.SIGNUP)
+                        .build());
+
+        // when & then
+        MockHttpServletRequestBuilder request =
+                MockMvcRequestBuilders.get("/api/v1/events/tickets/me");
+
+        mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.showGetTicketPopup").value(Boolean.TRUE));
+
+        mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.showGetTicketPopup").value(Boolean.FALSE));
+    }
+
+    @Test
+    @DisplayName("회원가입 미획득시 팝업 렌더링 플래그 확인 테스트입니다.")
+    @WithMockUser(username = "1")
+    void 회원가입_미획득시_팝업() throws Exception {
+        // given
+
+        // when & then
+        MockHttpServletRequestBuilder request =
+                MockMvcRequestBuilders.get("/api/v1/events/tickets/me");
+
+        mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.showGetTicketPopup").value(Boolean.FALSE));
     }
 }
