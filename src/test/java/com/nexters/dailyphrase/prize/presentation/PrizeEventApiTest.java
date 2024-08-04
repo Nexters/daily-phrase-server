@@ -294,7 +294,7 @@ class PrizeEventApiTest {
 
         // when & then
         MockHttpServletRequestBuilder request =
-                MockMvcRequestBuilders.get("/api/v1/events/prizes/tickets/me");
+                MockMvcRequestBuilders.get("/api/v1/events/tickets/me");
 
         mockMvc.perform(request)
                 .andDo(print())
@@ -315,7 +315,7 @@ class PrizeEventApiTest {
 
         // when & then
         MockHttpServletRequestBuilder request =
-                MockMvcRequestBuilders.get("/api/v1/events/prizes/tickets/me");
+                MockMvcRequestBuilders.get("/api/v1/events/tickets/me");
 
         mockMvc.perform(request)
                 .andDo(print())

@@ -86,8 +86,10 @@ public class PrizeEventApi {
         return CommonResponse.onSuccess(prizeEventService.checkPrizeEntryResult(request));
     }
 
-    @Operation
-    @GetMapping("/prizes/tickets/me")
+    @Operation(
+            summary = "07-07 Event 🎁 경품 응모 이벤트의 응모권 팝업 플래그 확인 Made By 성훈",
+            description = "경품 응모 이벤트의 응모권 팝업 플래그 확인 API입니다.")
+    @GetMapping("/tickets/me")
     public CommonResponse<PrizeEventResponseDTO.MyInfo> myInfo() {
         return CommonResponse.onSuccess(prizeEventService.myInfo());
     }
