@@ -60,10 +60,10 @@ public class PrizeEventMapper {
         return PrizeEventResponseDTO.PrizeEventInfo.builder()
                 .eventId(prizeEvent.getId())
                 .name(prizeEvent.getName())
+                .month(prizeEvent.getMonth())
                 .eventStartDateTime(prizeEvent.getStartAt())
                 .eventEndDateTime(prizeEvent.getEndAt())
                 .eventWinnerAnnouncementDateTime(prizeEvent.getWinnerAnnouncementAt())
-                //                .status(prizeEvent.getStatus().getDescription())
                 .build();
     }
 

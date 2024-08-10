@@ -85,6 +85,7 @@ public class PrizeEventResponseDTO {
     public static class PrizeEventInfo {
         private Long eventId;
         private String name;
+        private Integer month;
         private LocalDateTime eventStartDateTime;
         private LocalDateTime eventEndDateTime;
         private LocalDateTime eventWinnerAnnouncementDateTime;
