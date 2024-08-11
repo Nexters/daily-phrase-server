@@ -51,7 +51,7 @@ class PrizeEventApiTest {
 
     private MockMvc mockMvc;
 
-    Long eventId = 1L;
+    Long eventId;
     int prizeCount = 5;
     private List<Prize> prizes;
     @Autowired private PrizeTicketRepository prizeTicketRepository;
@@ -62,7 +62,6 @@ class PrizeEventApiTest {
 
         PrizeEvent prizeEvent =
                 PrizeEvent.builder()
-                        .id(eventId)
                         .name("Sample Event")
                         .eventMonth(8)
                         .startAt(LocalDateTime.now().minusDays(1))
@@ -70,15 +69,13 @@ class PrizeEventApiTest {
                         .winnerAnnouncementAt(LocalDateTime.now().plusDays(2))
                         .status(PrizeEventStatus.ACTIVE)
                         .build();
-        prizeEventRepository.save(prizeEvent); // 경품 이벤트 저장
+        eventId = prizeEventRepository.save(prizeEvent).getId(); // 경품 이벤트 저장
 
         prizes =
                 IntStream.range(0, prizeCount)
                         .mapToObj(
                                 i ->
                                         Prize.builder()
-                                                //
-                                                // .id((long) i)
                                                 .event(prizeEvent)
                                                 .name("Prize " + i)
                                                 .shortName("Short Prize" + i)
@@ -326,5 +323,68 @@ class PrizeEventApiTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result.showGetTicketPopup").value(Boolean.FALSE));
+    }
+
+    @Test
+    @DisplayName("당첨자 전화번호 입력 테스트입니다. - 잘못된 형식")
+    @WithMockUser(username = "1")
+    void 당첨자_전화번호_입력() throws Exception {
+        // given
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode jsonNode = objectMapper.createObjectNode();
+        jsonNode.put("phoneNumber", "01012341234"); // 잘못된 형식 (정규식에 맞지 않음)
+        String jsonRequest = objectMapper.writeValueAsString(jsonNode);
+
+        Prize prize = prizes.get(0);
+        PrizeEntry prizeEntry =
+                PrizeEntry.builder()
+                        .prize(prize)
+                        .status(PrizeEntryStatus.WINNING)
+                        .memberId(1L)
+                        .build();
+        prizeEntryRepository.save(prizeEntry);
+
+        // when & then
+        MockHttpServletRequestBuilder request =
+                MockMvcRequestBuilders.post(
+                                "/api/v1/events/prizes/" + prize.getId() + "/phone-number")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest);
+
+        mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isBadRequest()); // HTTP 상태 코드가 400인지 확인
+    }
+
+    @Test
+    @DisplayName("당첨자 전화번호 입력 테스트입니다. - 올바른 형식")
+    @WithMockUser(username = "1")
+    void 당첨자_전화번호_입력_성공() throws Exception {
+        // given
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode jsonNode = objectMapper.createObjectNode();
+        jsonNode.put("phoneNumber", "010-1234-1234");
+        String jsonRequest = objectMapper.writeValueAsString(jsonNode);
+
+        Prize prize = prizes.get(0);
+        PrizeEntry prizeEntry =
+                PrizeEntry.builder()
+                        .prize(prize)
+                        .status(PrizeEntryStatus.WINNING)
+                        .memberId(1L)
+                        .build();
+        prizeEntryRepository.save(prizeEntry);
+
+        // when & then
+        MockHttpServletRequestBuilder request =
+                MockMvcRequestBuilders.post(
+                                "/api/v1/events/prizes/" + prize.getId() + "/phone-number")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest);
+
+        mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.phoneNumber").value("010-1234-1234"));
     }
 }
