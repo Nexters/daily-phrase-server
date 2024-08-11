@@ -52,7 +52,7 @@ class PrizeEventApiTest {
 
     private MockMvc mockMvc;
 
-    Long eventId = 2L;
+    Long eventId = 1L;
     int prizeCount = 5;
     private Member testMember;
     private List<Prize> prizes;
@@ -66,6 +66,7 @@ class PrizeEventApiTest {
                 PrizeEvent.builder()
                         .id(eventId)
                         .name("Sample Event")
+                        .eventMonth(8)
                         .startAt(LocalDateTime.now().minusDays(1))
                         .endAt(LocalDateTime.now().plusDays(1))
                         .winnerAnnouncementAt(LocalDateTime.now().plusDays(2))
@@ -248,11 +249,11 @@ class PrizeEventApiTest {
         Long prizeId = prize.getId();
 
         List<PrizeTicket> prizeTicketList = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 10; i++) {
             PrizeTicket prizeTicket =
                     PrizeTicket.builder()
                             .id(Long.valueOf(i))
-                            .eventId(1L)
+                            .eventId(eventId)
                             .status(PrizeTicketStatus.AVAILABLE)
                             .memberId(1L)
                             .build();
@@ -286,7 +287,7 @@ class PrizeEventApiTest {
         // given
         prizeTicketRepository.save(
                 PrizeTicket.builder()
-                        .eventId(1L)
+                        .eventId(eventId)
                         .memberId(1L)
                         .status(PrizeTicketStatus.AVAILABLE)
                         .source(PrizeTicketSource.SIGNUP)

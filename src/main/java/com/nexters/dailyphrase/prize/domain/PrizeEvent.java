@@ -21,7 +21,7 @@ public class PrizeEvent extends BaseDateTimeEntity {
 
     private String name;
 
-    private Integer month;
+    private Integer eventMonth;
 
     @Column(nullable = false)
     private LocalDateTime startAt;

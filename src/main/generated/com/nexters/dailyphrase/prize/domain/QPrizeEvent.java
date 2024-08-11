@@ -26,9 +26,9 @@ public class QPrizeEvent extends EntityPathBase<PrizeEvent> {
 
     public final DateTimePath<java.time.LocalDateTime> endAt = createDateTime("endAt", java.time.LocalDateTime.class);
 
-    public final NumberPath<Long> id = createNumber("id", Long.class);
+    public final NumberPath<Integer> eventMonth = createNumber("eventMonth", Integer.class);
 
-    public final NumberPath<Integer> month = createNumber("month", Integer.class);
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath name = createString("name");
 

@@ -135,7 +135,7 @@ public class PrizeEventService {
                 prizeEntryCheckCommandAdapter.add(prizeEntryCheck));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public PrizeEventResponseDTO.MyInfo myInfo() {
         Long memberId = memberUtils.getCurrentMemberId();
         Boolean showGetTicketPopup = Boolean.FALSE;
