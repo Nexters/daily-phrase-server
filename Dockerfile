@@ -4,8 +4,7 @@ FROM openjdk:17-jdk-slim
 RUN apt-get update && apt-get install -y \
     tzdata \
     wget \
-    iputils-ping \  # ping 명령어 설치
-    && apt-get clean
+    iputils-ping && apt-get clean
 
 # 타임존 설정
 ENV TZ=Asia/Seoul
