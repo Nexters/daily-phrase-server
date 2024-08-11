@@ -33,7 +33,6 @@ import com.nexters.dailyphrase.common.enums.PrizeEntryStatus;
 import com.nexters.dailyphrase.common.enums.PrizeEventStatus;
 import com.nexters.dailyphrase.common.enums.PrizeTicketSource;
 import com.nexters.dailyphrase.common.enums.PrizeTicketStatus;
-import com.nexters.dailyphrase.member.domain.Member;
 import com.nexters.dailyphrase.member.domain.repository.MemberRepository;
 import com.nexters.dailyphrase.prize.domain.*;
 import com.nexters.dailyphrase.prize.domain.repository.*;
@@ -52,9 +51,8 @@ class PrizeEventApiTest {
 
     private MockMvc mockMvc;
 
-    Long eventId = 2L;
+    Long eventId;
     int prizeCount = 5;
-    private Member testMember;
     private List<Prize> prizes;
     @Autowired private PrizeTicketRepository prizeTicketRepository;
 
@@ -64,24 +62,20 @@ class PrizeEventApiTest {
 
         PrizeEvent prizeEvent =
                 PrizeEvent.builder()
-                        .id(eventId)
                         .name("Sample Event")
+                        .eventMonth(8)
                         .startAt(LocalDateTime.now().minusDays(1))
                         .endAt(LocalDateTime.now().plusDays(1))
                         .winnerAnnouncementAt(LocalDateTime.now().plusDays(2))
                         .status(PrizeEventStatus.ACTIVE)
                         .build();
-        prizeEventRepository.save(prizeEvent); // 경품 이벤트 저장
-
-        testMember = Member.builder().id(1L).name("testuser").build();
-        memberRepository.save(testMember); // 테스트 멤버 저장
+        eventId = prizeEventRepository.save(prizeEvent).getId(); // 경품 이벤트 저장
 
         prizes =
                 IntStream.range(0, prizeCount)
                         .mapToObj(
                                 i ->
                                         Prize.builder()
-                                                .id((long) i)
                                                 .event(prizeEvent)
                                                 .name("Prize " + i)
                                                 .shortName("Short Prize" + i)
@@ -100,12 +94,19 @@ class PrizeEventApiTest {
     @WithMockUser(username = "1")
     void 경품_목록_조회_테스트() throws Exception {
         // 멤버가 일부 경품에 응모한 내역 생성
-        PrizeEntry prizeEntry =
-                PrizeEntry.builder().memberId(testMember.getId()).prize(prizes.get(0)).build();
+        PrizeEntry prizeEntry = PrizeEntry.builder().memberId(1L).prize(prizes.get(0)).build();
         prizeEntryRepository.save(prizeEntry);
 
-        PrizeEntry prizeEntry2 = PrizeEntry.builder().memberId(2L).prize(prizes.get(0)).build();
+        PrizeEntry prizeEntry2 = PrizeEntry.builder().memberId(1L).prize(prizes.get(0)).build();
         prizeEntryRepository.save(prizeEntry2);
+
+        PrizeTicket ticket =
+                PrizeTicket.builder()
+                        .memberId(1L)
+                        .status(PrizeTicketStatus.AVAILABLE)
+                        .source(PrizeTicketSource.SHARE)
+                        .build();
+        prizeTicketRepository.save(ticket);
 
         System.out.println("PRIZES : " + prizes);
 
@@ -123,7 +124,8 @@ class PrizeEventApiTest {
                                 .value("http://example.com/prize0.jpg"))
                 .andExpect(jsonPath("$.result.prizeList[0].requiredTicketCount").value(0))
                 .andExpect(jsonPath("$.result.prizeList[0].totalEntryCount").value(2))
-                .andExpect(jsonPath("$.result.prizeList[0].myEntryCount").value(1)); // 응모한 내역 수 확인
+                .andExpect(jsonPath("$.result.prizeList[0].myEntryCount").value(2))
+                .andExpect(jsonPath("$.result.myTicketCount").value(1));
     }
 
     @Test
@@ -136,7 +138,7 @@ class PrizeEventApiTest {
 
         PrizeEntry prizeEntry =
                 PrizeEntry.builder()
-                        .memberId(testMember.getId())
+                        .memberId(1L)
                         .prize(prize)
                         .phoneNumber("010-1234-5678")
                         .status(PrizeEntryStatus.WINNING)
@@ -171,7 +173,7 @@ class PrizeEventApiTest {
 
         PrizeEntry prizeEntry =
                 PrizeEntry.builder()
-                        .memberId(testMember.getId())
+                        .memberId(1L)
                         .prize(prize)
                         .status(PrizeEntryStatus.MISSED)
                         .build();
@@ -248,11 +250,11 @@ class PrizeEventApiTest {
         Long prizeId = prize.getId();
 
         List<PrizeTicket> prizeTicketList = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 10; i++) {
             PrizeTicket prizeTicket =
                     PrizeTicket.builder()
                             .id(Long.valueOf(i))
-                            .eventId(1L)
+                            .eventId(eventId)
                             .status(PrizeTicketStatus.AVAILABLE)
                             .memberId(1L)
                             .build();
@@ -286,7 +288,7 @@ class PrizeEventApiTest {
         // given
         prizeTicketRepository.save(
                 PrizeTicket.builder()
-                        .eventId(1L)
+                        .eventId(eventId)
                         .memberId(1L)
                         .status(PrizeTicketStatus.AVAILABLE)
                         .source(PrizeTicketSource.SIGNUP)
@@ -321,5 +323,68 @@ class PrizeEventApiTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result.showGetTicketPopup").value(Boolean.FALSE));
+    }
+
+    @Test
+    @DisplayName("당첨자 전화번호 입력 테스트입니다. - 잘못된 형식")
+    @WithMockUser(username = "1")
+    void 당첨자_전화번호_입력() throws Exception {
+        // given
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode jsonNode = objectMapper.createObjectNode();
+        jsonNode.put("phoneNumber", "01012341234"); // 잘못된 형식 (정규식에 맞지 않음)
+        String jsonRequest = objectMapper.writeValueAsString(jsonNode);
+
+        Prize prize = prizes.get(0);
+        PrizeEntry prizeEntry =
+                PrizeEntry.builder()
+                        .prize(prize)
+                        .status(PrizeEntryStatus.WINNING)
+                        .memberId(1L)
+                        .build();
+        prizeEntryRepository.save(prizeEntry);
+
+        // when & then
+        MockHttpServletRequestBuilder request =
+                MockMvcRequestBuilders.post(
+                                "/api/v1/events/prizes/" + prize.getId() + "/phone-number")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest);
+
+        mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isBadRequest()); // HTTP 상태 코드가 400인지 확인
+    }
+
+    @Test
+    @DisplayName("당첨자 전화번호 입력 테스트입니다. - 올바른 형식")
+    @WithMockUser(username = "1")
+    void 당첨자_전화번호_입력_성공() throws Exception {
+        // given
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode jsonNode = objectMapper.createObjectNode();
+        jsonNode.put("phoneNumber", "010-1234-1234");
+        String jsonRequest = objectMapper.writeValueAsString(jsonNode);
+
+        Prize prize = prizes.get(0);
+        PrizeEntry prizeEntry =
+                PrizeEntry.builder()
+                        .prize(prize)
+                        .status(PrizeEntryStatus.WINNING)
+                        .memberId(1L)
+                        .build();
+        prizeEntryRepository.save(prizeEntry);
+
+        // when & then
+        MockHttpServletRequestBuilder request =
+                MockMvcRequestBuilders.post(
+                                "/api/v1/events/prizes/" + prize.getId() + "/phone-number")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest);
+
+        mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.phoneNumber").value("010-1234-1234"));
     }
 }

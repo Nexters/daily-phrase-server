@@ -1,5 +1,7 @@
 package com.nexters.dailyphrase.prize.presentation;
 
+import jakarta.validation.Valid;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -73,7 +75,7 @@ public class PrizeEventApi {
     @PostMapping("/prizes/{prizeId}/phone-number")
     public CommonResponse<PrizeEventResponseDTO.EnterPhoneNumber> enterPhoneNumber(
             @PathVariable final Long prizeId,
-            @RequestBody PrizeEventRequestDTO.EnterPhoneNumber request) {
+            @RequestBody @Valid PrizeEventRequestDTO.EnterPhoneNumber request) {
         return CommonResponse.onSuccess(prizeEventService.enterPhoneNumber(prizeId, request));
     }
 

@@ -47,15 +47,6 @@ public class PrizeCustomRepositoryImpl implements PrizeCustomRepository {
                                         .eq(qPrize.id)
                                         .and(qPrizeEntry.memberId.eq(memberId)));
 
-        JPQLQuery<Long> myTicketCountQuery =
-                JPAExpressions.select(qPrizeTicket.memberId.count())
-                        .from(qPrizeTicket)
-                        .where(
-                                qPrizeTicket
-                                        .memberId
-                                        .eq(memberId)
-                                        .and(qPrizeTicket.status.eq(PrizeTicketStatus.AVAILABLE)));
-
         List<PrizeEventResponseDTO.PrizeListItem> prizeListItems =
                 queryFactory
                         .select(
@@ -72,7 +63,6 @@ public class PrizeCustomRepositoryImpl implements PrizeCustomRepository {
                                         qPrize.requiredTicketCount,
                                         totalParticipantCountQuery,
                                         myEntryCountQuery,
-                                        myTicketCountQuery,
                                         Projections.constructor(
                                                 PrizeEventResponseDTO.PrizeEntryResult.class,
                                                 new CaseBuilder()
@@ -103,8 +93,22 @@ public class PrizeCustomRepositoryImpl implements PrizeCustomRepository {
                         .where(qPrize.event.id.eq(eventId))
                         .fetch();
 
+        Long myTicketCount =
+                queryFactory
+                        .select(qPrizeTicket.memberId.count())
+                        .from(qPrizeTicket)
+                        .where(
+                                qPrizeTicket
+                                        .memberId
+                                        .eq(memberId)
+                                        .and(qPrizeTicket.status.eq(PrizeTicketStatus.AVAILABLE)))
+                        .fetchOne();
+        if (myTicketCount == null) {
+            myTicketCount = 0L;
+        }
+
         return PrizeEventResponseDTO.PrizeList.builder()
-                .total(prizeListItems.size())
+                .myTicketCount(myTicketCount)
                 .prizeList(prizeListItems)
                 .build();
     }

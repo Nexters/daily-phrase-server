@@ -36,10 +36,6 @@ public class PrizeEventResponseDTO {
         @Builder.Default
         private long myEntryCount = 0;
 
-        @Schema(description = "내 응모권 수")
-        @Builder.Default
-        private long myTicketCount = 0;
-
         private PrizeEntryResult prizeEntryResult;
     }
 
@@ -48,7 +44,10 @@ public class PrizeEventResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class PrizeList {
-        private long total;
+        @Schema(description = "내 응모권 수")
+        @Builder.Default
+        private long myTicketCount = 0;
+
         @Builder.Default private List<PrizeListItem> prizeList = new ArrayList<>();
     }
 
@@ -85,10 +84,10 @@ public class PrizeEventResponseDTO {
     public static class PrizeEventInfo {
         private Long eventId;
         private String name;
+        private Integer eventMonth;
         private LocalDateTime eventStartDateTime;
         private LocalDateTime eventEndDateTime;
         private LocalDateTime eventWinnerAnnouncementDateTime;
-        //        private String status;
     }
 
     @Builder
