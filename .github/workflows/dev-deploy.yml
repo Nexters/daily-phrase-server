@@ -78,7 +78,7 @@ jobs:
 
       - name: Docker 이미지 빌드
         run: |
-          docker build --build-arg SPRING_PROFILES_ACTIVE=dev -t ${{ secrets.DEV_AWS_ECR_REPOSITORY_URL }}:${{ github.sha }} .
+          docker build --build-arg SPRING_PROFILES_ACTIVE=dev --build-arg COLLECTOR_IP=${{ secrets.DEV_EC2_HOST }} -t ${{ secrets.DEV_AWS_ECR_REPOSITORY_URL }}:${{ github.sha }} .
 
       - name: Docker 이미지 ECR에 푸시
         run: |
