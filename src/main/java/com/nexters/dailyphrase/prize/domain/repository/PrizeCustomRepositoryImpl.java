@@ -34,8 +34,22 @@ public class PrizeCustomRepositoryImpl implements PrizeCustomRepository {
 
         Long memberId = memberUtils.getCurrentMemberId();
 
+        JPQLQuery<Long> actualParticipantCountQuery =
+                JPAExpressions.select(qPrizeEntry.memberId.countDistinct())
+                        .from(qPrizeEntry)
+                        .where(qPrizeEntry.prize.id.eq(qPrize.id));
+
         JPQLQuery<Long> totalParticipantCountQuery =
-                new JPAQuery<Long>().select(Expressions.constant(414L));
+                new JPAQuery<Long>()
+                        .select(
+                                Expressions.cases()
+                                        .when(actualParticipantCountQuery.eq(0L))
+                                        .then(Expressions.constant(414L))
+                                        .otherwise(
+                                                Expressions.numberTemplate(
+                                                        Long.class,
+                                                        "414 + {0}",
+                                                        actualParticipantCountQuery)));
 
         JPQLQuery<Long> myEntryCountQuery =
                 JPAExpressions.select(qPrizeEntry.id.count())
