@@ -78,7 +78,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build --build-arg SPRING_PROFILES_ACTIVE=prod -t ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }} .
+          docker build --build-arg SPRING_PROFILES_ACTIVE=prod --build-arg COLLECTOR_IP=${{ secrets.EC2_HOST }} -t ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }} .
 
       - name: Push Docker image to ECR
         run: |
