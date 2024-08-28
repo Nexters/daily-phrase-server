@@ -102,4 +102,4 @@ jobs:
             docker rm dailyphrase-prod-api || true
 
             # 새로운 Docker 컨테이너 실행
-            docker run -d --name dailyphrase-prod-api -e SPRING_PROFILES_ACTIVE=prod -p 80:8080 ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
+            docker run -d --name dailyphrase-prod-api -e SPRING_PROFILES_ACTIVE=prod -p 8080:8080 ${{ secrets.AWS_ECR_REPOSITORY_URL }}:${{ github.sha }}
