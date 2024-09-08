@@ -117,7 +117,7 @@ public class PrizeEventService {
         if (prizeTicketList.size() < requiredTicketCount)
             throw InsufficientTicketsException.EXCEPTION;
 
-        prizeTicketList.forEach(prizeTicket -> prizeTicket.setStatus(PrizeTicketStatus.USED));
+        prizeTicketCommandAdapter.updateMultiple(prizeTicketList, PrizeTicketStatus.USED);
         PrizeEntry savedPrizeEntry =
                 prizeEntryCommandAdapter.add(prizeEventMapper.toPrizeEntry(memberId, prize));
 
