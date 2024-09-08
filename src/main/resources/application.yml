@@ -51,6 +51,9 @@ spring:
     password: ${LOCAL_DB_PASSWORD}
     url: ${LOCAL_DB_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 20      # 최소 유휴 연결 수 (EC2의 자원 상황에 맞게 설정)
+      maximum-pool-size: 50 # 풀의 최대 연결 수 (부하에 맞게 설정, RDS의 커넥션 제한에 유의)
   sql:
     init:
       mode: never
