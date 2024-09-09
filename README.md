@@ -9,6 +9,6 @@
 ## 📁 System Architecture
 <table>
   <tr>
-    <td width="100%" style="background-color: white;"><img src="https://github.com/user-attachments/assets/04ebe955-e8ec-4f24-bdd1-6b992966be68"></td>
+    <td width="100%" style="background-color: white;"><img src="https://github.com/user-attachments/assets/c9fff9f7-136b-48c1-b4d4-82210c65d8d4"></td>
   </tr>
 </table>
